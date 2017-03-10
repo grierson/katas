@@ -8,21 +8,22 @@
 * [/r/dailyprogrammer](https://www.reddit.com/r/dailyprogrammer/)
 * [ProgrammingPraxis](https://programmingpraxis.com/)
 * [Code Forces](http://codeforces.com/)
+* [Codility](https://codility.com/programmers/)
+* [Rosalind](http://rosalind.info/problems/locations/)
+* [TopCoder](https://www.topcoder.com/getting-started/)
 
-## Online
+## Online Checker
 
 * [Kaggle](https://www.kaggle.com/)
-* [Rosalind](http://rosalind.info/problems/locations/)
-* [CodeEval](https://www.codeeval.com/)
-* [Spoj](http://www.spoj.com/)
-* [Codility](https://codility.com/programmers/)
 * [HackerEarth](https://www.hackerearth.com/)
+* [Spoj](http://www.spoj.com/)
 * [CheckIO](https://checkio.org/)
 * [CodeChef](https://www.codechef.com/)
-* [TopCoder](https://www.topcoder.com/)
 * [CoderByte](https://coderbyte.com/)
 * [HackerRank](https://www.hackerrank.com/)
 * [CodeWars](https://www.codewars.com/dashboard)
+
+* [CodeEval](https://www.codeeval.com/)
 
 ## Language specific
 
