@@ -2,6 +2,7 @@
 
 ## General
 
+* [Advent of code](http://adventofcode.com/)
 * [Coding Dojo](http://codingdojo.org/kata/)
 * [Code Kata.com](http://codekata.com/)
 * [Code Kata.org](http://www.codekatas.org/)
