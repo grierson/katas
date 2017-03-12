@@ -1,5 +1,5 @@
 import unittest
-from karate.chop import chop
+from chop import chop
 
 
 class TestChop(unittest.TestCase):
