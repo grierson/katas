@@ -2,6 +2,7 @@
 
 ## General
 
+* [Interactive-Coding-Challenges](https://github.com/donnemartin/interactive-coding-challenges)
 * [Advent of code](http://adventofcode.com/)
 * [Coding Dojo](http://codingdojo.org/kata/)
 * [Code Kata.com](http://codekata.com/)
