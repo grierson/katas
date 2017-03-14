@@ -2,6 +2,7 @@
 
 ## General
 
+* [Reddit 1000 projects](https://www.reddit.com/r/learnprogramming/comments/2a9ygh/1000_beginner_programming_projects_xpost/)
 * [Interactive-Coding-Challenges](https://github.com/donnemartin/interactive-coding-challenges)
 * [Advent of code](http://adventofcode.com/)
 * [Coding Dojo](http://codingdojo.org/kata/)
