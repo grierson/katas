@@ -25,7 +25,6 @@
 * [CoderByte](https://coderbyte.com/)
 * [HackerRank](https://www.hackerrank.com/)
 * [CodeWars](https://www.codewars.com/dashboard)
-
 * [CodeEval](https://www.codeeval.com/)
 
 ## Language specific
