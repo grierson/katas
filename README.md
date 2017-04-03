@@ -32,6 +32,7 @@
 * [Exercism](http://exercism.io/)
 * [Python Challenge](http://www.pythonchallenge.com/)
 * [4Clojure](http://www.4clojure.com/)
+* [Python Interview](https://github.com/donnemartin/interactive-coding-challenges)
 
 ## Maths
 
