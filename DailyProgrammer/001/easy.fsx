@@ -6,5 +6,5 @@ let writeToFile text =
     System.IO.File.WriteAllText(path, text)
     path
 
-greet "Kyle" 24 "lambacurry"
+greet "Alice" 12 "wonderland"
 |> writeToFile
