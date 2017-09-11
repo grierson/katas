@@ -1,13 +1,33 @@
-(ns card-game-war.game)
+(ns card-game-war.game
+  (:require [clojure.spec.alpha :as s]
+            [clojure.spec.test.alpha :as st]))
 
-;; feel free to use these cards or use your own data structure
+
+;; Domain
+
 (def suits [:spade :club :diamond :heart])
 (def ranks [2 3 4 5 6 7 8 9 10 :jack :queen :king :ace])
-(def cards
-  (for [suit suits
-        rank ranks]
-    [suit rank]))
+(def deck (for [suit suits rank ranks] {:rank rank :suit suit }))
 
-(defn play-round [player1-card player2-card])
 
-(defn play-game [player1-cards player2-cards])
+;; Logic
+
+(defn value [card]
+  "Get card value"
+  (+
+   (.indexOf rank? (card :rank))
+   (.indexOf suit? (card :suit))))
+
+
+(defn play-round [player1-card player2-card]
+  (if (> (value player1-card) (value player2-card))
+    player1-card
+    player2-card))
+
+
+(defn play-game [player1-cards player2-cards]
+  (cond
+    (empty? player1-cards) "Player 2 Wins"
+    (empty? player2-cards) "Player 1 Wins"
+    :else (play-round (first player1-cards)
+                      (first player2-cards))))
