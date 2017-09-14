@@ -15,8 +15,8 @@
 (defn value [card]
   "Get card value"
   (+
-   (.indexOf ranks (card :rank))
-   (.indexOf suits (card :suit))))
+   (.indexOf rank? (card :rank))
+   (.indexOf suit? (card :suit))))
 
 
 (defn play-round [player1-card player2-card]
