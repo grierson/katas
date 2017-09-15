@@ -3,24 +3,27 @@
             [clojure.spec.test.alpha :as st]))
 
 
-(def atoz "abcdefghijklmnopqrstuvwxyz")
+(def atoz (map char "abcdefghijklmnopqrstuvwxyz"))
+
 
 (defn value [alphabet letter]
   "Get index of letter in a-z"
-  (.indexOf alphabet (str letter)))
+  (.indexOf alphabet letter))
+
 
 (defn gen-alpha
   "Generate alphabet starting from letter"
   [letter]
-  (let [index (value atoz letter)
-        start (range (+ index 26))
+  (let [column (value atoz letter)
+        start (range (+ column 26))
         cyclealpha #(char (+ 97 (rem % 26)))]
     (->> start
         (map cyclealpha)
-        (drop index))))
+        (drop column))))
 
 
-(defn convert
+;; Encode
+(defn get-cipher
   "Keyword alphabet column + Message index in a-z = encoded char"
   [keyword message]
   (let [col (gen-alpha keyword)
@@ -31,26 +34,35 @@
 (defn encode
   "Apply conversion to entire message"
   [keyword message]
-  (let [cipher (take (count message) (cycle keyword))
-        encodedmessage (map convert cipher message)]
+  (let [cycledkeyword (take (count message) (cycle keyword))
+        encodedmessage (map get-cipher cycledkeyword message)]
     (apply str encodedmessage)))
 
+
 ;; -- Decode
-(defn revert
+(defn get-message
   "Decode message given keyword and ciphered text"
   [keyword cipher]
   (let [coll (gen-alpha keyword)
         row (.indexOf coll cipher)]
     (nth atoz row)))
 
+
 (defn decode
   "Apply revertion to entire message"
   [keyword cipher]
   (let [msgcipher (take (count cipher) (cycle keyword))
-        decodedmessage (map revert msgcipher cipher)]
+        decodedmessage (map get-message msgcipher cipher)]
     (apply str decodedmessage)))
 
 
+;; -- Decipher
+(defn get-keyword
+  [cipher message]
+  (let [alphabet (gen-alpha message)
+        row (.indexOf alphabet cipher)]
+    (nth atoz row)))
+
 (defn decipher
   [cipher message]
-  cipher)
+  (apply str (map get-keyword cipher message)))
