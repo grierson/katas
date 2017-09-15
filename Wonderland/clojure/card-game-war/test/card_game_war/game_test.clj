@@ -39,8 +39,20 @@
     (let [club {:rank :ace :suit :club}
           diamond {:rank :ace :suit :diamond}]
       (is (= (play-round club diamond) diamond))))
-  (testing "if the ranks are equal, hearts beat diamonds"))
+
+  (testing "if the ranks are equal, hearts beat diamonds")
+    (let [heart {:rank :ace :suit :heart}
+          diamond {:rank :ace :suit :diamond}]
+      (is (= (play-round heart diamond) heart))))
 
 (deftest test-play-game
-  (testing "the player loses when they run out of cards"))
+  (testing "the player loses when they run out of cards"
+    (let [player1 []
+          player2 [{:rank :ace :suit :diamond}]]
+      (is (= (play-game player1 player2)) "Player 2 Wins")))
+
+  (testing "the player loses when they run out of cards"
+    (let [player2 []
+          player1 [{:rank :ace :suit :diamond}]]
+      (is (= (play-game player1 player2)) "Player 1 Wins"))))
 
