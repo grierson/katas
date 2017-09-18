@@ -22,3 +22,24 @@
                 [1  0 :x 1]
                 [1  1  :x :x]]]
      (is (= sol (solve-maze maze))))))
+
+
+(def sample-maze [[:S 0 1]
+           [1  0 1]
+           [1  0 :E]])
+
+(deftest test-free-space
+  (testing "can find start space"
+    (is (= :S (get-position sample-maze [0 0]))))
+
+  (testing "can find end space"
+    (is (= :E (get-position sample-maze [2 2]))))
+
+  (testing "can find free space"
+    (is (= 0 (get-position sample-maze [1 1]))))
+
+  (testing "can find wall space"
+    (is (= 1 (get-position sample-maze [0 2]))))
+
+  (testing "can't find out of index"
+    (is (= nil (get-position [] [0 0])))))

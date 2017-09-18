@@ -1,53 +1,53 @@
 (ns tiny-maze.solver)
 
 
+(defn update-position!
+  "Apply :x to position"
+  [maze position]
+  (assoc-in maze position :x))
+
+
 (defn get-position
   "Get value at position in maze"
+  [maze position]
+  (get-in maze position))
+
+
+(defn open?
+  "Check if position is open in maze"
+  [maze position]
+  (let [pos (get-position maze position)]
+    (some #(= pos %) '(:S :E 0))))
+
+
+(defn surronding-spaces
+  "Return all surrounding open spaces"
   [maze [row col]]
-  (get-in maze [row col]))
-
-
-(defn update-position
-  "Apply :x to posistion"
-  [maze [row col]]
-  (assoc-in maze [row col] :x))
-
-
-(defn open-position?
-  "Check if posistion is open"
-  [maze [row col]]
-  (let [value (get-position maze [row col])]
-    (some true?
-     [(= value :S)
-      (= value :E)
-      (= value 0)])))
+  (let [north [(dec row) col]
+        east [row (inc col)]
+        south [(inc row) col]
+        west [row (dec col)]]
+    (->> [south east north west]
+         (filter (comp some? (partial open? maze))))))
 
 
 (defn next-move
-  [maze [row col]]
-  (cond
-    (open-position? maze [(inc row) col]) "Down"
-    (open-position? maze [row (inc col)]) "Right"
-    :else "deadend"))
+  "Return next move"
+  [maze position]
+  (first (surronding-spaces maze position)))
 
 
-(defn path-finder
-  [maze pos]
-  (if (open-position? maze pos)
-    (let [m (assoc-in maze pos (update-position maze pos))]
-     (next-move m pos))
-    maze))
+(defn move
+  "Update maze"
+  [maze position]
+  (let [new-maze (update-position! maze position)
+        move-to (next-move new-maze position)]
+    (cond
+      (= :E (get-position maze position)) new-maze
+      (nil? move-to) new-maze
+      :else (move new-maze (next-move new-maze position)))))
 
 
 (defn solve-maze
   [maze]
-  maze)
-
-
-(def maze [[:S 0 1]
-           [1  0 1]
-           [1  0 :E]])
-(get-position maze [0 0])
-(update-position maze [0 0])
-(open-position? maze [0 1])
-(path-finder maze [0 2])
+  (move maze [0 0]))

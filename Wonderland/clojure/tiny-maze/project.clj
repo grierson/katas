@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0-alpha20"]
-                 [org.clojure/spec.alpha "0.1.123"]
-                 [org.clojure/test.check "0.10.0-alpha2"]]
-  :main tiny-maze.solver)
+                 [org.clojure/spec.alpha "0.1.123"]]
+  :main tiny-maze.solver
+  :profiles {:dev
+             {:dependencies [[org.clojure/test.check "0.10.0-alpha2"]]}})
