@@ -40,10 +40,10 @@ your option) any later version.
 
 ## Katas
 
-[ ] alphabet-cipher
-[ ] card-game-ward
-[ ] doublets
-[ ] fox-goose-bag-of-corn
-[ ] magic-square
-[x] tiny-maze
-[ ] wonderland-numbers
+- [ ] alphabet-cipher
+- [ ] card-game-ward
+- [ ] doublets
+- [ ] fox-goose-bag-of-corn
+- [ ] magic-square
+- [x] tiny-maze
+- [ ] wonderland-numbers
