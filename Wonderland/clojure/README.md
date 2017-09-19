@@ -36,3 +36,14 @@ Copyright © 2014 Carin Meier
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
+
+
+## Katas
+
+[ ] alphabet-cipher
+[ ] card-game-ward
+[ ] doublets
+[ ] fox-goose-bag-of-corn
+[ ] magic-square
+[x] tiny-maze
+[ ] wonderland-numbers

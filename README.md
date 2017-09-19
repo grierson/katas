@@ -34,7 +34,7 @@
 * [Python Challenge](http://www.pythonchallenge.com/)
 * [4Clojure](http://www.4clojure.com/)
 * [Python Interview](https://github.com/donnemartin/interactive-coding-challenges)
-* [Wonderland Clojure Katas](https://github.com/gigasquid/wonderland-clojure-katas)
+* [Started] [Wonderland Clojure Katas](https://github.com/gigasquid/wonderland-clojure-katas)
 
 ## Maths
 
