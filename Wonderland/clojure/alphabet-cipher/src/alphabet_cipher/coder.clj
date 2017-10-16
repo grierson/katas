@@ -2,8 +2,9 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.spec.test.alpha :as st]))
 
-
+;; -- Alphabet from A to Z
 (def atoz (map char "abcdefghijklmnopqrstuvwxyz"))
+
 
 
 (defn value [alphabet letter]
@@ -22,7 +23,7 @@
         (drop column))))
 
 
-;; Encode
+;; -- Encode
 (defn get-cipher
   "Keyword alphabet column + Message index in a-z = encoded char"
   [keyword message]
@@ -66,3 +67,21 @@
 (defn decipher
   [cipher message]
   (apply str (map get-keyword cipher message)))
+
+
+;; -- Find word in repeating
+
+(def vigilance "vigilancevigilancevigilancevigila")
+(def scones "sconessconessconessconessconessc")
+
+
+(->> vigilance
+     frequencies
+     (sort-by val)
+     first
+     val)
+
+(->> scones
+     (take 5)
+     (apply str))
+(frequencies scones)
