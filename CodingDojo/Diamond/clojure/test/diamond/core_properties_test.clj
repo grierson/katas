@@ -16,6 +16,31 @@
 (defn alphabet [start end]
   (map char (range (int start) (inc (int end)))))
 
+(defn count-spaces
+  [rows letter]
+  (->> rows
+       (filter #(not (str/includes? % "A")))
+       (drop-while #(not (str/includes? % (str letter))))
+       (map (comp count spaces))
+       (map-indexed vector)))
+
+(defn isTwoIdenticalLetters
+  [line]
+  (let [hasIdenticalLetters (= 1 (-> line distinct count))
+        hasTwoLetters (= 2 (count line))]
+    (and hasIdenticalLetters hasTwoLetters)))
+
+(defn top-rows
+  [rows letter]
+  (take-while #(not (str/includes? % (str letter))) rows))
+
+(defn bottom-rows
+  [rows letter]
+  (->> rows
+       (drop-while #(not (str/includes? % (str letter))))
+       (drop 1)
+       (reverse)))
+
 ;; Property
 (defspec first-row-contains-a
   (prop/for-all [letter (s/gen ::sut-spec/letter)]
@@ -51,13 +76,6 @@
                       expected (count rows)]
                   (every? true? (map #(= (count %) expected) rows)))))
 
-;; Inner Rows Spacing
-(defn isTwoIdenticalLetters
-  [line]
-  (let [hasIdenticalLetters (= 1 (-> line distinct count))
-        hasTwoLetters (= 2 (count line))]
-    (and hasIdenticalLetters hasTwoLetters)))
-
 (defspec inner-rows-have-identical-letters
   (prop/for-all [letter (s/gen ::sut-spec/letter)]
                 (let [diamond (sut/make letter)
@@ -67,15 +85,6 @@
                        (map str/trim)
                        (map isTwoIdenticalLetters)))))
 
-;; Lower left spacing is triangle
-(defn count-spaces
-  [rows letter]
-  (->> rows
-       (filter #(not (str/includes? % "A")))
-       (drop-while #(not (str/includes? % (str letter))))
-       (map (comp count spaces))
-       (map-indexed vector)))
-
 (defspec lower-left-triangle
   (prop/for-all [letter (s/gen ::sut-spec/letter)]
                 (let [diamond (sut/make letter)]
@@ -84,18 +93,6 @@
                     (let [rows (str/split-lines diamond)
                           spacing (count-spaces rows letter)]
                       (every? true? (map (fn [[line spaces]] (= line spaces)) spacing)))))))
-
-;; Diamond is Symmetric
-(defn top-rows
-  [rows letter]
-  (take-while #(not (str/includes? % (str letter))) rows))
-
-(defn bottom-rows
-  [rows letter]
-  (->> rows
-       (drop-while #(not (str/includes? % (str letter))))
-       (drop 1)
-       (reverse)))
 
 (defspec diamond-symmetric-horizontal
   (prop/for-all [letter (s/gen ::sut-spec/letter)]
