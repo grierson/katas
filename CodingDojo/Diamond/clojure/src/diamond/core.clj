@@ -18,11 +18,11 @@
   [width indexed-letter]
   (let [[index letter] indexed-letter]
     (if (= letter \A)
-      (let [padding (apply str (repeat (/ width 2) \space))]
+      (let [padding (str/join (repeat (/ width 2) \space))]
         (str padding letter padding))
       (let [innerwidth (dec (* index 2))
-            innerpadding (apply str (repeat innerwidth \space))
-            padding (apply str (repeat (/ (- width innerwidth 2) 2) \space))]
+            innerpadding (str/join (repeat innerwidth \space))
+            padding (str/join (repeat (/ (- width innerwidth 2) 2) \space))]
         (str padding letter innerpadding letter padding)))))
 
 (defn make

@@ -8,4 +8,6 @@
                  [org.clojure/test.check "0.10.0-alpha2"]]
   :main ^:skip-aot diamond.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}
+             :user {:plugins [[lein-kibit "0.1.6-beta2"]
+                              [jonase/eastwood "0.2.5"]]}})

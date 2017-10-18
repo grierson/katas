@@ -1,4 +1,4 @@
-(ns sut.core-properties-test
+(ns diamond.core-properties-test
   (:require [clojure.test :refer [deftest testing is are]]
             [clojure.test.check.clojure-test :refer [defspec]]
             [clojure.test.check :as tc]
@@ -24,11 +24,11 @@
        (map (comp count spaces))
        (map-indexed vector)))
 
-(defn isTwoIdenticalLetters
+(defn two-identical-letters?
   [line]
-  (let [hasIdenticalLetters (= 1 (-> line distinct count))
-        hasTwoLetters (= 2 (count line))]
-    (and hasIdenticalLetters hasTwoLetters)))
+  (let [has-identical-letters (= 1 (-> line distinct count))
+        has-two-letters (= 2 (count line))]
+    (and has-identical-letters has-two-letters)))
 
 (defn top-rows
   [rows letter]
@@ -83,7 +83,7 @@
                   (->> rows
                        (filter #(not (str/includes? % "A")))
                        (map str/trim)
-                       (map isTwoIdenticalLetters)))))
+                       (map is-two-identical-letters?)))))
 
 (defspec lower-left-triangle
   (prop/for-all [letter (s/gen ::sut-spec/letter)]
