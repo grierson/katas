@@ -1,5 +1,6 @@
 (ns diamond.core
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [diamond.spec.core-spec :as spec]))
 
 (defn alphabet
   [start end]

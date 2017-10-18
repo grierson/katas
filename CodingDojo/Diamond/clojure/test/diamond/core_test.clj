@@ -1,13 +1,19 @@
-(ns diamond.core-properties-test
+(ns diamond.core-test
   (:require [clojure.test :refer [deftest testing is are]]
             [clojure.test.check.clojure-test :refer [defspec]]
-            [clojure.test.check :as tc]
-            [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
             [clojure.string :as str]
             [diamond.core :as sut]
-            [diamond.core-spec :as sut-spec]
+            [diamond.spec.core-spec :as sut-spec]
             [clojure.spec.alpha :as s]))
+
+;; Example
+(deftest diamond
+  (testing "In alphabetical order"
+    (are [expected actual] (= expected actual)
+      "A" (sut/make \A)
+      " A \nB B\n A " (sut/make \B)
+      "  A  \n B B \nC   C\n B B \n  A  " (sut/make \C))))
 
 ;; Helpers
 (defn spaces [line]
@@ -24,7 +30,7 @@
        (map (comp count spaces))
        (map-indexed vector)))
 
-(defn two-identical-letters?
+(defn is-two-identical-letters?
   [line]
   (let [has-identical-letters (= 1 (-> line distinct count))
         has-two-letters (= 2 (count line))]
