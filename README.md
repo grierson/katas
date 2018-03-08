@@ -1,4 +1,4 @@
 # [Coding Dojo](http://codingdojo.org/kata/)
 
-- [x] Task 1
+- [x] Diamond (Clojure, F#)
 - [ ] Task 2
