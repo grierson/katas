@@ -1,5 +1,0 @@
-* Karate chop (Binary search)
-
-- Find and return the index of a number in numbers.
-- chop(int : find, [int] : numbers) -> int : index
-- Return -1 if find not in numbers
