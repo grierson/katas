@@ -1,41 +1,49 @@
-# Katas
+# wonderland-clojure-katas
 
-## General
+These are a collection of Clojure
+[katas](http://en.wikipedia.org/wiki/Kata_%28programming%29) inspired by
+[Lewis Carroll](http://en.wikipedia.org/wiki/Lewis_Carroll) and _Alice
+in Wonderland_.
 
-* [Coding Interview University](https://github.com/jwasham/coding-interview-university)
-* [Reddit 1000 projects](https://www.reddit.com/r/learnprogramming/comments/2a9ygh/1000_beginner_programming_projects_xpost/)
-* [Interactive-Coding-Challenges](https://github.com/donnemartin/interactive-coding-challenges)
-* [Advent of code](http://adventofcode.com/)
-* [Coding Dojo](http://codingdojo.org/kata/)
-* [Code Kata.com](http://codekata.com/)
-* [Code Kata.org](http://www.codekatas.org/)
-* [/r/dailyprogrammer](https://www.reddit.com/r/dailyprogrammer/)
-* [ProgrammingPraxis](https://programmingpraxis.com/)
-* [Code Forces](http://codeforces.com/)
-* [Codility](https://codility.com/programmers/)
-* [Rosalind](http://rosalind.info/problems/locations/)
-* [TopCoder](https://www.topcoder.com/getting-started/)
+![Alice and the tiny door](/images/alicedoor.gif)
 
-## Online Checker
+>“Curiouser and curiouser!” 
+>-- ― Lewis Carroll, Alice in Wonderland
 
-* [Kaggle](https://www.kaggle.com/)
-* [HackerEarth](https://www.hackerearth.com/)
-* [Spoj](http://www.spoj.com/)
-* [CheckIO](https://checkio.org/)
-* [CodeChef](https://www.codechef.com/)
-* [CoderByte](https://coderbyte.com/)
-* [HackerRank](https://www.hackerrank.com/)
-* [CodeWars](https://www.codewars.com/dashboard)
-* [CodeEval](https://www.codeeval.com/)
+## How to Do the Katas
 
-## Language specific
+First, clone or fork this repo. Each of the katas are in their own
+directory and are self contained Clojure leiningen projects.  You `cd`
+into the project and run `lein test` to show the failing tests, then
+complete the code to make the tests pass. Each project has the
+instructions in its own _README.md_ file.
 
-* [Exercism](http://exercism.io/)
-* [Python Challenge](http://www.pythonchallenge.com/)
-* [4Clojure](http://www.4clojure.com/)
-* [Python Interview](https://github.com/donnemartin/interactive-coding-challenges)
-* [Started] [Wonderland Clojure Katas](https://github.com/gigasquid/wonderland-clojure-katas)
+If you don't have Leiningen installed yet.  Follow these [instructions](http://leiningen.org/)
+to get it.
 
-## Maths
+For example, to get started on the _alphabet-cipher_ kata first.
 
-* [Project Euler](https://projecteuler.net/)
+1. Clone or Fork this repo
+2. cd `alphabet-cipher`
+3. run `lein test`
+4. Check out the alphabet cipher instructions in the _README.md_.
+5. Add the code in the source files to make the tests pass.
+
+
+## License
+
+Copyright © 2014 Carin Meier
+
+Distributed under the Eclipse Public License either version 1.0 or (at
+your option) any later version.
+
+
+## Katas
+
+- [ ] alphabet-cipher
+- [ ] card-game-ward
+- [ ] doublets
+- [ ] fox-goose-bag-of-corn
+- [ ] magic-square
+- [x] tiny-maze
+- [ ] wonderland-numbers
