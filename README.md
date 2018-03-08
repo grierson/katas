@@ -41,7 +41,7 @@ your option) any later version.
 ## Katas
 
 - [x] alphabet-cipher ('Vigilance' and 'Scones' are both repeating)
-- [ ] card-game-ward
+- [x] card-game-ward
 - [ ] doublets
 - [ ] fox-goose-bag-of-corn
 - [ ] magic-square
