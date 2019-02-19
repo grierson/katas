@@ -25,11 +25,10 @@
 (def min-y (apply min (map second sample-data)))
 (def max-y (apply max (map second sample-data)))
 
-
 (def make-table (vec (repeat 10 (vec (repeat 10 0)))))
 
 (def init-table
-  (loop [state table
+  (loop [state make-table
          coords sample-data]
     (if (empty? coords)
       state
