@@ -11,33 +11,41 @@
                    [8 9]])
 
 (defn parse-int [s]
-   (Integer. (re-find  #"\d+" s)))
+  (Integer/parseInt s))
 
-(def data (-> "006.txt"
-              io/resource
-              slurp
-              str/split-lines
-              (->> (map #(str/split % #","))
-                   (map (fn [coords] (map parse-int coords)))
-                   (map vec))))
+(defn parse-coordinate [s]
+  (->> s
+    (re-find #"(\d+), (\d+)")
+    rest
+    (mapv parse-int)))
 
-(def min-x (apply min (map first sample-data)))
-(def max-x (apply max (map first sample-data)))
-(def min-y (apply min (map second sample-data)))
-(def max-y (apply max (map second sample-data)))
+(def data (map parse-coordinate (-> "006.txt"
+                                    io/resource
+                                    slurp
+                                    str/split-lines)))
 
-(def make-table (vec (repeat 10 (vec (repeat 10 \.)))))
+(defn boundary [points]
+  [(apply (juxt min max) (map first points))
+   (apply (juxt min max) (map second points))])
 
-(defn setup [table points]
-  (loop [state table
-         [p & ps] points
-         [a & as] "ABCDEF"]
-    (if (nil? p)
-      state
-      (let [[col row] p]
-        (recur (assoc-in state [row col] a)
-               ps
-               as)))))
+(defn middle [points]
+  (let [[min-x max-x] (apply (juxt min max) (map first points))
+        [min-y max-y] (apply (juxt min max) (map second points))]
+    [(quot (+ min-x max-x) 2)
+     (quot (+ min-y max-y) 2)]))
+
+(comment
+  (middle sample-data)
+  (middle data))
+
+(defn make-table [[[min-x max-x] [min-y max-y]]]
+  (for [x (range min-x (inc max-x))
+        y (range min-y (inc max-y))]
+    [x y]))
+
+(comment
+  (boundary sample-data)
+  (make-table (boundary sample-data)))
 
 (defn manhatten [[x1 y1] [x2 y2]]
   (+ (Math/abs (- x1 x2))
@@ -54,10 +62,9 @@
        first
        :coords))
 
-
 (comment
   (setup make-table sample-data)
-  (manhatten [1 1] [1 6]) # A to B
-  (manhatten [1 1] [3 4]) # A to D
+  (manhatten [1 1] [1 6])
+  (manhatten [1 1] [3 4])
   (nearest sample-data [1 1])
   (nearest sample-data [1 6]))
