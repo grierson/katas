@@ -34,18 +34,10 @@
     [(quot (+ min-x max-x) 2)
      (quot (+ min-y max-y) 2)]))
 
-(comment
-  (middle sample-data)
-  (middle data))
-
 (defn make-table [[[min-x max-x] [min-y max-y]]]
   (for [x (range min-x (inc max-x))
         y (range min-y (inc max-y))]
     [x y]))
-
-(comment
-  (boundary sample-data)
-  (make-table (boundary sample-data)))
 
 (defn manhatten [[x1 y1] [x2 y2]]
   (+ (Math/abs (- x1 x2))
