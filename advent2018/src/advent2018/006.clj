@@ -3,13 +3,6 @@
             [clojure.string :as str]
             [com.hypirion.clj-xchart :as c]))
 
-(def sample-data '[[1 1]
-                   [1 6]
-                   [8 3]
-                   [3 4]
-                   [5 5]
-                   [8 9]])
-
 (defn parse-int [s]
   (Integer/parseInt s))
 
@@ -24,15 +17,11 @@
                                     slurp
                                     str/split-lines)))
 
+;; Setup
+
 (defn boundary [points]
   [(apply (juxt min max) (map first points))
    (apply (juxt min max) (map second points))])
-
-(defn middle [points]
-  (let [[min-x max-x] (apply (juxt min max) (map first points))
-        [min-y max-y] (apply (juxt min max) (map second points))]
-    [(quot (+ min-x max-x) 2)
-     (quot (+ min-y max-y) 2)]))
 
 (defn make-table [[[min-x max-x] [min-y max-y]]]
   (for [x (range min-x (inc max-x))
@@ -45,7 +34,6 @@
 
 (defn nearest [points point]
   (->> points
-       (filter #(not= % point))
        (map (fn [p] {:coords p :distance (manhatten point p)}))
        (group-by :distance)
        (filter #(= 1 (count (val %))))
@@ -54,9 +42,22 @@
        first
        :coords))
 
+(defn voronoi [table points]
+  (map #(nearest points %) table))
+
+(def sample-data '([1 1]
+                   [1 6]
+                   [8 3]
+                   [3 4]
+                   [5 5]
+                   [8 9]))
+
 (comment
-  (setup make-table sample-data)
-  (manhatten [1 1] [1 6])
-  (manhatten [1 1] [3 4])
-  (nearest sample-data [1 1])
-  (nearest sample-data [1 6]))
+  (-> data
+      boundary
+      make-table
+      (voronoi data)
+      frequencies
+      (->> (sort-by val >)
+           second))
+  (+ 1 1))
