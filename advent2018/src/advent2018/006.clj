@@ -32,32 +32,44 @@
   (+ (Math/abs (- x1 x2))
      (Math/abs (- y1 y2))))
 
-(defn nearest [points point]
-  (->> points
-       (map (fn [p] {:coords p :distance (manhatten point p)}))
-       (group-by :distance)
-       (filter #(= 1 (count (val %))))
-       (mapcat val)
-       (sort-by :distance)
-       first
-       :coords))
+(def points sample)
+(def point [1 1])
 
-(defn voronoi [table points]
+(defn nearest [points point]
+  (when (some #(not= % point) points) 
+    (->> points
+         (map (fn [p] {:coords p :distance (manhatten point p)}))
+         (group-by :distance)
+         (filter #(= 1 (count (val %))))
+         (mapcat val)
+         (sort-by :distance)
+         first
+         :coords)))
+
+(defn draw [table points]
   (map #(nearest points %) table))
 
-(def sample-data '([1 1]
-                   [1 6]
-                   [8 3]
-                   [3 4]
-                   [5 5]
-                   [8 9]))
+(def sample '([1 1]
+              [1 6]
+              [8 3]
+              [3 4]
+              [5 5]
+              [8 9]))
+
+(comment
+  (nearest sample [1 1]))
+
+(comment
+  (-> sample
+      boundary
+      make-table
+      (draw sample)))
 
 (comment
   (-> data
       boundary
       make-table
-      (voronoi data)
-      frequencies
+      (draw data)
+      (frequencies)
       (->> (sort-by val >)
-           second))
-  (+ 1 1))
+           second)))
