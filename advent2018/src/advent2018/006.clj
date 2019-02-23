@@ -44,34 +44,24 @@
                        (group-by :distance)
                        (sort-by key)
                        first)]
-      (when (= 1 (count (val closest)))
+      (when (= 1 (-> closest val count))
         (-> closest val first :coords)))))
 
 (defn draw [table points]
   (map #(nearest points %) table))
 
-;; Sample data
-(comment
-  (-> sample
-      boundary
-      make-table
-      (draw sample)
-      (->> (remove nil?)
-           frequencies
-           (sort-by val >)
-           first
-           second
-           inc)))
+(defn areas [points]
+  (let [table (-> points
+                  boundary
+                  make-table
+                  (draw points))]
+    (->> table
+      (remove nil?)
+      frequencies
+      (sort-by val >))))
 
 ;; File data
 (comment
-  (-> data
-      boundary
-      make-table
-      (draw data)
-      (->> (remove nil?)
-           frequencies
-           (sort-by val >)
-           first
-           second
-           inc)))
+  (-> (areas sample) first second inc)
+  (-> (areas data) second second inc)
+  (+ 1 1))
