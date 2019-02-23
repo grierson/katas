@@ -1,7 +1,6 @@
 (ns advent2018.006
   (:require [clojure.java.io :as io]
-            [clojure.string :as str]
-            [com.hypirion.clj-xchart :as c]))
+            [clojure.string :as str]))
 
 (defn parse-int [s]
   (Integer/parseInt s))
@@ -17,6 +16,12 @@
                                     slurp
                                     str/split-lines)))
 
+(def sample '([1 1]
+              [1 6]
+              [8 3]
+              [3 4]
+              [5 5]
+              [8 9]))
 ;; Setup
 
 (defn boundary [points]
@@ -32,44 +37,41 @@
   (+ (Math/abs (- x1 x2))
      (Math/abs (- y1 y2))))
 
-(def points sample)
-(def point [1 1])
-
 (defn nearest [points point]
-  (when (some #(not= % point) points) 
-    (->> points
-         (map (fn [p] {:coords p :distance (manhatten point p)}))
-         (group-by :distance)
-         (filter #(= 1 (count (val %))))
-         (mapcat val)
-         (sort-by :distance)
-         first
-         :coords)))
+  (when-not (some #{point} points)
+    (let [closest (->> points
+                       (map (fn [p] {:coords p :distance (manhatten point p)}))
+                       (group-by :distance)
+                       (sort-by key)
+                       first)]
+      (when (= 1 (count (val closest)))
+        (-> closest val first :coords)))))
 
 (defn draw [table points]
   (map #(nearest points %) table))
 
-(def sample '([1 1]
-              [1 6]
-              [8 3]
-              [3 4]
-              [5 5]
-              [8 9]))
-
-(comment
-  (nearest sample [1 1]))
-
+;; Sample data
 (comment
   (-> sample
       boundary
       make-table
-      (draw sample)))
+      (draw sample)
+      (->> (remove nil?)
+           frequencies
+           (sort-by val >)
+           first
+           second
+           inc)))
 
+;; File data
 (comment
   (-> data
       boundary
       make-table
       (draw data)
-      (frequencies)
-      (->> (sort-by val >)
-           second)))
+      (->> (remove nil?)
+           frequencies
+           (sort-by val >)
+           first
+           second
+           inc)))
