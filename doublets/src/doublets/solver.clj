@@ -18,10 +18,19 @@
 (defn within-one-letter [dictionary word]
   (filter #(compare-words word %) dictionary))
 
+(comment
+  (def dictionary (same-length-words words (count "door")))
+  (def state ["door" "boor" "book"])
+  (def next-words '("boor" "look" "bonk"))
+  (def possible-next-words '("look" "bonk"))
+  (def goal "lock"))
+
+;; How to handle multiple possible-next-words?
+
 (defn runner [dictionary state goal]
   (let [next-words (within-one-letter dictionary (last state))
-        possible-next-words (set (filter #(contains? state %) next-words))]
-    (if (contains? possible-next-words goal)
+        possible-next-words (remove (fn [word] (some #(= word %) state)) next-words)]
+    (if (some #(= goal %) possible-next-words)
       (conj state goal)
       (cond
         (= 1 (count possible-next-words)) (runner dictionary (conj state (first possible-next-words)) goal)
@@ -30,12 +39,4 @@
 (defn doublets [word1 word2]
  (let [dictionary (same-length-words words (count word1))
        state #{word1}]
-   (runner dictionary state word2))
-
-(comment
-  (def cheat (same-length-words words (count "door")))
-  (within-one-letter cheat "door")
-  (runner cheat #{"door"} "lock")
-  (within-one-letter cheat "boor")
-  (within-one-letter cheat "lock")
-  (within-one-letter cheat "look"))
+   (runner dictionary state word2)))
