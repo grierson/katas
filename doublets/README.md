@@ -1,3 +1,10 @@
+# Solution
+
+* Filter dictionary to limit search range
+* Find all words within one letter (as required by the rules)
+* Add each possibility to currently searched
+* Get shortest permutation
+
 # doublets
 
 This Clojure Kata comes from _Alice in Wonderland_'s author, Lewis

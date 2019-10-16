@@ -1,10 +1,6 @@
 (ns doublets.solver
   (:require [clojure.java.io :as io]))
 
-;; Filter dictionary
-;; Find all words within one letter
-;; Search each possibility
-;; Get shortest
 
 (def words (-> "words.edn"
                (io/resource)
