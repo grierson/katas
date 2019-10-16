@@ -1,14 +1,9 @@
-(ns card-game-war.game
-  (:require [clojure.spec.alpha :as s]
-            [clojure.spec.test.alpha :as st]))
-
+(ns card-game-war.game)
 
 ;; Domain
 
 (def suits [:spade :club :diamond :heart])
 (def ranks [2 3 4 5 6 7 8 9 10 :jack :queen :king :ace])
-(def deck (for [suit suits rank ranks] {:rank rank :suit suit }))
-
 
 ;; Logic
 
