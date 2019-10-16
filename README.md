@@ -42,7 +42,7 @@ your option) any later version.
 
 - [x] alphabet-cipher ('Vigilance' and 'Scones' are both repeating)
 - [x] card-game-ward
-- [ ] doublets
+- [x] doublets
 - [ ] fox-goose-bag-of-corn
 - [ ] magic-square
 - [x] tiny-maze
