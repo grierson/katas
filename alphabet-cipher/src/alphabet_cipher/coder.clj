@@ -1,6 +1,5 @@
-(ns alphabet-cipher.coder
-  (:require [clojure.spec.alpha :as s]
-            [clojure.spec.test.alpha :as st]))
+(ns alphabet-cipher.coder)
+
 
 ;; -- Alphabet from A to Z
 (def atoz (map char "abcdefghijklmnopqrstuvwxyz"))
@@ -64,24 +63,15 @@
         row (.indexOf alphabet cipher)]
     (nth atoz row)))
 
+(defn find-word [s]
+  (let [head (first s)
+        div (quot (count s) (get (frequencies s) head))]
+    (apply str (take div s))))
+
 (defn decipher
   [cipher message]
-  (apply str (map get-keyword cipher message)))
-
+  (find-word (apply str (map get-keyword cipher message))))
 
 ;; -- Find word in repeating
-
-(def vigilance "vigilancevigilancevigilancevigila")
-(def scones "sconessconessconessconessconessc")
-
-
-(->> vigilance
-     frequencies
-     (sort-by val)
-     first
-     val)
-
-(->> scones
-     (take 5)
-     (apply str))
-(frequencies scones)
+(decipher "opkyfipmfmwcvqoklyhxywgeecpvhelzg" "thequickbrownfoxjumpsoveralazydog")
+(decipher "hcqxqqtqljmlzhwiivgbsapaiwcenmyu" "packmyboxwithfivedozenliquorjugs")
