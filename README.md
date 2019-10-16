@@ -40,7 +40,7 @@ your option) any later version.
 
 ## Katas
 
-- [x] alphabet-cipher ('Vigilance' and 'Scones' are both repeating)
+- [x] alphabet-cipher (Not done bonus decipher)
 - [x] card-game-ward
 - [x] doublets
 - [ ] fox-goose-bag-of-corn
