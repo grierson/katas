@@ -1,0 +1,15 @@
+What do we know (What properties)?
+
+- 9 numbers
+- Lowest column/row permutation: [1 1.5 2.0] = 4
+- Highest column/row permutation: [4 4.5 5.0] = 13.5
+- Biggest + smallest is 6, except middle (3)
+|===
+| Small | Big | Result
+| 1 | 5 | 6
+| 1.5 | 4.5 | 6
+| 2 | 4.0 | 6
+| 2.5 | 3.5 | 6
+| 3 | _ | 3
+|===
+- Sum of numbers is = (+ 1 1.5 2 2.5 3 3.5 4 4.5 5) = (/ (* 9 (+ 1 5)) 2) = 27
