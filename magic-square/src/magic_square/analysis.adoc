@@ -11,10 +11,31 @@ You need to arrange them in a 3 x 3 matrix so that:
 == What do we know (What properties)?
 
 * 9 numbers
-* One row/column has to contain `5` so lowest possible is `[1 1.5 5]` = 7.5
-** So second row lowest would be `[2 2.5 3]` = 7.5
-* One row/column has to contain `1` so highest possible is `[1 4.5 5]` = 10.5
-** So second row maximum would be `[3 3.5 4]` = 10.5
+
+=== Min/Max
+Original assumption
+
+* Min: `[1 1.5 2]` = 4.5
+* Max: `[4 4.5 5]` = 13.5
+
+However One row/column has to contain `1` and one has to contain `5` so
+
+* Min: `[1 1.5 5]` = 7.5
+* Max: `[1 4.5 5]` = 10.5
+
+Following on from that
+
+* Min (`[1 1.5 5]`)
+** The second row lowest would be `[2 2.5 3]` = 7.5
+** Leaving the third row with `[3.5 4 4.5]` = 12
+* Max (`[1 4.5 5]`)
+** The second row maximum would be `[3 3.5 4]` = 10.5
+** Leaving third row with `[1.5 2 2.5]` = 6
+
+So the magic number must be `(and (> magic 7.5) (< magic 10.5))`
+
+* Gone from a difference of (- 13.5 4.5) => 9
+* To a difference of (- 10.5 7.5) => 3
 
 == Steps
 
