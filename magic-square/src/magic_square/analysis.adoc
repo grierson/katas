@@ -11,9 +11,10 @@ You need to arrange them in a 3 x 3 matrix so that:
 == What do we know (What properties)?
 
 * 9 numbers
-* One row/column has to contain `5` so lowest possible is [1 1.5 5] = 7.5
-* One row/column has to contain `1` so highest possible is [1 4.5 5] = 10.5
+* One row/column has to contain `5` so lowest possible is `[1 1.5 5]` = 7.5
+** So second row lowest would be `[2 2.5 3]` = 7.5
+* One row/column has to contain `1` so highest possible is `[1 4.5 5]` = 10.5
+** So second row maximum would be `[3 3.5 4]` = 10.5
 
 == Steps
 
-* 
