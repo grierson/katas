@@ -3,13 +3,13 @@
             [bowling.core :refer :all]))
 
 (deftest all-strikes-test
-  (let [game (repeat 12 \X)]
+  (let [game "X X X X X X X X X X X X"]
     (is (= (score game) 300))))
 
 (deftest all-nines-test
-  (let [game (repeat 10 [9 \-])]
+  (let [game "9- 9- 9- 9- 9- 9- 9- 9- 9- 9-"]
     (is (= (score game) 90))))
 
 (deftest all-fives-test
-  (let [game (concat (repeat 9 [5 \/]) [[5 5]])]
+  (let [game "5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5"]
     (is (= (score game) 150))))
