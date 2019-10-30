@@ -1,0 +1,10 @@
+= link:http://codingdojo.org/kata/[Coding Dojo]
+
+* link:http://codingdojo.org/kata/Diamond/[Diamond] 
+** [x] Clojure
+** [x] F#
+* link:http://codingdojo.org/kata/Bowling/[Bowling] 
+** [ ] Clojure
+** [x] C#
+* link:http://codingdojo.org/kata/LeapYears/[Leap Years] 
+** [x] C#
