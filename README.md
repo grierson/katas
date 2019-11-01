@@ -1,5 +1,7 @@
 # Katas
 
+Use branches to switch to see different challenge solutions
+
 ## General
 
 * [Coding Interview University](https://github.com/jwasham/coding-interview-university)
