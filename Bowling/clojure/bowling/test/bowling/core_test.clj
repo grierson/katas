@@ -2,14 +2,21 @@
   (:require [clojure.test :refer :all]
             [bowling.core :refer :all]))
 
-(deftest all-strikes-test
-  (let [game "X X X X X X X X X X X X"]
-    (is (= (score game) 300))))
+(deftest get-next-test
+  (testing "all strikes"
+    (let [line '([\X] [\X] [\X])]
+      (is (= (get-next line 0) [\X \X]))))
 
-(deftest all-nines-test
-  (let [game "9- 9- 9- 9- 9- 9- 9- 9- 9- 9-"]
-    (is (= (score game) 90))))
+  (testing "two spares spare"
+    (let [line '([\X] [5 \/] [5 \/])]
+      (is (= (get-next line 0) [5 \/]))))
 
-(deftest all-fives-test
-  (let [game "5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5"]
-    (is (= (score game) 150))))
+  (testing "open"
+    (let [line '([\X] [5 4])]
+      (is (= (get-next line 0) [5 4])))))
+
+#_(deftest all-strikes-test
+    (are [line total] (= (score line) total)
+                      "X X X X X X X X X X X X" 300
+                      "9- 9- 9- 9- 9- 9- 9- 9- 9- 9-" 90
+                      "5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5" 150))
