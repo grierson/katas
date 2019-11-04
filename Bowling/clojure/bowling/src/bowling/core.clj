@@ -34,9 +34,10 @@
 
 (defn get-second-ball [line index]
   (let [next-frame (nth line (+ index 1) [0 0])]
-    (if (strike? next-frame)
-      10
-      (second next-frame))))
+    (cond
+      (= 3 (count next-frame)) (let [x (nth next-frame 2)] (if (= \X x) 10 x))
+      (strike? next-frame) (get-next-ball line (+ index 1))
+      :else (second next-frame))))
 
 (defn score-frame [line frame-index]
   (let [[throw1 throw2 throw3 :as frame] (nth line frame-index)]
@@ -47,7 +48,7 @@
 
 (defn score [line]
   (let [game (line->data line)]
-    (reduce + (map-indexed (fn [i _] (score-frame game i)) game))))
+    (reduce + #spy/p (map-indexed (fn [i _] (score-frame game i)) game))))
 
 (comment
   (score "X X X X X X X X X X X X"))
