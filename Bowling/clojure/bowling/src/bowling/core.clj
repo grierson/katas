@@ -4,46 +4,50 @@
 ; Game - 10 Frames
 ; Frame - 10 lines
 
-(defn strike? [frame] (= frame "X"))
-(defn spare? [[_ throw2 throw3]]
-  (if (some? throw3)
-    (= throw3 \/)
-    (= throw2 \/)))
+(defn strike? [[throw _]] (= throw \X))
+(defn spare? [[_ throw]] (= throw \/))
 
+(defn char->value [char]
+  (let [value (Character/digit char 10)]
+    (cond
+      (pos? value) value
+      (= char \-) 0
+      :else char)))
 
-(defn c->int [c]
-  (try
-    (Integer/parseInt (str c))
-    (catch NumberFormatException _ 0)))
-(defn sum [[throw1 throw2 throw3]]
-  (+ (c->int throw1) (c->int throw2) (c->int throw3)))
-
-(defn indices [pred coll]
-  (keep-indexed #(when (pred %2) %1) coll))
-
-(defn game->data [game]
-  (str/split game #" "))
-
-(defn numberify [frame]
+(defn str->value [[throw1 throw2 throw3 :as frame]]
   (cond
-    (strike? frame) 10
-    (spare? frame) 10
-    :else (sum frame)))
+    (strike? frame) [\X]
+    (some? throw3) [(char->value throw1) (char->value throw2) (char->value throw3)]
+    :else [(char->value throw1) (char->value throw2)]))
 
-(defn get-spare-extra [game spare-indices]
-  (reduce + (map #(nth game (+ % 1) 0) spare-indices)))
+(defn line->data [line]
+  (let [frames (str/split line #" ")]
+    (if (= (count frames) 12)
+      (seq (conj (vec (map str->value (drop 3 frames))) (vec (mapcat str->value (take-last 3 frames)))))
+      (map str->value frames))))
 
-(defn get-strike-extra [game strike-indices]
-  (reduce + (map #(+ (nth game (+ % 1) 0)
-                     (nth game (+ % 2) 0)) strike-indices)))
+(defn get-next-ball [line index]
+  (let [next-frame (nth line (+ index 1) [0 0])]
+    (if (strike? next-frame)
+      10
+      (first next-frame))))
 
+(defn get-second-ball [line index]
+  (let [next-frame (nth line (+ index 1) [0 0])]
+    (if (strike? next-frame)
+      10
+      (second next-frame))))
 
-(defn score [game]
-  (let [dataify-game (game->data game)
-        numberify-game (map numberify dataify-game)
-        score-game (reduce + numberify-game)
-        spares (indices spare? dataify-game)
-        spare-extra (get-spare-extra numberify-game spares)
-        strikes (indices strike? dataify-game)
-        strikes-extra (get-strike-extra numberify-game strikes)]
-    (+ score-game spare-extra strikes-extra)))
+(defn score-frame [line frame-index]
+  (let [[throw1 throw2 throw3 :as frame] (nth line frame-index)]
+    (cond
+      (strike? frame) (+ 10 (get-next-ball line frame-index) (get-second-ball line frame-index))
+      (spare? frame) (+ 10 (get-next-ball line frame-index) (or throw3 0))
+      :else (+ throw1 throw2 (or throw3 0)))))
+
+(defn score [line]
+  (let [game (line->data line)]
+    (reduce + (map-indexed (fn [i _] (score-frame game i)) game))))
+
+(comment
+  (score "X X X X X X X X X X X X"))
