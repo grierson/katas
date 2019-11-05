@@ -4,7 +4,7 @@
 ** [x] Clojure
 ** [x] F#
 * link:http://codingdojo.org/kata/Bowling/[Bowling] 
-** [ ] Clojure
+** [x] Clojure
 ** [x] C#
 * link:http://codingdojo.org/kata/LeapYears/[Leap Years] 
 ** [x] C#
