@@ -1,6 +1,9 @@
 (ns diamond.core
   (:require [clojure.string :as str]
-            [diamond.spec.core-spec :as spec]))
+            [clojure.spec.alpha :as s]
+            [clojure.spec.gen.alpha :as gen]))
+
+(s/def ::letter (s/with-gen #(Character/isUpperCase %) gen/char-alpha))
 
 (defn alphabet
   [start end]
