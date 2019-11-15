@@ -9,4 +9,6 @@
 * link:http://codingdojo.org/kata/LeapYears/[Leap Years] 
 ** [x] C#
 * link:http://codingdojo.org/kata/NumberToLCD/[Number to LCD] 
+** [x] Clojure 
+* link:http://codingdojo.org/kata/WordWrap/[Word Wrap] 
 ** [x] Clojure
