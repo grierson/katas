@@ -1,0 +1,4 @@
+#kaocha/v1
+{:tests [{:type :kaocha.type/midje
+          :source-paths ["src"]
+          :test-paths ["test"]}]}
