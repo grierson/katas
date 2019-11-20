@@ -1,7 +1,7 @@
 = link:http://codingdojo.org/kata/[Coding Dojo]
 
 * link:http://codingdojo.org/kata/Diamond/[Diamond] 
-** [x] Clojure
+** [x] Clojure - Property Based Testing
 ** [x] F#
 * link:http://codingdojo.org/kata/Bowling/[Bowling] 
 ** [x] Clojure
@@ -9,6 +9,8 @@
 * link:http://codingdojo.org/kata/LeapYears/[Leap Years] 
 ** [x] C#
 * link:http://codingdojo.org/kata/NumberToLCD/[Number to LCD] 
-** [x] Clojure 
+** [x] Clojure - Top down TDD (Midje)
 * link:http://codingdojo.org/kata/WordWrap/[Word Wrap] 
 ** [x] Clojure
+* link:http://codingdojo.org/kata/Tennis/[Tennis] 
+** [x] Clojure - TDD + core.match
