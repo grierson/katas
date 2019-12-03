@@ -15,7 +15,6 @@
   (fact "Silly cases"
     (fuel ?value) => 0)
     [?value]
-    nil
     0
     -1
     1

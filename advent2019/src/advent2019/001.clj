@@ -11,12 +11,8 @@
               str/split-lines))
 
 (defn fuel [mass]
-  (if (nil? mass)
-    0
-    (let [quotient (int (Math/floor (/ mass 3)))]
-      (if (< quotient 2)
-        0
-        (- quotient 2)))))
+  (let [quotient (int (Math/floor (/ mass 3)))]
+    (max 0 (- quotient 2))))
 
 (defn part-one []
   (->> data
