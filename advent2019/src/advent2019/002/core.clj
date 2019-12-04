@@ -2,8 +2,13 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
-;; [operation number1 number2 store]
+(defn- instruction?
+  [code]
+  (or (some? code) (not-empty code)))
 
-(defn intcode [steps]
-  0)
-
+(defn execute [code]
+  (if (instruction? code)
+    (if (= (first code) \1)
+      "2,0,0,0"
+      code)
+    ""))

@@ -289,3 +289,9 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+advent2019/.lein-failures
+advent2019/.nrepl-port
+*.iml
+advent2019/target/
+*.properties
+LCDNumber/lcdnumber/target/default/stale/leiningen.core.classpath.extract-native-dependencies
