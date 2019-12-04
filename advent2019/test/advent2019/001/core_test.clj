@@ -1,6 +1,6 @@
-(ns advent2019.001-test
+(ns advent2019.001.core_test
   (:require [midje.sweet :refer :all]
-            [advent2019.001 :refer :all]))
+            [advent2019.001.core :refer :all]))
 
 (tabular
   (fact "Examples"
