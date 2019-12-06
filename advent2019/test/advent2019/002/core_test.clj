@@ -8,10 +8,11 @@
        (computer [2 4 4 5 99 0]) => [2 4 4 5 99 9801]
        (computer [1 1 1 4 99 5 6 0 99]) => [30 1 1 4 2 5 6 0 99])
 
-(fact "1,0,0,0,9 => 2,0,0,0,99"
-      (computer [1 0 0 0 99]) => [2 0 0 0 99]
-      (provided
-       (execute [1 0 0 0 99]) => [2 0 0 0 99]))
+;; broke during refactor, removed execute
+#_(fact "1,0,0,0,9 => 2,0,0,0,99"
+        (computer [1 0 0 0 99]) => [2 0 0 0 99]
+        (provided
+         (execute [1 0 0 0 99]) => [2 0 0 0 99]))
 
 (fact "programe->intcode"
       (program->intcode "1,0,0,0,99") => [1 0 0 0 99]
@@ -26,13 +27,6 @@
        (get-opcode 1) => +
        (update-intcode [1 0 0 0 99] 0 2) => [2 0 0 0 99]))
 
-(facts "instruction"
-       (fact "valid"
-             (instruction? [1 0 0 0] 0) => true
-             (instruction? [1 0 0 0 99] 0) => true)
-
-       (fact "invalid"
-             (instruction? [1 0 0] 0) => false))
 
 (facts "get-instruction"
        (fact "[1 0 0 0 99] => [1 0 0 0]"

@@ -5,33 +5,23 @@
 (defn program->intcode [program]
   (vec (map #(Integer/parseInt %) (str/split program #","))))
 
-(defn instruction? [intcode index]
-  (>= (count (drop index intcode)) 4))
+(defn get-instruction [intcode address]
+  (take 4 (drop address intcode)))
 
-(defn get-instruction [intcode index]
-  (take 4 (drop index intcode)))
+(defn get-opcode [opcode]
+  (get {1 + 2 * 99 nil} opcode))
 
-(defn get-opcode [index]
-  (get {1 + 2 * 99 nil} index))
-
-(defn execute
+(defn computer
   ([intcode] (execute intcode 0))
   ([intcode address]
-   (if (instruction? intcode address)
-     (let [[opid n1i n2i si] (get-instruction intcode address)
+   (let [[opid n1i n2i si] (get-instruction intcode address)
            opcode (get-opcode opid)
            num1 (get intcode n1i)
            num2 (get intcode n2i)]
        (if (some? opcode)
          (execute (assoc intcode si (opcode num1 num2))
                   (+ address 4))
-         intcode))
-     intcode)))
-
-(defn computer [program]
-  (if (some? program)
-    (execute program)
-    ""))
+         intcode))))
 
 (defn parse-program [program]
   (->> program
