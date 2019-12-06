@@ -5,9 +5,6 @@
 (defn program->intcode [program]
   (vec (map #(Integer/parseInt %) (str/split program #","))))
 
-(defn intcode->program [intcode]
-  (str/join #"," intcode))
-
 (defn instruction? [intcode index]
   (>= (count (drop index intcode)) 4))
 
@@ -17,46 +14,40 @@
 (defn get-opcode [index]
   (get {1 + 2 * 99 nil} index))
 
-(defn get-number [intcode index]
-  (get intcode index))
-
-(defn update-intcode [intcode index value]
-  (assoc intcode index value))
-
 (defn execute
   ([intcode] (execute intcode 0))
-  ([intcode index]
-   (if (instruction? intcode index)
-     (let [[oi n1 n2 si] (get-instruction intcode index)
-           opcode (get-opcode oi)
-           num1 (get-number intcode n1)
-           num2 (get-number intcode n2)]
+  ([intcode address]
+   (if (instruction? intcode address)
+     (let [[opid n1i n2i si] (get-instruction intcode address)
+           opcode (get-opcode opid)
+           num1 (get intcode n1i)
+           num2 (get intcode n2i)]
        (if (some? opcode)
-         (execute (update-intcode intcode si (opcode num1 num2))
-                  (+ index 4))
+         (execute (assoc intcode si (opcode num1 num2))
+                  (+ address 4))
          intcode))
      intcode)))
 
 (defn computer [program]
-  (if (nil? program)
-    ""
-    (-> program
-        program->intcode
-        execute
-        intcode->program)))
+  (if (some? program)
+    (execute program)
+    ""))
 
-(defn update-program [program]
-  (let [a (->> program
-               str/trim-newline
-               program->intcode)
-        b (update-intcode a 1 12)
-        c (update-intcode b 2 2)]
-    (intcode->program c)))
+(defn parse-program [program]
+  (->> program
+       str/trim-newline
+       program->intcode))
 
-(-> "002.txt"
-    io/resource
-    slurp
-    update-program
-    computer
-    program->intcode
-    first)
+(defn update-program [intcode]
+  (-> intcode
+      (update-intcode 1 12)
+      (update-intcode 2 2)))
+
+(defn problem1 []
+  (-> "002.txt"
+      io/resource
+      slurp
+      parse-program
+      update-program
+      computer
+      first))

@@ -3,17 +3,15 @@
             [advent2019.002.core :refer :all]))
 
 (facts "Examples"
-       (computer "1,0,0,0,99") => "2,0,0,0,99"
-       (computer "2,3,0,3,99") => "2,3,0,6,99"
-       (computer "2,4,4,5,99,0") => "2,4,4,5,99,9801"
-       (computer "1,1,1,4,99,5,6,0,99") => "30,1,1,4,2,5,6,0,99")
+       (computer [1 0 0 0 99]) => [2 0 0 0 99]
+       (computer [2 3 0 3 99]) => [2 3 0 6 99]
+       (computer [2 4 4 5 99 0]) => [2 4 4 5 99 9801]
+       (computer [1 1 1 4 99 5 6 0 99]) => [30 1 1 4 2 5 6 0 99])
 
 (fact "1,0,0,0,9 => 2,0,0,0,99"
-      (computer "1,0,0,0,99") => "2,0,0,0,99"
+      (computer [1 0 0 0 99]) => [2 0 0 0 99]
       (provided
-       (program->intcode "1,0,0,0,99") => [1 0 0 0 99]
-       (execute [1 0 0 0 99]) => [2 0 0 0 99]
-       (intcode->program [2 0 0 0 99]) => "2,0,0,0,99"))
+       (execute [1 0 0 0 99]) => [2 0 0 0 99]))
 
 (fact "programe->intcode"
       (program->intcode "1,0,0,0,99") => [1 0 0 0 99]
@@ -26,12 +24,7 @@
        (instruction? [1 0 0 0 99] 0) => true
        (get-instruction [1 0 0 0 99] 0) => [1 0 0 0]
        (get-opcode 1) => +
-       (get-number [1 0 0 0 99] 0) => 1
        (update-intcode [1 0 0 0 99] 0 2) => [2 0 0 0 99]))
-
-(fact "intcode->program"
-      (intcode->program [1 0 0 0 99]) => "1,0,0,0,99"
-      (intcode->program [1 1 1 1 99]) => "1,1,1,1,99")
 
 (facts "instruction"
        (fact "valid"
@@ -56,9 +49,3 @@
              (get-opcode 0) => nil)
        (fact "(get-opcode 3) => nil"
              (get-opcode 3) => nil))
-
-(facts "get-number"
-       (fact "(get-number [1 0 0 0 99] 0) => 1"
-             (get-number [1 0 0 0 99] 0) => 1)
-       (fact "(get-number [2 0 0 0 99] 0) => 2"
-             (get-number [2 0 0 0 99] 0) => 2))
