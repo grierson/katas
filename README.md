@@ -7,7 +7,7 @@ Use branches to switch to see different challenge solutions
 * [Coding Interview University](https://github.com/jwasham/coding-interview-university)
 * [Reddit 1000 projects](https://www.reddit.com/r/learnprogramming/comments/2a9ygh/1000_beginner_programming_projects_xpost/)
 * [Interactive-Coding-Challenges](https://github.com/donnemartin/interactive-coding-challenges)
-* [Started] [Advent of code](http://adventofcode.com/)
+* [Started] [Advent of code](http://adventofcode.com/) [2018 2019]
 * [Started] [Coding Dojo](http://codingdojo.org/kata/)
 * [gamontal/awesome-katas](https://github.com/gamontal/awesome-katas/)
 * [samjonester/awesome-katas](https://github.com/samjonester/awesome-katas/)
