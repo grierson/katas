@@ -44,3 +44,19 @@
         program->intcode
         execute
         intcode->program)))
+
+(defn update-program [program]
+  (let [a (->> program
+               str/trim-newline
+               program->intcode)
+        b (update-intcode a 1 12)
+        c (update-intcode b 2 2)]
+    (intcode->program c)))
+
+(-> "002.txt"
+    io/resource
+    slurp
+    update-program
+    computer
+    program->intcode
+    first)
