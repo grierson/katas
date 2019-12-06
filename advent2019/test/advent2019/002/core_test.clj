@@ -8,26 +8,50 @@
               (computer "2,4,4,5,99,0") => "2,4,4,5,99,9801"
               (computer "1,1,1,4,99,5,6,0,99") => "30,1,1,4,2,5,6,0,99")
 
-(facts "Silly"
-       (fact "given empty string should return empty string"
-             (computer "") => "")
-       (fact "given nil should return empty string"
-             (computer nil) => "")
-       (fact "intcode not instruction size should return intcode"
-             (computer "0") => "0"
-             (computer "0,1") => "0,1"
-             (computer "0,1,2") => "0,1,2")
-       (fact "opcode not 1,2, or 99 should return intcode"
-             (computer "0,0,0,0") => "0,0,0,0"
-             (computer "3,0,0,0") => "3,0,0,0"))
-
-(fact "halt instruction returns intcode"
-      (computer "99,0,0,0") => "99,0,0,0")
-
-(fact "program->intcode - intcode->program"
+(fact "1,0,0,0,9 => 2,0,0,0,99"
       (computer "1,0,0,0,99") => "2,0,0,0,99"
       (provided
-       (program->intcode "1,0,0,0,99") => '(1 0 0 0 99)
-       (execute '(1 0 0 0 99)) => '(2 0 0 0 99)
-       (intcode->program '(2 0 0 0 99)) => "2,0,0,0,99"))
+       (program->intcode "1,0,0,0,99") => [1 0 0 0 99]
+       (execute [1 0 0 0 99]) => [2 0 0 0 99]
+       (intcode->program [2 0 0 0 99]) => "2,0,0,0,99"))
 
+(fact "programe->intcode"
+      (program->intcode "1,0,0,0,99") => [1 0 0 0 99]
+      (program->intcode "1,1,1,1,99") => [1 1 1 1 99])
+
+(fact "intcode->program"
+      (intcode->program [1 0 0 0 99]) => "1,0,0,0,99"
+      (intcode->program [1 1 1 1 99]) => "1,1,1,1,99")
+
+(fact "provided execute"
+      (execute [1 0 0 0 99]) => [2 0 0 0 99]
+      (provided
+       (instruction? [1 0 0 0 99]) => true
+       (get-instruction [1 0 0 0 99]) => [1 0 0 0]
+       (get-opcode 1) => +
+       (get-number [1 0 0 0 99] 0) => 1
+       (update-intcode [1 0 0 0 99] 0 2) => [2 0 0 0 99]))
+
+(facts "instruction"
+  (fact "valid"
+        (instruction? [1 0 0 0]) => true
+        (instruction? [1 0 0 0 99]) => true)
+
+  (fact "invalid"
+        (instruction? [1 0 0]) => false))
+
+(facts "get-instruction"
+       (fact "[1 0 0 0 99] => [1 0 0 0]"
+             (get-instruction [1 0 0 0 99]) => [1 0 0 0]))
+
+(facts "get-opcode"
+       (fact "(get-opcode 1) => +"
+             (= (get-opcode 1) +) => true)
+       (fact "(get-opcode 2) => *"
+             (= (get-opcode 2) *) => true))
+
+(facts "get-number"
+       (fact "(get-number [1 0 0 0 99] 0) => 1"
+             (get-number [1 0 0 0 99] 0) => 1)
+       (fact "(get-number [2 0 0 0 99] 0) => 2"
+             (get-number [2 0 0 0 99] 0) => 2))
