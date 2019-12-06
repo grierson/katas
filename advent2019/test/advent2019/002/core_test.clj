@@ -21,6 +21,13 @@
              (computer "0,0,0,0") => "0,0,0,0"
              (computer "3,0,0,0") => "3,0,0,0"))
 
-(facts "Simple"
-       (fact "halt instruction returns intcode"
-             (computer "99,0,0,0") => "99,0,0,0"))
+(fact "halt instruction returns intcode"
+      (computer "99,0,0,0") => "99,0,0,0")
+
+(fact "program->intcode - intcode->program"
+      (computer "1,0,0,0,99") => "2,0,0,0,99"
+      (provided
+       (program->intcode "1,0,0,0,99") => '(1 0 0 0 99)
+       (execute '(1 0 0 0 99)) => '(2 0 0 0 99)
+       (intcode->program '(2 0 0 0 99)) => "2,0,0,0,99"))
+
