@@ -1,0 +1,23 @@
+* Problem
+
+Two wires connected to central port
+Trace each wire leaving central port (One wire per line of text)
+
+Using manhatten distance 
+find the closest overlap of the wires to the central 
+
+X + Y = Distance
+
+** Constraints 
+   - Wire crossing it's self does not count
+   - Overlap at central port does not count
+   
+** Solution
+   - Draw wire 1
+     - Record each posistion of wire 1 (Central port is 0)
+   - Draw wire 2
+     - Record each posistion of wire 2 (Central port is 0)
+   - Overlaps
+     - If location within both then store in overlaps
+   - Find closest
+     - map (comp abs +) overlaps

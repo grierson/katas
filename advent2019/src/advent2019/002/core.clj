@@ -12,16 +12,16 @@
   (get {1 + 2 * 99 nil} opcode))
 
 (defn computer
-  ([intcode] (execute intcode 0))
+  ([intcode] (computer intcode 0))
   ([intcode address]
    (let [[opid n1i n2i si] (get-instruction intcode address)
-           opcode (get-opcode opid)
-           num1 (get intcode n1i)
-           num2 (get intcode n2i)]
-       (if (some? opcode)
-         (execute (assoc intcode si (opcode num1 num2))
-                  (+ address 4))
-         intcode))))
+         opcode (get-opcode opid)
+         num1 (get intcode n1i)
+         num2 (get intcode n2i)]
+     (if (some? opcode)
+       (computer (assoc intcode si (opcode num1 num2))
+                 (+ address 4))
+       intcode))))
 
 (defn parse-program [program]
   (->> program
@@ -30,8 +30,8 @@
 
 (defn update-program [intcode]
   (-> intcode
-      (update-intcode 1 12)
-      (update-intcode 2 2)))
+      (update-program 1 12)
+      (update-program 2 2)))
 
 (defn problem1 []
   (-> "002.txt"

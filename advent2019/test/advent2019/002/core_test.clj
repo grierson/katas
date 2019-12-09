@@ -20,13 +20,12 @@
 
 ;; recursion broke test (Checkmate Mockist)
 #_(future-fact "exectute"
-      (execute [1 0 0 0 99] 0) => [2 0 0 0 99]
-      (provided
-       (instruction? [1 0 0 0 99] 0) => true
-       (get-instruction [1 0 0 0 99] 0) => [1 0 0 0]
-       (get-opcode 1) => +
-       (update-intcode [1 0 0 0 99] 0 2) => [2 0 0 0 99]))
-
+               (execute [1 0 0 0 99] 0) => [2 0 0 0 99]
+               (provided
+                (instruction? [1 0 0 0 99] 0) => true
+                (get-instruction [1 0 0 0 99] 0) => [1 0 0 0]
+                (get-opcode 1) => +
+                (update-intcode [1 0 0 0 99] 0 2) => [2 0 0 0 99]))
 
 (facts "get-instruction"
        (fact "[1 0 0 0 99] => [1 0 0 0]"
