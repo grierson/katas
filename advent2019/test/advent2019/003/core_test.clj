@@ -2,7 +2,7 @@
   (:require [midje.sweet :refer :all]
             [advent2019.003.core :refer :all]))
 
-(fact "Simple case - intersection [1 1] provided"
+(fact "intersection at bottom right [1 1] provided"
       (intersection ..wire1.. ..wire2..) => [1 1]
       (provided
        (draw ..wire1..) => [[1 0] [1 1]]
@@ -11,9 +11,9 @@
        (nearest [[1 1]]) => [1 1]))
 
 (fact "draw provided"
-      (draw "R1,U1") => [[1 0] [1 1]]
+      (draw "R1,D1") => [[1 0] [1 1]]
       (provided
-       (parse "R1,U1") => ..parsed..
+       (parse "R1,D1") => ..parsed..
        (mapping ..parsed..) => [[1 0] [1 1]]))
 
 (fact "Parse provided"
@@ -36,3 +36,17 @@
                     (parse "R1,L1") => '([:right 1] [:left 1]))
               (fact "R10,D10"
                     (parse "R10,D10") => '([:right 10] [:down 10]))))
+
+(facts "mapping"
+       (facts "one move"
+              (fact "right 1"
+                    (mapping [[:right 1]]) => [[0 0][1 0]])
+              (fact "left 1"
+                    (mapping [[:left 1]]) => [[0 0] [-1 0]])
+              (fact "up 1"
+                    (mapping [[:up 1]]) => [[0 0] [0 -1]])
+              (fact "down 1"
+                    (mapping [[:down 1]]) => [[0 0] [0 1]]))
+       (facts "two moves"
+              (fact "right 1 up 1"
+                    (mapping [[:right 1] [:up 1]]) => [[0 0] [1 0] [1 -1]])))

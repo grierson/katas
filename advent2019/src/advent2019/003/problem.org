@@ -24,7 +24,7 @@ X + Y = Distance
     
 ** Log
    :LOGBOOK:
-   CLOCK: [2019-12-11 Wed 16:06]
+   CLOCK: [2019-12-11 Wed 16:06]--[2019-12-11 Wed 16:31] =>  0:25
    :END:
    
 
