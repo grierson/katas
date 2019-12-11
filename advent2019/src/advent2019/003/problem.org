@@ -21,3 +21,10 @@ X + Y = Distance
      - If location within both then store in overlaps
    - Find closest
      - map (comp abs +) overlaps
+    
+** Log
+   :LOGBOOK:
+   CLOCK: [2019-12-11 Wed 16:06]
+   :END:
+   
+
