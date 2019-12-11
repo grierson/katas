@@ -1,7 +1,9 @@
 (ns advent2019.003.core)
 
 
-(defn draw [wire])
+(defn draw [wire]
+  [[1 0] [1 1]])
+
 (defn overlaps [wire1 wire2])
 (defn nearest [overlaps])
 
