@@ -1,0 +1,14 @@
+* Problem 
+  How many passwords?
+
+** Constraints
+  - 6 digits
+  - Within range of `234,208 - 765,869`
+  - Two digits are adjacent
+  - Left->Right Digits `never decrease`
+
+** What do we know
+   - Star range is actually `234,444` as digits can't decrease
+   - End range is actully `699,999` as digits can't decrease
+     - As number start with 7 and 77x,xxx would be over the max `765,869`
+     - Then have to look at next consecutive number which would be 699,999
