@@ -1,6 +1,8 @@
 (ns advent2019.004.core)
 
-(defn six? [code])
+(defn six? [code]
+  (= 6 (count (str code))))
+
 (defn pair? [code])
 (defn increase? [code])
 

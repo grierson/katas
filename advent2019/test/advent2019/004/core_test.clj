@@ -8,3 +8,15 @@
   (six? ..pass..) => true
   (pair? ..pass..) => true
   (increase? ..pass..) => true))
+
+(tabular
+ (fact "six? => truthy"
+       (six? ?pass) => true)
+ ?pass
+ 111111)
+
+(tabular
+ (fact "six? => falsey"
+       (six? ?pass) => false)
+ ?pass
+ 1)
