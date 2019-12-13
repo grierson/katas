@@ -12,3 +12,6 @@
    - End range is actully `699,999` as digits can't decrease
      - As number start with 7 and 77x,xxx would be over the max `765,869`
      - Then have to look at next consecutive number which would be 699,999
+   - Pair can't be `1` or `2`
+     - `1` is less than `2` which is first numbers in start range `234,444`
+     - Can't be `2` as start range is `234,444` which is greater than `222,222` and all consecutive values would have to be greater than 2
