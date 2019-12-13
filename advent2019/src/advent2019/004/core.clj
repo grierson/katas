@@ -4,9 +4,11 @@
   (= 6 (count (str code))))
 
 (defn pair? [code]
-  true)
+  (some (fn [[x y]] (= x y)) (partition 2 1 (str code)))) 
 
 (defn increase? [code])
 
 (defn valid? [code]
   ((every-pred six? pair? increase?) code))
+
+(pair? 12) 
