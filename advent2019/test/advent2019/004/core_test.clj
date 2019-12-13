@@ -10,13 +10,32 @@
   (increase? ..pass..) => true))
 
 (tabular
- (fact "six? => truthy"
+ (fact "six? => truth"
        (six? ?pass) => true)
  ?pass
- 111111)
+ 123456)
 
 (tabular
- (fact "six? => falsey"
+ (fact "six? => false"
        (six? ?pass) => false)
  ?pass
- 1)
+ nil
+ 1
+ 12
+ 123
+ 1234
+ 12345
+ 1234567)
+
+
+(tabular
+ (fact "pair? => true"
+       (pair? ?pass) => true)
+ ?pass
+ 11)
+
+(tabular
+ (fact "pair? => false"
+       (pair? ?pass) => false)
+ ?pass
+ 12)
