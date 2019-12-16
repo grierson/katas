@@ -9,6 +9,14 @@
   (pair? ..pass..) => true
   (increase? ..pass..) => true))
 
+(facts "Given examples"
+       (fact "111111 is valid"
+             (valid? 111111) => true)
+       (fact "223450 is invalid because decreasing 50"
+             (valid? 223450) => false)
+       (fact "123789 is invalid because no pair"
+             (valid? 123789) => false))
+
 (tabular
  (fact "six? => truth"
        (six? ?pass) => true)
@@ -39,3 +47,21 @@
        (pair? ?pass) => false)
  ?pass
  12)
+
+(tabular
+ (fact "increase? => true"
+       (increase? ?pass) => true)
+ ?pass
+ 12
+ 123
+ 1234
+ 12345
+ 11111)
+
+(tabular
+ (fact "increase? => false"
+       (increase? ?pass) => false)
+ ?pass
+ 21
+ 321
+ 212)
