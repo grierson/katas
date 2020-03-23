@@ -1,4 +1,8 @@
 (ns rover.core)
 
-(defn move [state moves]
-  {:direction :E})
+(defn rotate-right [current]
+  (get {:N :E
+        :E :W} current))
+
+(defn move [{:keys [direction]} moves]
+  {:direction (rotate-right direction)})

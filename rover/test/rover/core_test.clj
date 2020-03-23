@@ -2,5 +2,9 @@
   (:require [midje.sweet :refer :all]
             [rover.core :refer :all]))
 
-(fact "Rotate right"
-  (move {:direction :N} "R") => {:direction :E})
+(tabular
+  (fact "Rotate right"
+    (move {:direction ?current} ?input) => {:direction ?expected})
+  ?current ?input ?expected
+  :N "R" :E
+  :E "R" :W)
