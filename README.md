@@ -11,13 +11,14 @@ Use branches to switch to see different challenge solutions
 * [Started] [Coding Dojo](http://codingdojo.org/kata/)
 * [gamontal/awesome-katas](https://github.com/gamontal/awesome-katas/)
 * [samjonester/awesome-katas](https://github.com/samjonester/awesome-katas/)
-* [Code Kata.com](http://codekata.com/)
+* [Started] [Code Kata.com](http://codekata.com/)
 * [/r/dailyprogrammer](https://www.reddit.com/r/dailyprogrammer/)
 * [ProgrammingPraxis](https://programmingpraxis.com/)
 * [Code Forces](http://codeforces.com/)
 * [Codility](https://codility.com/programmers/)
 * [Rosalind](http://rosalind.info/problems/locations/)
 * [TopCoder](https://www.topcoder.com/getting-started/)
+* [Started] [Kata Log](https://kata-log.rocks/index.html)
 
 ## Online Checker
 
