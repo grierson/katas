@@ -37,10 +37,6 @@
     \B (move-backward state)
     state))
 
-(def start-point {:direction :N
-                  :x         0
-                  :y         0})
-
 (defn play [state [a & as]]
   (if (nil? a)
     state

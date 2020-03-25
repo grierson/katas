@@ -47,10 +47,11 @@
   "LLL" :E
   "LLLL" :N)
 
+
 (fact "Forward, right, and forward"
-  (play start-point "FRF") => {:direction :E
-                               :x         1
-                               :y         1})
+  (play {:direction :N :x 0 :y 0} "FRF") => {:direction :E
+                                             :x         1
+                                             :y         1})
 
 (fact "Edge of grid"
   (play {:direction :N :x 10 :y 0} "RF") => {:direction :E
