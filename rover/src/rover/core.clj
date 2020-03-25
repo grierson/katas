@@ -12,19 +12,22 @@
                             :S :E
                             :W :S}))
 
+(defn wrap [f v]
+  (mod (f v) 11))
+
 (defn move-forward [{:keys [direction] :as state}]
   (case direction
-    :N (update state :y inc)
-    :S (update state :y dec)
-    :E (update state :x inc)
-    :W (update state :x dec)))
+    :N (update state :y #(wrap inc %))
+    :E (update state :x #(wrap inc %))
+    :S (update state :y #(wrap dec %))
+    :W (update state :x #(wrap dec %))))
 
 (defn move-backward [{:keys [direction] :as state}]
   (case direction
-    :N (update state :y dec)
-    :S (update state :y inc)
-    :E (update state :x dec)
-    :W (update state :x inc)))
+    :N (update state :y #(wrap dec %))
+    :E (update state :x #(wrap dec %))
+    :S (update state :y #(wrap inc %))
+    :W (update state :x #(wrap inc %))))
 
 (defn update-state [state action]
   (case action
