@@ -7,6 +7,7 @@
 == Reference
 Outside-In Classicist TDD by Sandro Mancuso - Mars Rover
 
+* https://kata-log.rocks/mars-rover-kata[kata]
 * https://www.youtube.com/watch?v=24vzFAvOzo0[screencast]
 * https://github.com/sandromancuso/mars-rover-screencast/tree/screencast[java code]
 
