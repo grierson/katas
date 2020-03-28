@@ -1,38 +1,32 @@
 (ns rover.core)
 
-(def clockwise {:N :E
-                :E :S
-                :S :W
-                :W :N})
-
-(def counter-clockwise {:N :W
-                        :E :N
-                        :S :E
-                        :W :S})
-
-(def moves {\F {:N [:y inc]
-                :E [:x inc]
-                :W [:x dec]
-                :S [:y dec]}
-            \B {:N [:y dec]
-                :E [:x dec]
-                :S [:y inc]
-                :W [:x inc]}})
-
-(defn rotate [state turn]
-  (let [rotation (get {\R clockwise
-                       \L counter-clockwise} turn)]
-    (update state :direction rotation)))
+(def actions {\F {:N [:y inc]
+                  :E [:x inc]
+                  :W [:x dec]
+                  :S [:y dec]}
+              \B {:N [:y dec]
+                  :E [:x dec]
+                  :S [:y inc]
+                  :W [:x inc]}
+              \R {:N :E
+                  :E :S
+                  :S :W
+                  :W :N}
+              \L {:N :W
+                  :E :N
+                  :S :E
+                  :W :S}})
 
 (defn wrap [f v]
   (mod (f v) 11))
 
-(defn accelerate [state axis f]
-  (update state axis #(wrap f %)))
-
 (defn move [{:keys [direction] :as state} action]
-  (let [[axis a] (get-in moves [action direction])]
-    (accelerate state axis a)))
+  (let [[axis velocity] (get-in actions [action direction])]
+    (update state axis #(wrap velocity %))))
+
+(defn rotate [{:keys [direction] :as state} action]
+  (let [new-direction (get-in actions [action direction])]
+    (assoc state :direction new-direction)))
 
 (defn update-state [state action]
   (cond
@@ -44,4 +38,3 @@
   (if (nil? a)
     state
     (recur (update-state state a) as)))
-
