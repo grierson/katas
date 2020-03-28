@@ -4,7 +4,7 @@
 
 (tabular
   (fact "Degenerate test cases"
-    (play start-point ?input) => start-point)
+    (play {} ?input) => {})
   ?input
   nil
   ""
