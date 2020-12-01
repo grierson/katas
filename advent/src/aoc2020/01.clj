@@ -14,3 +14,5 @@
              z nums
              :when (= 2020 (+ x y z))]
          (* x y z)))
+
+(line-seq "hello world this is a test")
