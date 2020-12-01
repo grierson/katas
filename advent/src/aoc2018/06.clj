@@ -1,4 +1,4 @@
-(ns 2018.06
+(ns aoc2018.06
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
@@ -11,7 +11,7 @@
     rest
     (mapv parse-int)))
 
-(def data (map parse-coordinate (-> "2018/06.txt"
+(def data (map parse-coordinate (-> "aoc2018/06.txt"
                                     io/resource
                                     slurp
                                     str/split-lines)))

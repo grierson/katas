@@ -1,4 +1,4 @@
-(ns 2019.04)
+(ns aoc2019.04)
 
 (defn six? [code]
   (= 6 (count (str code))))

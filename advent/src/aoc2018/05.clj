@@ -1,7 +1,7 @@
-(ns 2018.05
+(ns aoc2018.05
   (:require [clojure.java.io :as io]))
 
-(def data (-> "2018/05.txt"
+(def data (-> "aoc2018/05.txt"
               io/resource
               slurp))
 

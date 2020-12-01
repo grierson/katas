@@ -1,11 +1,11 @@
-(ns c01
+(ns aoc2020.01
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
 (defn parse-int [s]
   (Integer. (re-find #"\d+" s)))
 
-(def data (-> "2020/01.txt"
+(def data (-> "aoc2020/01.txt"
               io/resource
               slurp
               str/split-lines))

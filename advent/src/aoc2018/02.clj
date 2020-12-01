@@ -1,8 +1,8 @@
-(ns 2018.01
+(ns aoc2018.02
   (:require [clojure.java.io :as io]
             [clojure.string :as string]))
 
-(def data (-> "2018/02.txt"
+(def data (-> "aoc2018/02.txt"
               io/resource
               slurp
               string/split-lines))
