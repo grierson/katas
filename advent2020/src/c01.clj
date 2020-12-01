@@ -2,14 +2,17 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
-(def data (slurp (io/resource "01.txt")))
-
 (defn parse-int [s]
   (Integer. (re-find #"\d+" s)))
 
-(def nums (map parse-int (str/split-lines data)))
+(def data (-> "01.txt"
+              io/resource
+              slurp
+              str/split-lines))
 
-(for [x nums
-      y (rest nums)
-      :when (= 2020 (+ x y))]
-  (* x y))
+(def nums (map parse-int data))
+
+(first (for [x nums
+             y (rest nums)
+             :when (= 2020 (+ x y))]
+         (* x y)))
