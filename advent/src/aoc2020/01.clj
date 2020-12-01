@@ -1,6 +1,5 @@
 (ns aoc2020.01
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+  (:require [clojure.java.io :as io]))
 
 (def data (line-seq (io/reader (io/resource "aoc2020/01.txt"))))
 (def nums (map #(Long/parseLong %) data))
