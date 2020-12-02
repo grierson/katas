@@ -15,14 +15,13 @@
     (update log location inc)
     (assoc log location 1)))
 
-(defn solve [directions]
-  (loop [current [0 0]
-         state {[0 0] 1}
-         [h & t] directions]
-    (if h
-      (let [a (move current h)]
-        (recur a (update-log state a) t))
-      state)))
+(defn solve
+  ([directions] (solve [0 0] {[0 0] 1} directions))
+  ([location log [h & t]]
+   (if h
+     (let [new-location (move location h)]
+       (recur new-location (update-log log new-location) t))
+     log)))
 
 (comment
   ;; First
