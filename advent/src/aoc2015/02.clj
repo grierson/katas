@@ -22,5 +22,8 @@
 (defn parse-measurement [measurement]
   (map parse-int (str/split measurement #"x")))
 
-(reduce + (map (comp paper parse-measurement) data))
-(reduce + (map (comp ribbon parse-measurement) data))
+(comment
+  ;; First
+  (reduce + (map (comp paper parse-measurement) data))
+  ;; Second
+  (reduce + (map (comp ribbon parse-measurement) data)))

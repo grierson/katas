@@ -5,11 +5,13 @@
 
 (def count-if (comp count filter))
 
-(- (count-if #{\(} data)
-   (count-if #{\)} data))
-
-(loop [cnt 0
-       [[idx v] & xs] (map-indexed vector data)]
-  (if (= cnt -1)
-    idx
-    (recur (if (= \( v) (inc cnt) (dec cnt)) xs)))
+(comment
+  ;; first
+  (- (count-if #{\(} data)
+     (count-if #{\)} data))
+  ;; second
+  (loop [cnt 0
+         [[idx v] & xs] (map-indexed vector data)]
+    (if (= cnt -1)
+      idx
+      (recur (if (= \( v) (inc cnt) (dec cnt)) xs))))
