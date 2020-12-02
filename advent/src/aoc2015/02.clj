@@ -1,5 +1,5 @@
 (ns aoc2015.02
-  (:require [aoc.common :refer [read-file parse-int]]
+  (:require [advent.core :refer [read-file parse-int]]
             [clojure.string :as str]))
 
 (def data (read-file "aoc2015/02.txt"))

@@ -1,7 +1,7 @@
 (ns aoc2020.02
-  (:require [aoc.common :refer [read-file
-                                count-if
-                                parse-int]]))
+  (:require [advent.core :refer [read-file
+                                 count-if
+                                 parse-int]]))
 
 (def data (read-file "aoc2020/02.txt"))
 

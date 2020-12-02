@@ -1,16 +1,12 @@
 (ns aoc2015.01
-  (:require [aoc.common :as common]))
+  (:require [advent.core :as common]))
 
 (def data (first (common/read-file "aoc2015/01.txt")))
 
 (def count-if (comp count filter))
 
-(comment
-  ;; first
-  (- (count-if #{\(} data)
-     (count-if #{\)} data)))
-
-(map-indexed vector data)
+(- (count-if #{\(} data)
+   (count-if #{\)} data))
 
 (loop [cnt 0
        [[idx v] & xs] (map-indexed vector data)]

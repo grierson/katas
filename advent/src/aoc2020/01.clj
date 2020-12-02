@@ -1,5 +1,5 @@
 (ns aoc2020.01
-  (:require [aoc.common :refer [read-file]]))
+  (:require [advent.core :refer [read-file]]))
 
 (def data (read-file "aoc2020/01.txt"))
 (def nums (map #(Long/parseLong %) data))
