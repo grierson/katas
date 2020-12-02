@@ -19,3 +19,16 @@
          (<= cnt high))))
 
 (count-if true? (map (comp valid-password? parse-line) data))
+
+(defn valid-password2? [[[low high] c password]]
+  (let [temp (cons \_ password)]
+    (and (= c (nth temp low))
+         (not= c (nth temp high)))))
+
+(count-if true? (map (comp valid-password2? parse-line) data))
+
+(comment
+  ((comp valid-password2? parse-line) "1-3 a: abcde") ;; valid
+  ((comp valid-password2? parse-line) "1-3 b: cdefg") ;; invalid
+  ((comp valid-password2? parse-line) "2-9 c: ccccccccc")) ;; invalid
+

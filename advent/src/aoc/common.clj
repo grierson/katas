@@ -4,6 +4,6 @@
 (defn read-file [file]
   (line-seq (io/reader (io/resource file))))
 
-(defn parse-int [s] (Long/parseLong s))
+(defn parse-int [s] (Integer/parseInt s))
 
 (def count-if (comp count filter))
