@@ -3,9 +3,6 @@
 
 (def data (first (read-file "aoc2015/03.txt")))
 
-(comment
-  ([[x y] cnt]))
-
 (defn move [[x y] direction]
   (condp = direction
     \^ [x (inc y)]
@@ -27,8 +24,7 @@
         (recur a (update-log state a) t))
       state)))
 
-(def result (solve data))
+(comment
+  ;; First
+  (count (solve data)))
 
-(get result [0 0])
-
-(count-if (fn [[_ v]] (>= v 2)) result)
