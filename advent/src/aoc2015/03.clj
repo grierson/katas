@@ -28,3 +28,7 @@
   ;; First
   (count (solve data)))
 
+(comment
+  ;; Second
+  (count (merge (solve (take-nth 2 data))
+                (solve (take-nth 2 (drop 1 data))))))
