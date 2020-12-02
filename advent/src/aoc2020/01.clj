@@ -1,7 +1,7 @@
 (ns aoc2020.01
-  (:require [clojure.java.io :as io]))
+  (:require [aoc.common :refer [read-file]]))
 
-(def data (line-seq (io/reader (io/resource "aoc2020/01.txt"))))
+(def data (read-file "aoc2020/01.txt"))
 (def nums (map #(Long/parseLong %) data))
 
 (first (for [x nums
@@ -14,5 +14,3 @@
              z nums
              :when (= 2020 (+ x y z))]
          (* x y z)))
-
-(line-seq "hello world this is a test")
