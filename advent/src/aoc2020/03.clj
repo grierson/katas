@@ -7,9 +7,12 @@
 (defn location [x y] (nth (cycle x) y))
 (def count-trees #(count-if #{\#} %))
 
-(let [a (count-trees (map location data (iterate #(+ 1 %) 0)))
-      b (count-trees (map location data (iterate #(+ 3 %) 0)))
-      c (count-trees (map location data (iterate #(+ 5 %) 0)))
-      d (count-trees (map location data (iterate #(+ 7 %) 0)))
-      e (count-trees (map location (take-nth 2 data) (iterate #(+ 1 %) 0)))]
+(defn foo [coll step]
+  (count-trees (map location coll (iterate #(+ step %) 0))))
+
+(let [a (foo data 1)
+      b (foo data 3)
+      c (foo data 5)
+      d (foo data 7)
+      e (foo (take-nth 2 data) 1)]
   (* a b c d e))
