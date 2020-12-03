@@ -10,32 +10,31 @@
 
 (def guide (map (comp parse-direction str/trim) (str/split data #",")))
 
-(def directions {\N {\L \W
-                     \R \E}
-                 \E {\L \N
-                     \R \S}
-                 \S {\L \E
-                     \R \W}
-                 \W {\L \S
-                     \R \N}})
+(def compass {\N {\L \W
+                  \R \E}
+              \E {\L \N
+                  \R \S}
+              \S {\L \E
+                  \R \W}
+              \W {\L \S
+                  \R \N}})
 
-(defn update-coords [[x y] direction steps]
-  (condp = direction
+(defn update-coords [[x y] facing steps]
+  (condp = facing
     \N [x (- y steps)]
     \E [(+ x steps) y]
     \S [x (+ y steps)]
     \W [(- x steps) y]))
 
-(defn foo [[facing coords] [turning steps]]
-  (let [new-facing (get-in directions [facing turning])]
+(defn update-state [[facing coords] [turning steps]]
+  (let [new-facing (get-in compass [facing turning])]
     [new-facing (update-coords coords new-facing steps)]))
 
-(loop [state [\N [0 0]]
-       [h & t] guide]
+(defn solve [[_ coords :as state] [h & t]]
   (if h
-    (recur (foo state h) t)
-    state))
+    (recur (update-state state h) t)
+    (apply + coords)))
 
-(+ -140 -138)
+(solve [\N [0 0]] guide)
 
 
