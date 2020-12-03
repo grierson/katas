@@ -10,9 +10,10 @@
 (defn foo [coll step]
   (count-trees (map location coll (iterate #(+ step %) 0))))
 
-(let [a (foo data 1)
-      b (foo data 3)
-      c (foo data 5)
-      d (foo data 7)
-      e (foo (take-nth 2 data) 1)]
-  (* a b c d e))
+(time
+  (let [a (foo data 1)
+        b (foo data 3)
+        c (foo data 5)
+        d (foo data 7)
+        e (foo (take-nth 2 data) 1)]
+    (* a b c d e)))
