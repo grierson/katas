@@ -11,19 +11,18 @@
 
 (def req #{"byr" "iyr" "eyr" "hgt" "hcl" "ecl" "pid"})
 
-(def passports (loop [state []
-                      coll data]
-                 (if (empty? coll)
-                   state
-                   (recur (conj state (take-while not-empty coll)) (drop 1 (drop-while not-empty coll))))))
+(defn data->passports
+  ([lines] (data->passports [] lines))
+  ([state coll]
+   (if (empty? coll)
+     state
+     (recur (conj state (take-while not-empty coll)) (drop 1 (drop-while not-empty coll))))))
 
-(defn foo [lines]
+(defn get-keys [lines]
   (set (map #(subs % 0 3) (str/split (str/join #" " (take-while not-empty lines)) #" "))))
 
-(map foo passports)
-
-(count-if #(superset? % req) (map foo passports))
+(count-if #(superset? % req) (map get-keys (data->passports sample)))
 
 (comment
-  (foo (drop-while not-empty sample))
+  (get-keys (drop-while not-empty sample))
   (superset? x req))
