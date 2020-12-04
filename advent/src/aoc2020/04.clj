@@ -1,5 +1,5 @@
 (ns aoc2020.04
-  (:require [advent.core :refer [read-file count-if]]
+  (:require [advent.core :refer [count-if]]
             [clojure.set :refer [superset?]]
             [clojure.string :as str]
             [clojure.java.io :as io]))
