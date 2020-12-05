@@ -47,5 +47,15 @@
         column-total (get-column-total [0 7] columns)]
     (+ (* row-total 8) column-total)))
 
-(apply max (map (comp get-seatid line->boardingpass) (str/split-lines input)))
+(comment
+  (apply max (map (comp get-seatid line->boardingpass) (str/split-lines input))))
+
+(->> (str/split-lines input)
+     (map (comp get-seatid line->boardingpass))
+     sort
+     (partition-all 2 1)
+     (some (fn [[low high]]
+             (let [nxt (inc low)]
+               (when (not= nxt high)
+                 nxt)))))
 
