@@ -15,5 +15,5 @@
       [(first colors) nil]
       [(first colors) deps])))
 
-(map get-colors temp)
+(into (hash-map) (map get-colors temp))
 
