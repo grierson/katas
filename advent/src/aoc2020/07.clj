@@ -18,12 +18,12 @@
 (comment
   (build-tree input))
 
-(defn bag-holds-color [tree color [_ clr]]
+(defn bag-holds-color? [tree color [_ clr]]
   (let [deps (set (map second (get tree clr)))]
     (cond
       (empty? deps) false
       (contains? deps color) true
-      :else (some true? (map #(bag-holds-color tree color [0 %]) deps)))))
+      :else (some true? (map #(bag-holds-color? tree color [0 %]) deps)))))
 
 (let [tree (build-tree input)]
-  (count-if true? (map (fn [bag] (bag-holds-color tree "shiny gold" [0 bag])) (keys tree))))
+  (count-if true? (map (fn [bag] (bag-holds-color? tree "shiny gold" [0 bag])) (keys tree))))
