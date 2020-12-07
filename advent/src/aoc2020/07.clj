@@ -1,11 +1,9 @@
 (ns aoc2020.07
   (:require [clojure.java.io :as io]
+            [advent.core :refer [count-if]]
             [clojure.string :as str]))
 
-(def input (slurp (io/resource "aoc2020/07sample.txt")))
-
-(def temp (-> input
-              str/split-lines))
+(def input (slurp (io/resource "aoc2020/07.txt")))
 
 (defn get-colors [line]
   (let [result (re-seq #"(\w+) (\w+) (bag|bags)" line)
@@ -15,5 +13,15 @@
       [(first colors) nil]
       [(first colors) (set deps)])))
 
-(into (hash-map) (map get-colors temp))
+(defn build-tree [data]
+  (into (hash-map) (map get-colors (str/split-lines data))))
 
+(defn bag-holds-color [tree color bag]
+  (let [x (get tree bag)]
+    (cond
+      (nil? x) false
+      (contains? x color) true
+      :else (some true? (map #(bag-holds-color tree color %) x)))))
+
+(let [tree (build-tree input)]
+  (count-if true? (map #(bag-holds-color tree "shiny gold" %) (keys tree))))
