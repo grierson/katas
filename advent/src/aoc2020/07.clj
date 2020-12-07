@@ -13,7 +13,7 @@
         deps (rest colors)]
     (if (= deps '("no other"))
       [(first colors) nil]
-      [(first colors) deps])))
+      [(first colors) (set deps)])))
 
 (into (hash-map) (map get-colors temp))
 
