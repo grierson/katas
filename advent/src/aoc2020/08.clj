@@ -6,20 +6,15 @@
 
 (def data (str/split-lines input))
 
-(defn accf [state arg num]
-  (let [num (Integer/parseInt num)]
-    (if (= arg "+")
-      (+ state num)
-      (- state num))))
-
-(loop [state 0
-       pc 0
-       called #{}]
+(defn solve [lines state pc called]
   (if (contains? called pc)
     state
-    (let [[_ op m num] (re-find #"(nop|acc|jmp) (\+|\-)(\d+)" (nth data pc))]
+    (let [[_ op m num] (re-find #"(nop|acc|jmp) (\+|\-)(\d+)" (nth lines pc))
+          f (resolve (symbol m))
+          num (Integer/parseInt num)]
       (condp = op
-        "nop" (recur state (inc pc) (conj called pc))
-        "acc" (recur (accf state m num) (inc pc) (conj called pc))
-        "jmp" (recur state (accf pc m num) (conj called pc))))))
+        "nop" (recur lines state (inc pc) (conj called pc))
+        "acc" (recur lines (f state num) (inc pc) (conj called pc))
+        "jmp" (recur lines state (f pc num) (conj called pc))))))
 
+(solve data 0 0 #{})
