@@ -19,13 +19,13 @@
 (comment
   (make-graph input))
 
-(defn bag-holds-color? [tree find-bag current-bag]
+(defn bag-contains? [tree find-bag current-bag]
   (let [deps (set (map second (get tree current-bag)))]
     (cond
       (empty? deps) false
       (contains? deps find-bag) true
-      :else (some true? (map #(bag-holds-color? tree find-bag %) deps)))))
+      :else (some true? (map #(bag-contains? tree find-bag %) deps)))))
 
 (time (let [tree (make-graph input)]
-        (count-if true? (map (fn [bag] (bag-holds-color? tree "shiny gold" bag)) (keys tree)))))
+        (count-if true? (map (fn [bag] (bag-contains? tree "shiny gold" bag)) (keys tree)))))
 
