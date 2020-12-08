@@ -5,26 +5,27 @@
 
 (def input (slurp (io/resource "aoc2020/07sample.txt")))
 
-(defn get-colors [line]
-  (let [bag (first (re-seq #"(\w+) (\w+) (bag|bags)" line))
-        bag-color ((fn [[_ c1 c2 _]] (str/join #" " [c1 c2])) bag)
-        deps (re-seq #"(\d+) (\w+) (\w+) (bag|bags)" line)
-        deps-colors (map (fn [[_ cnt c1 c2 _]] [(Integer/parseInt cnt) (str/join #" " [c1 c2])]) deps)]
-    [bag-color (set deps-colors)]))
-
-(defn build-tree [data]
-  (into (hash-map) (map get-colors (str/split-lines data))))
+(defn parse-line [line]
+  (let [bag (second (re-find #"(\w+ \w+) bags contain" line))
+        deps (re-seq #"(\d+) (\w+ \w+) (bag|bags)" line)]
+    [bag (map (fn [[_ amount color]] [(Integer/parseInt amount) color]) deps)]))
 
 (comment
-  (build-tree input))
+  (map parse-line (str/split-lines input)))
 
-(defn bag-holds-color? [tree color clr]
-  (let [deps (set (map second (get tree clr)))]
+(defn make-graph [data]
+  (into (hash-map) (map parse-line (str/split-lines data))))
+
+(comment
+  (make-graph input))
+
+(defn bag-holds-color? [tree find-bag current-bag]
+  (let [deps (set (map second (get tree current-bag)))]
     (cond
       (empty? deps) false
-      (contains? deps color) true
-      :else (some true? (map #(bag-holds-color? tree color %) deps)))))
+      (contains? deps find-bag) true
+      :else (some true? (map #(bag-holds-color? tree find-bag %) deps)))))
 
-(def tree (build-tree input))
-(let [tree (build-tree input)]
-  (count-if true? (map (fn [bag] (bag-holds-color? tree "shiny gold" bag)) (keys tree))))
+(time (let [tree (make-graph input)]
+        (count-if true? (map (fn [bag] (bag-holds-color? tree "shiny gold" bag)) (keys tree)))))
+
