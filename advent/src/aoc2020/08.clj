@@ -16,11 +16,11 @@
 (loop [state 0
        pc 0
        called #{}]
-  (if #p (contains? #p called #p pc)
+  (if (contains? called pc)
     state
-    (let [[op arg] #p (str/split (nth data pc) #" ")]
+    (let [[op arg] (str/split (nth data pc) #" ")]
       (condp = op
-            "nop" (recur state (inc pc) (conj called (inc pc)))
-            "acc" (recur (accf arg state) (inc pc) (conj called (inc pc)))
-            "jmp" (recur state (accf arg pc) (conj called (inc pc)))))))
+            "nop" (recur state (inc pc) (conj called pc))
+            "acc" (recur (accf arg state) (inc pc) (conj called pc))
+            "jmp" (recur state (accf arg pc) (conj called pc))))))
 
