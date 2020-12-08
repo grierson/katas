@@ -3,7 +3,7 @@
             [advent.core :refer [count-if]]
             [clojure.string :as str]))
 
-(def input (slurp (io/resource "aoc2020/07.txt")))
+(def input (slurp (io/resource "aoc2020/07sample.txt")))
 
 (defn get-colors [line]
   (let [bag (first (re-seq #"(\w+) (\w+) (bag|bags)" line))
@@ -18,12 +18,13 @@
 (comment
   (build-tree input))
 
-(defn bag-holds-color? [tree color [_ clr]]
+(defn bag-holds-color? [tree color clr]
   (let [deps (set (map second (get tree clr)))]
     (cond
       (empty? deps) false
       (contains? deps color) true
-      :else (some true? (map #(bag-holds-color? tree color [0 %]) deps)))))
+      :else (some true? (map #(bag-holds-color? tree color %) deps)))))
 
+(def tree (build-tree input))
 (let [tree (build-tree input)]
-  (count-if true? (map (fn [bag] (bag-holds-color? tree "shiny gold" [0 bag])) (keys tree))))
+  (count-if true? (map (fn [bag] (bag-holds-color? tree "shiny gold" bag)) (keys tree))))
