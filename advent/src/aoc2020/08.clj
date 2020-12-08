@@ -6,10 +6,9 @@
 
 (def data (str/split-lines input))
 
-(defn accf [arg state]
-  (let [[_ m num] (re-find #"(\+|\-)(\d+)" arg)
-        num (Integer/parseInt num)]
-    (if (= m "+")
+(defn accf [state arg num]
+  (let [num (Integer/parseInt num)]
+    (if (= arg "+")
       (+ state num)
       (- state num))))
 
@@ -18,9 +17,9 @@
        called #{}]
   (if (contains? called pc)
     state
-    (let [[op arg] (str/split (nth data pc) #" ")]
+    (let [[_ op m num] (re-find #"(nop|acc|jmp) (\+|\-)(\d+)" (nth data pc))]
       (condp = op
-            "nop" (recur state (inc pc) (conj called pc))
-            "acc" (recur (accf arg state) (inc pc) (conj called pc))
-            "jmp" (recur state (accf arg pc) (conj called pc))))))
+        "nop" (recur state (inc pc) (conj called pc))
+        "acc" (recur (accf state m num) (inc pc) (conj called pc))
+        "jmp" (recur state (accf pc m num) (conj called pc))))))
 
