@@ -13,10 +13,22 @@
 (defn valid? [combinations sum]
   (some (fn [[a b]] (= sum (+ a b))) combinations))
 
-(some
-  (fn [xs]
-    (let [coll (make-combinations (drop-last xs))
-          sum (last xs)]
-      (if (not (valid? coll sum))
-        sum)))
-  (partition 26 1 data))
+(def result (some
+              (fn [xs]
+                (let [coll (make-combinations (drop-last xs))
+                      sum (last xs)]
+                  (if (not (valid? coll sum))
+                    sum)))
+              (partition 26 1 data)))
+
+(reduce +
+  (some
+    (fn [n]
+      (some (fn [coll]
+              (let [xs (sort coll)]
+                (when (= result (reduce + xs))
+                  [(first xs) (last xs)])))
+            (partition n 1 data)))
+    (iterate inc 2)))
+
+
