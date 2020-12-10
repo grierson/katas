@@ -2,27 +2,49 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
-(def sample "35\n20\n15\n25\n47\n40\n62\n55\n65\n95\n102\n117\n150\n182\n127\n219\n299\n277\n309\n576")
-(def input (slurp (io/resource "aoc2020/09.txt")))
+(def sample-raw "35\n20\n15\n25\n47\n40\n62\n55\n65\n95\n102\n117\n150\n182\n127\n219\n299\n277\n309\n576")
+(def real-raw (slurp (io/resource "aoc2020/09.txt")))
 
-(def data (map #(Long/parseLong %) (str/split-lines input)))
+(def sample (map #(Long/parseLong %) (str/split-lines sample-raw)))
+(def real (map #(Long/parseLong %) (str/split-lines real-raw)))
 
-(defn make-combinations [coll]
-  (filter (fn [[a b]] (not= a b)) (set (for [x coll y coll] [x y]))))
+(defn input->xmas
+  "file -> [int]"
+  [input]
+  (map #(Long/parseLong %) (str/split-lines input)))
 
-(defn valid? [combinations sum]
-  (some (fn [[a b]] (= sum (+ a b))) combinations))
+(defn generate-pair-sums
+  "Generate every sum of every pair"
+  [window]
+  (for [x window y window :when (< x y)] (+ x y)))
 
-(def part1
+(defn valid?
+  "Check if window pair sums contains target"
+  [pair-sums target]
+  (some #(= target %) pair-sums))
+
+(defn part1
+  "preamble + 1 to include target value, xmas is the entire code"
+  [preamble xmas]
   (some
-    (fn [xs]
-      (let [coll (make-combinations (drop-last xs))
-            sum (last xs)]
-        (if (not (valid? coll sum))
-          sum)))
-    (partition 26 1 data)))
+    (fn [window]
+      (let [pair-sums (generate-pair-sums (drop-last window))
+            target (last window)]
+        (if (not (valid? pair-sums target))
+          target)))
+    (partition preamble 1 xmas)))
 
-(def part2
+(defn solve1
+  "preamble - size of preamble, input - raw file input"
+  [preamble input]
+  (let [xmas (input->xmas input)]
+    (part1 (inc preamble) xmas)))
+
+(comment
+  (solve1 5 sample-raw)
+  (solve1 25 real-raw))
+
+(defn part2 [data]
   (some
     (fn [n]
       (some (fn [coll]
@@ -32,4 +54,6 @@
             (partition n 1 data)))
     (iterate inc 2)))
 
+(comment
+  (part2 real))
 
