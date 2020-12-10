@@ -2,11 +2,8 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
-(def sample-raw "35\n20\n15\n25\n47\n40\n62\n55\n65\n95\n102\n117\n150\n182\n127\n219\n299\n277\n309\n576")
-(def real-raw (slurp (io/resource "aoc2020/09.txt")))
-
-(def sample (map #(Long/parseLong %) (str/split-lines sample-raw)))
-(def real (map #(Long/parseLong %) (str/split-lines real-raw)))
+(def sample "35\n20\n15\n25\n47\n40\n62\n55\n65\n95\n102\n117\n150\n182\n127\n219\n299\n277\n309\n576")
+(def real (slurp (io/resource "aoc2020/09.txt")))
 
 (defn input->xmas
   "file -> [int]"
@@ -41,19 +38,25 @@
     (part1 (inc preamble) xmas)))
 
 (comment
-  (solve1 5 sample-raw)
-  (solve1 25 real-raw))
+  (solve1 5 sample)
+  (solve1 25 real))
 
-(defn part2 [data]
-  (some
-    (fn [n]
-      (some (fn [coll]
-              (let [xs (sort coll)]
-                (when (= part1 (reduce + xs))
-                  (+ (first xs) (last xs)))))
-            (partition n 1 data)))
-    (iterate inc 2)))
+;; === Part 2
+
+(defn solve2
+  "input - raw input file"
+  [input]
+  (let [result (solve1 25 input)
+        xmas (input->xmas input)]
+    (reduce +
+            (some
+              (fn [n]
+                (some (fn [coll]
+                        (let [xs (sort coll)]
+                          (when (= result (reduce + xs))
+                            [(first xs) (last xs)])))
+                      (partition n 1 xmas)))
+              (iterate inc 2)))))
 
 (comment
-  (part2 real))
-
+  (solve2 real))
