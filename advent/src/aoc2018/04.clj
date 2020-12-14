@@ -78,5 +78,6 @@
        (sort-by val >)
        ffirst))
 
-(* sleepyist-guard
-   sleepyist-guard-min)
+(comment
+  (* sleepyist-guard
+     sleepyist-guard-min))

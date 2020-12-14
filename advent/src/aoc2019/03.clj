@@ -63,4 +63,5 @@
                           str/split-lines)]
     (solve wire1 wire2)))
 
-(problem1) 
+(comment
+  (problem1))

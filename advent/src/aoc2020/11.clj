@@ -58,30 +58,21 @@
   [lines max-x max-y position]
   (neighbours->values lines (neighbour-locations max-x max-y position)))
 
-(crowded? (get-neighbours lines 10 10 [0 0]))
-(open? (get-neighbours lines 10 10 [0 0]))
-
 (defn apply-rules
   "[char] char -> char
    ===
-   Return value for position given neighbours values"
+   Returns new value for position based on neighbours"
   [neighbours value]
   (condp = value
     \# (if (crowded? neighbours) \L value)
     \L (if (open? neighbours) \# value)
     :else value))
 
-lines
-
-(get-in lines [6 1])
-
-(let [location [0 1]]
-  (apply-rules (get-neighbours lines 10 10 location) (get-in lines location)))
-
-; L -> open? true => #
-; # -> crowded? true => L
-; x -> x
-
+(comment
+  (let [location [0 1]]
+    (get-neighbours lines 10 10 location) (get-in lines location))
+  (let [location [0 1]]
+    (apply-rules (get-neighbours lines 10 10 location) (get-in lines location))))
 
 (comment
   (let [max-x (dec (count (first lines)))

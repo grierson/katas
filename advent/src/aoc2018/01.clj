@@ -12,4 +12,5 @@
               slurp
               string/split-lines))
 
-(reduce foo 0 data)
+(comment
+  (reduce foo 0 data))
