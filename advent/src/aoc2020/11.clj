@@ -60,4 +60,5 @@
       state*
       (recur state*))))
 
-(count (filter #{\#} (flatten (stable input))))
+; Solve 1
+;(count (filter #{\#} (flatten (stable input))))
