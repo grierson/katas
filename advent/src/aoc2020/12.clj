@@ -69,4 +69,4 @@
 
 (comment
   (let [[_ [x y]] (reduce move [:E [0 0]] (map parse-instruction input))]
-    (+ x y)))
+    (+ (Math/abs x) (Math/abs y))))
