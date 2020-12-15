@@ -1,43 +1,21 @@
 (ns aoc2020.11
-  (:require [clojure.string :as str]))
-
-
-(def sample "#.##.##.##\n#######.##\n#.#.#..#..\n####.##.##\n#.##.##.##\n#.#####.##\n..#.#.....\n##########\n#.######.#\n#.#####.##")
-(def expected "#.LL.L#.##\n#LLLLLL.L#\nL.L.L..L..\n#LLL.LL.L#\n#.LL.LL.LL\n#.LLLL#.##\n..L.L.....\n#LLLLLLLL#\n#.LLLLLL.L\n#.#LLLL.##")
-
-(def lines (str/split-lines sample))
-
-; first line - first character
-; [_ _] [1 0]
-; [0 1]  [1 1]
-
-; first line - second character
-; [0 0] [_ _] [2 0]
-; [0 1]  [1 1] [2 1]
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io]))
 
 (defn neighbour-locations
-  "int int [int int] -> [[int int]]
-   ===
-   Returns all valid surrounding spaces"
-  [max-x max-y [x y]]
+  "Returns all valid surrounding spaces"
+  [max-x max-y [y x]]
   (for [*x (range (max 0 (dec x)) (inc (min max-x (inc x))))
         *y (range (max 0 (dec y)) (inc (min max-y (inc y))))
         :when (not (and (= x *x) (= y *y)))]
     [*y *x]))
 
-(defn neighbour->value
-  "[string] [int int] -> char
-   ===
-   Returns value at position within lines"
-  [lines neighbour]
-  (get-in lines neighbour))
-
 (defn neighbours->values
-  "[string] [[int int]] -> [char]
-   ===
-   Get all values of surrounding space"
   [lines neighbours]
-  (map #(neighbour->value lines %) neighbours))
+  (map #(get-in lines %) neighbours))
+
+(defn get-neighbours [lines max-x max-y position]
+  (neighbours->values lines (neighbour-locations max-x max-y position)))
 
 (defn crowded?
   "4 or more occupied (#) seats"
@@ -50,31 +28,36 @@
   [neighbours]
   (not-any? #{\#} neighbours))
 
-(defn get-neighbours
-  "[string] int int [int int] -> [char]
-   ===
-   Given lines, boundaries (max-x max-y), position ([x y])
-   Then return all values surrounding position"
-  [lines max-x max-y position]
-  (neighbours->values lines (neighbour-locations max-x max-y position)))
-
 (defn apply-rules
-  "[char] char -> char
-   ===
-   Returns new value for position based on neighbours"
   [neighbours value]
   (condp = value
     \# (if (crowded? neighbours) \L value)
     \L (if (open? neighbours) \# value)
-    :else value))
+    \. value))
+
+(defn generation [lines]
+  (mapv vec (let [max-x (count (first lines))
+                  max-y (count lines)]
+              (for [row (range max-y)]
+                (for [column (range max-x)]
+                  (let [location [row column]]
+                    (apply-rules (get-neighbours lines max-x max-y location) (get-in lines location))))))))
 
 (comment
-  (let [location [0 1]]
-    (get-neighbours lines 10 10 location) (get-in lines location))
-  (let [location [0 1]]
-    (apply-rules (get-neighbours lines 10 10 location) (get-in lines location))))
+  (def init (mapv vec (str/split-lines "L.LL.LL.LL\nLLLLLLL.LL\nL.L.L..L..\nLLLL.LL.LL\nL.LL.LL.LL\nL.LLLLL.LL\n..L.L.....\nLLLLLLLLLL\nL.LLLLLL.L\nL.LLLLL.LL")))
+  (def first-state (mapv vec (str/split-lines "#.##.##.##\n#######.##\n#.#.#..#..\n####.##.##\n#.##.##.##\n#.#####.##\n..#.#.....\n##########\n#.######.#\n#.#####.##")))
+  (def second-state (mapv vec (str/split-lines "#.LL.L#.##\n#LLLLLL.L#\nL.L.L..L..\n#LLL.LL.L#\n#.LL.LL.LL\n#.LLLL#.##\n..L.L.....\n#LLLLLLLL#\n#.LLLLLL.L\n#.#LLLL.##")))
+  (def third-state (mapv vec (str/split-lines "#.##.L#.##\n#L###LL.L#\nL.#.#..#..\n#L##.##.L#\n#.##.LL.LL\n#.###L#.##\n..#.#.....\n#L######L#\n#.LL###L.L\n#.#L###.##")))
+  (= (generation init) first-state)
+  (= (generation (generation init)) second-state)
+  (= (generation (generation (generation init))) third-state))
 
-(comment
-  (let [max-x (dec (count (first lines)))
-        max-y (dec (count lines))]))
+(def input (mapv vec (str/split-lines (slurp (io/resource "aoc2020/11.txt")))))
 
+(defn stable [state]
+  (let [state* (generation state)]
+    (if (= state state*)
+      state*
+      (recur state*))))
+
+(count (filter #{\#} (flatten (stable input))))
