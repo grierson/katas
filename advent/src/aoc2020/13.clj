@@ -10,8 +10,7 @@
 (def buses (map #(Long/parseLong %) (remove #{"x"} (str/split (second lines) #","))))
 
 (defn find-next-bus [arrival bus]
-  [bus (+ bus
-          (last (take-while #(> arrival %) (iterate #(+ bus %) bus))))])
+  [bus (first (drop-while #(> arrival %) (iterate #(+ bus %) bus)))])
 
 (defn solve [arrival buses]
   (let [earliest-bus (apply min-key second (map #(find-next-bus arrival %) buses))
