@@ -33,8 +33,17 @@
 (defn solve [[_ coords :as state] [h & t]]
   (if h
     (recur (update-state state h) t)
-    (apply + coords)))
+    (apply + (map #(Math/abs %) coords))))
 
-(solve [\N [0 0]] guide)
+(defn solve2 [visited [_ coords :as state] [h & t]]
+  (if (contains? visited coords)
+    coords
+    (when h
+      (recur (conj visited coords) (update-state state h) t))))
+
+(comment
+  ;first
+  (solve [\N [0 0]] guide)
+  (solve2 #{} [\N [0 0]] guide))
 
 
