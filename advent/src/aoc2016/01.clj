@@ -2,11 +2,9 @@
   (:require [advent.core :refer [read-file parse-int]]
             [clojure.string :as str]))
 
-(def data (first (read-file "aoc2016/01.txt")))
-
 (defn parse-direction [direction]
   (let [[_ turn steps] (re-matches #"(.)(\d+)" direction)]
-    [(first turn) (parse-int steps)]))
+    [(first turn) (Integer/parseInt steps)]))
 
 (def guide (map (comp parse-direction str/trim) (str/split data #",")))
 
