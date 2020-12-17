@@ -1,11 +1,12 @@
 (ns aoc2016.01
-  (:require [advent.core :refer [read-file parse-int]]
-            [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io]))
 
 (defn parse-direction [direction]
   (let [[_ turn steps] (re-matches #"(.)(\d+)" direction)]
     [(first turn) (Integer/parseInt steps)]))
 
+(def data (slurp (io/resource "aoc2016/01.txt")))
 (def guide (map (comp parse-direction str/trim) (str/split data #",")))
 
 (def compass {\N {\L \W

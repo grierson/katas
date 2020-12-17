@@ -1,7 +1,7 @@
 (ns aoc2015.01
-  (:require [advent.core :as common]))
+  (:require [clojure.java.io :as io]))
 
-(def data (first (common/read-file "aoc2015/01.txt")))
+(def data (slurp (io/resource "aoc2015/01.txt")))
 
 (def count-if (comp count filter))
 

@@ -1,7 +1,8 @@
 (ns aoc2015.03
-  (:require [advent.core :refer [read-file count-if]]))
+  (:require [advent.core :refer [count-if]]
+            [clojure.java.io :as io]))
 
-(def data (first (read-file "aoc2015/03.txt")))
+(def data (slurp (io/resource "aoc2015/03.txt")))
 
 (defn move [[x y] direction]
   (condp = direction

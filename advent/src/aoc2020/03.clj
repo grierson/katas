@@ -1,8 +1,9 @@
 (ns aoc2020.03
-  (:require [advent.core :refer [read-file
-                                 count-if]]))
+  (:require [advent.core :refer [count-if]]
+            [clojure.java.io :as io]
+            [clojure.string :as str]))
 
-(def data (read-file "aoc2020/03.txt"))
+(def data (str/split-lines (slurp (io/resource "aoc2020/03.txt"))))
 
 (defn location [x y] (nth (cycle x) y))
 (def count-trees #(count-if #{\#} %))

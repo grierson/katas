@@ -1,8 +1,8 @@
 (ns aoc2015.02
-  (:require [advent.core :refer [read-file parse-int]]
-            [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io]))
 
-(def data (read-file "aoc2015/02.txt"))
+(def data (slurp (io/resource "aoc2015/02.txt")))
 
 (defn paper [[l w h]]
   (let [side1 (* l w)
@@ -20,7 +20,7 @@
        (* x y z))))
 
 (defn parse-measurement [measurement]
-  (map parse-int (str/split measurement #"x")))
+  (map #(Integer/parseInt %) (str/split measurement #"x")))
 
 (comment
   ;; First
