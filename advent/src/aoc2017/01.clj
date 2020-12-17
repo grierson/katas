@@ -13,11 +13,12 @@
       0
       (partition 2 1 (map #(Integer/parseInt (str %)) num2)))))
 
-(def input (slurp (io/resource "aoc2017/01.txt")))
-(solve input)
-
 (comment
   (solve 1122)
   (solve 1111)
   (solve 1234)
   (solve 91212129))
+
+(comment
+  (def input (slurp (io/resource "aoc2017/01.txt")))
+  (solve input))
