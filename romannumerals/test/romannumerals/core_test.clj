@@ -4,7 +4,7 @@
 
 (tabular
   (fact "Fake it til you make it"
-    (number->roman ?num) => ?expected)
+    (number->roman2 ?num) => ?expected)
   ?num ?expected
   0 ""
   1 "I"
@@ -29,8 +29,8 @@
   20 "XX")
 
 (tabular
-  (fact "letters"
-    (number->roman ?num) => ?expected)
+  (fact "Specific"
+    (number->roman2 ?num) => ?expected)
   ?num ?expected
   1 "I"
   4 "IV"
@@ -41,7 +41,5 @@
   90 "XC"
   100 "C"
   500 "D"
-  1000 "M")
-
-(fact "edges"
-  (number->roman 3000) => "MMM")
+  1000 "M"
+  3000 "MMM")

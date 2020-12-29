@@ -14,3 +14,28 @@
     (>= number 9) (str "IX" (number->roman (- number 9)))
     (>= number 5) (str "V" (number->roman (- number 5)))
     (>= number 4) (str "IV" (number->roman (- number 4)))))
+
+(def roman (sorted-map-by >
+                          1000 "M"
+                          500 "D"
+                          100 "C"
+                          90 "XC"
+                          50 "L"
+                          40 "XL"
+                          10 "X"
+                          9 "IX"
+                          5 "V"
+                          4 "IV"
+                          1 "I"))
+
+(defn number->roman2
+  ([number] (number->roman2 "" roman number))
+  ([state [[v sym] & tail] number]
+   (if (zero? number)
+     state
+     (recur (let [result (quot number v)]
+              (if (zero? result)
+                state
+                (apply str state (repeat (quot number v) sym))))
+            tail
+            (rem number v)))))
