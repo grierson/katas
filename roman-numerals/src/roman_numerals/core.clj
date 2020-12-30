@@ -1,4 +1,4 @@
-(ns romannumerals.core)
+(ns roman-numerals.core)
 
 (defn number->roman [number]
   (cond

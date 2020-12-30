@@ -1,6 +1,6 @@
-(ns romannumerals.core-test
+(ns roman-numerals.core-test
   (:require [midje.sweet :refer :all]
-            [romannumerals.core :refer :all]))
+            [roman-numerals.core :refer :all]))
 
 (tabular
   (fact "Fake it til you make it"
