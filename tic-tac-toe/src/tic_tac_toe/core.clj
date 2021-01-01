@@ -16,18 +16,20 @@
         right-column (map last game)]
     (some identity (map check-column [left-column middle-column right-column]))))
 
-(defn check-forward-slash [game]
-  (let [tl (get-in game [0 0])
-        m (get-in game [1 1])
-        br (get-in game [2 2])]
-    (when (and (= tl m br) (not= tl \_))
+(defn check-forward-slash [[[tl]
+                            [_ m]
+                            [_ _ br]]]
+  (let [diagonal [tl m br]]
+    (when (and (apply = diagonal)
+               (not (.contains diagonal \_)))
       tl)))
 
-(defn check-back-slash [game]
-  (let [tr (get-in game [0 2])
-        m (get-in game [1 1])
-        bl (get-in game [2 0])]
-    (when (and (= tr m bl) (not= tr \_))
+(defn check-back-slash [[[_ _ tr]
+                         [_ m]
+                         [bl]]]
+  (let [diagonal [tr m bl]]
+    (when (and (apply = diagonal)
+               (not (.contains diagonal \_)))
       tr)))
 
 (defn check-diagonals [game]
