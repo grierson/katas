@@ -2,5 +2,5 @@
 
 (defn score [game]
   (if (some? game)
-    \X
+    (ffirst game)
     nil))

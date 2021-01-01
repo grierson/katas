@@ -6,6 +6,11 @@
   (score nil) => nil)
 
 (fact "top row"
-  (score [[\X \X \X]
-          [\_ \_ \_]
-          [\_ \_ \_]]) => \X)
+  (fact "X wins"
+    (score [[\X \X \X]
+            [\_ \_ \_]
+            [\_ \_ \_]]) => \X)
+  (fact "O wins"
+    (score [[\O \O \O]
+            [\_ \_ \_]
+            [\_ \_ \_]]) => \O))
