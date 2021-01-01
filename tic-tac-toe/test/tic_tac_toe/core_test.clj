@@ -5,6 +5,11 @@
 (fact "degenerate case"
   (score nil) => nil)
 
+(fact "new game"
+  (score [[\_ \_ \_]
+          [\_ \_ \_]
+          [\_ \_ \_]]) => nil)
+
 (facts "top row"
   (fact "X wins"
     (score [[\X \X \X]
