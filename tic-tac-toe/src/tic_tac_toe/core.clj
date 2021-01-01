@@ -3,4 +3,4 @@
 (defn score [game]
   (if (nil? game)
     nil
-    (ffirst game)))
+    (some (fn [[l m r]] (if (= l m r) l)) game)))

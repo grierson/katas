@@ -8,9 +8,19 @@
 (facts "top row"
   (fact "X wins"
     (score [[\X \X \X]
-            [\_ \_ \_]
-            [\_ \_ \_]]) => \X)
+            [\O \X \O]
+            [\O \_ \O]]) => \X)
   (fact "O wins"
     (score [[\O \O \O]
-            [\_ \_ \_]
+            [\X \X \_]
+            [\X \X \_]]) => \O))
+
+(facts "middle row"
+  (fact "X wins"
+    (score [[\O \O \X]
+            [\X \X \X]
+            [\_ \_ \_]]) => \X)
+  (fact "O wins"
+    (score [[\O \O \X]
+            [\O \O \O]
             [\_ \_ \_]]) => \O))
