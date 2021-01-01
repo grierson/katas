@@ -73,7 +73,11 @@
               [\_ \_ \O]]) => \O)))
 
 (facts "diagonal"
-  (fact "X is in Top left, Middle, and Bottom right is winner"
+  (fact "X has Top left, Middle, and Bottom right so is the winner"
     (score [[\X \_ \_]
             [\_ \X \_]
-            [\_ \_ \X]]) => \X))
+            [\_ \_ \X]]) => \X)
+  (fact "O has Top right, Middle, and Bottom left so is the winner"
+    (score [[\_ \_ \O]
+            [\_ \O \_]
+            [\O \_ \_]]) => \O))
