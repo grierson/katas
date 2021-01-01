@@ -44,4 +44,28 @@
   (fact "X wins"
     (score [[\X \_ \_]
             [\X \_ \_]
-            [\X \_ \_]]) => \X))
+            [\X \_ \_]]) => \X)
+  (fact "O wins"
+    (score [[\O \_ \_]
+            [\O \_ \_]
+            [\O \_ \_]]) => \O))
+
+(facts "middle column"
+  (fact "X wins"
+    (score [[\_ \X \_]
+            [\_ \X \_]
+            [\_ \X \_]]) => \X)
+  (fact "O wins"
+    (score [[\_ \O \_]
+            [\_ \O \_]
+            [\_ \O \_]]) => \O))
+
+(facts "right column"
+  (fact "X wins"
+    (score [[\_ \_ \X]
+            [\_ \_ \X]
+            [\_ \_ \X]]) => \X)
+  (fact "O wins"
+    (score [[\_ \_ \O]
+            [\_ \_ \O]
+            [\_ \_ \O]]) => \O))
