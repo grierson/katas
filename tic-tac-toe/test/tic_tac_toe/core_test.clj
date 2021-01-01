@@ -39,3 +39,9 @@
     (score [[\_ \_ \_]
             [\_ \_ \_]
             [\O \O \O]]) => \O))
+
+(facts "left column"
+  (fact "X wins"
+    (score [[\X \_ \_]
+            [\X \_ \_]
+            [\X \_ \_]]) => \X))
