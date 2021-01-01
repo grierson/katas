@@ -5,3 +5,7 @@
 (fact "degenerate case"
   (score nil) => nil)
 
+(fact "top row"
+  (score [[\X \X \X]
+          [\_ \_ \_]
+          [\_ \_ \_]]) => \X)
