@@ -3,4 +3,5 @@
 (defn score [game]
   (if (nil? game)
     nil
-    (some (fn [[l m r]] (if (= l m r) l)) game)))
+    (some (fn [[l m r]] (if (and (= l m r)
+                                 (not= l \_)) l)) game)))
