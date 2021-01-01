@@ -1,0 +1,17 @@
+= Steps
+
+* Winner?
+
+** Rows
+*** Top
+*** Middle
+*** Bottom
+
+** Columns
+*** Left
+*** Middle
+*** Right
+
+** Diagonals
+*** Top left to bottom right
+*** Top right to bottom left
