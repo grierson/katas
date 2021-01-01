@@ -5,19 +5,14 @@
              (not (.contains row \_)))
     (first row)))
 
-(defn get-columns [game]
-  (let [left-column (map first game)
-        middle-column (map second game)
-        right-column (map last game)]
-    [left-column middle-column right-column]))
-
-(defn get-diagonals [[[tl _ tr]
-                      [_ m _]
-                      [bl _ br]]]
-  [[tl m br] [tr m bl]])
+(defn get-rows [[[tl tm tr]
+                 [ml mm mr]
+                 [bl bm br] :as rows]]
+  (let [diagonals [[tl mm br] [tr mm bl]]
+        columns [[tl ml bl]
+                 [tm mm bm]
+                 [tr mr br]]]
+    (concat rows diagonals columns)))
 
 (defn score [game]
-  (when (some? game)
-    (let [columns (get-columns game)
-          diagonals (get-diagonals game)]
-      (some three-in-a-row? (concat game columns diagonals)))))
+  (some three-in-a-row? (get-rows game)))
