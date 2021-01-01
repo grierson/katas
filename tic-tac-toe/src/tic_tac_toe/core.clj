@@ -1,6 +1,6 @@
 (ns tic-tac-toe.core)
 
 (defn score [game]
-  (if (some? game)
-    (ffirst game)
-    nil))
+  (if (nil? game)
+    nil
+    (ffirst game)))
