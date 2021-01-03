@@ -7,6 +7,10 @@ Try to apply TDD, mainly use Clojure.
 * https://github.com/gigasquid/wonderland-clojure-katas[wonderland-clojure-katas]
 * http://codekata.com[Code kata]
 
+Online::
+* https://exercism.io/my/tracks[Exercism]
+* https://www.codewars.com/users/grierson[Codewars]
+
 == Completed
 
 * Word wrap - Code kata
