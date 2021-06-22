@@ -1,6 +1,6 @@
-https://codingdojo.org/kata/NumberToLCD/
-
 # lcd
+
+https://codingdojo.org/kata/NumberToLCD/
 
 The project uses [Midje](https://github.com/marick/Midje/).
 
