@@ -1,6 +1,6 @@
-https://adventofcode.com/
-
 # advent
+
+https://adventofcode.com/
 
 The project uses [Midje](https://github.com/marick/Midje/).
 
