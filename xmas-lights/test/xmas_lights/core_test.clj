@@ -33,6 +33,20 @@
                               [4 2] [4 3] [4 4]])
 
 (fact "Turn on many"
-  (turn-on-many (make-grid 3 3) [0 0] [1 1]) => [[true true false]
+  (many turn-on (make-grid 3 3) [0 0] [1 1]) => [[true true false]
                                                  [true true false]
                                                  [false false false]])
+
+(fact "Turn off many"
+  (let [on-grid (many turn-on (make-grid 3 3) [0 0] [1 1])]
+    (many turn-off on-grid [0 0] [1 1]) => [[false false false]
+                                            [false false false]
+                                            [false false false]]))
+
+(fact "Toggle many"
+  (let [grid [[true false true]
+              [false true false]
+              [true false true]]]
+    (many toggle grid [0 0] [2 2]) => [[false true false]
+                                       [true false true]
+                                       [false true false]]))

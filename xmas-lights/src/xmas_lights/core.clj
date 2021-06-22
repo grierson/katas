@@ -21,6 +21,6 @@
         y (range p1y (inc p2y))]
     [x y]))
 
-(defn turn-on-many [grid p1 p2]
+(defn many [f grid p1 p2]
   (let [coll (get-range p1 p2)]
-    (reduce turn-on grid coll)))
+    (reduce f grid coll)))
