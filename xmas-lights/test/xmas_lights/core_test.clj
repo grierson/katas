@@ -12,3 +12,14 @@
 (fact "turn on light"
   (let [grid (make-grid 1 1)]
     (turn-on grid [0 0]) => [[true]]))
+
+
+(fact "Get range"
+  (get-range [2 2] [4 4]) => [[2 2] [2 3] [2 4]
+                              [3 2] [3 3] [3 4]
+                              [4 2] [4 3] [4 4]])
+
+(fact "Turn on many"
+  (turn-on-many (make-grid 3 3) [0 0] [1 1]) => [[true true false]
+                                                 [true true false]
+                                                 [false false false]])
