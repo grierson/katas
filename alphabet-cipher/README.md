@@ -1,6 +1,6 @@
-https://github.com/gigasquid/wonderland-clojure-katas/tree/master/alphabet-cipher
-
 # alphabet-cipher
+
+https://github.com/gigasquid/wonderland-clojure-katas/tree/master/alphabet-cipher
 
 This Alphabet Cipher involves alphabet substitution using a keyword.
 
