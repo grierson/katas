@@ -13,6 +13,9 @@
 (defn turn-off [grid coords]
   (assoc-in grid coords false))
 
+(defn toggle [grid coords]
+  (update-in grid coords not))
+
 (defn get-range [[p1x p1y] [p2x p2y]]
   (for [x (range p1x (inc p2x))
         y (range p1y (inc p2y))]

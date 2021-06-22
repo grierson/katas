@@ -9,13 +9,23 @@
   (make-grid 2 1) => [[false false]]
   (make-grid 1 2) => [[false] [false]])
 
-(fact "turn on light"
-  (let [grid (make-grid 1 1)]
-    (turn-on grid [0 0]) => [[true]]))
+(facts "switch lights"
+  (fact "turn on light"
+    (let [grid (make-grid 1 1)]
+      (turn-on grid [0 0]) => [[true]]))
 
-(fact "turn off light"
-  (let [grid (turn-on (make-grid 1 1) [0 0])]
-    (turn-off grid [0 0]) => [[false]]))
+  (fact "turn off light"
+    (let [grid (turn-on (make-grid 1 1) [0 0])]
+      (turn-off grid [0 0]) => [[false]])))
+
+(fact "toggle lights"
+  (fact "toggle light on"
+    (let [grid (make-grid 1 1)]
+      (toggle grid [0 0]) => [[true]]))
+
+  (fact "toggle light off"
+    (let [grid (turn-on (make-grid 1 1) [0 0])]
+      (toggle grid [0 0]) => [[false]])))
 
 (fact "Get range"
   (get-range [2 2] [4 4]) => [[2 2] [2 3] [2 4]
