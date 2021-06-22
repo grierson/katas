@@ -8,7 +8,10 @@
        (into [])))
 
 (defn turn-on [grid coords]
-  (update-in grid coords not))
+  (assoc-in grid coords true))
+
+(defn turn-off [grid coords]
+  (assoc-in grid coords false))
 
 (defn get-range [[p1x p1y] [p2x p2y]]
   (for [x (range p1x (inc p2x))

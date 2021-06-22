@@ -13,6 +13,9 @@
   (let [grid (make-grid 1 1)]
     (turn-on grid [0 0]) => [[true]]))
 
+(fact "turn off light"
+  (let [grid (turn-on (make-grid 1 1) [0 0])]
+    (turn-off grid [0 0]) => [[false]]))
 
 (fact "Get range"
   (get-range [2 2] [4 4]) => [[2 2] [2 3] [2 4]
