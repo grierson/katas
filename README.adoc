@@ -13,6 +13,18 @@ Online::
 
 == Completed
 
-* Word wrap - Code kata
-* Roman numerals - Code kata
+* Alphabet Cipher
+- https://github.com/gigasquid/wonderland-clojure-katas/tree/master/alphabet-cipher
+* Bowling
+- https://codingdojo.org/kata/Bowling/
+* Mars rover
+- https://kata-log.rocks/mars-rover-kata
+* Tic Tac Toe
+- https://kata-log.rocks/tic-tac-toe-kata
+* Roman numerals 
+- https://codingdojo.org/kata/RomanNumerals/
+* Word wrap
+- https://codingdojo.org/kata/WordWrap/
+
+
 
