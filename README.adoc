@@ -3,6 +3,8 @@
 List of my solutions to katas.
 Try to apply TDD, mainly use Clojure.
 
+== Resources
+
 * https://adventofcode.com[Advent of code]
 * https://github.com/gigasquid/wonderland-clojure-katas[wonderland-clojure-katas]
 * http://codekata.com[Code kata]
