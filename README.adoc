@@ -6,6 +6,7 @@ Try to apply TDD, mainly use Clojure.
 * https://adventofcode.com[Advent of code]
 * https://github.com/gigasquid/wonderland-clojure-katas[wonderland-clojure-katas]
 * http://codekata.com[Code kata]
+* https://kata-log.rocks/[Kata Log]
 
 Online::
 * https://exercism.io/my/tracks[Exercism]
