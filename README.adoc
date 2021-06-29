@@ -12,7 +12,8 @@ Try to apply TDD, mainly use Clojure.
 
 Online::
 * https://exercism.io/my/tracks[Exercism]
-[![Profile badge](https://www.codewars.com/users/grierson/badges/large)](https://www.codewars.com/users/hugmanrique)
+
+[![Profile badge](https://www.codewars.com/users/grierson/badges/large)](https://www.codewars.com/users/grierson)
 
 == Completed
 
