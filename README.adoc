@@ -5,10 +5,7 @@ Try to apply TDD, mainly use Clojure.
 
 == Resources
 
-Advent of Code
-
-image::https://img.shields.io/badge/stars%20⭐-12-yellow[Advent of Code]
-
+* https://adventofcode.com/[Advent of code] 
 * https://github.com/gigasquid/wonderland-clojure-katas[wonderland-clojure-katas]
 * http://codekata.com[Code kata]
 * https://kata-log.rocks/[Kata Log]
