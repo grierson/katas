@@ -12,7 +12,8 @@ Try to apply TDD, mainly use Clojure.
 
 Online::
 * https://exercism.io/profiles/grierson[Exercism]
-* image::https://www.codewars.com/users/grierson/badges/large[codewars]
+
+image::https://www.codewars.com/users/grierson/badges/large[codewars]
 
 == Completed
 
