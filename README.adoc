@@ -11,9 +11,8 @@ Try to apply TDD, mainly use Clojure.
 * https://kata-log.rocks/[Kata Log]
 
 Online::
-* https://exercism.io/my/tracks[Exercism]
-
-image::https://www.codewars.com/users/grierson/badges/large[codewars]
+* https://exercism.io/profiles/grierson[Exercism]
+* image::https://www.codewars.com/users/grierson/badges/large[codewars]
 
 == Completed
 
