@@ -12,7 +12,7 @@ Try to apply TDD, mainly use Clojure.
 
 Online::
 * https://exercism.io/my/tracks[Exercism]
-* https://www.codewars.com/users/grierson[Codewars]
+[![Profile badge](https://www.codewars.com/users/grierson/badges/large)](https://www.codewars.com/users/hugmanrique)
 
 == Completed
 
