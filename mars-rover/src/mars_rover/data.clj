@@ -36,11 +36,17 @@
 
 (defn update-state [state action]
   (cond
-    (contains? #{\R \L} action) (rotate state action)
-    (contains? #{\F \B} action) (move state action)
+    (#{\R \L} action) (rotate state action)
+    (#{\F \B} action) (move state action)
     :else state))
 
 (defn play [state [a & as]]
   (if (nil? a)
     state
     (recur (update-state state a) as)))
+
+(defrecord Rover [x y direction])
+
+(defn make-rover
+  ([] (->Rover 0 0 :N))
+  ([direction] (->Rover 0 0 direction)))

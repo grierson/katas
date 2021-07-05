@@ -1,6 +1,6 @@
 (ns mars-rover.core-test
   (:require [midje.sweet :refer :all]
-            [mars-rover.core :refer :all]))
+            [mars-rover.data :refer :all]))
 
 (facts "rotate"
   (tabular
