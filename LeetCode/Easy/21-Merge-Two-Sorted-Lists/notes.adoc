@@ -1,0 +1,39 @@
+= 21: Merge Two Sorted Lists
+
+== Thinking
+It's like the last step of merge sort
+
+== Pseudo code
+```
+state = []
+l1 = [1 2 4]
+l2 = [1 3 4]
+
+function state [x xs :as xcoll] [y ys :as ycoll]
+  if x and y is null
+    state
+  if x is null
+    state + ycoll
+  if y is null
+    state + xcoll
+  
+  if x <= y
+    recur (cons state x) xs ycoll
+  else
+    recur (cons state y) xcoll ys
+
+```
+
+== Test cases
+
+```
+Handle empty
+f [] [] => [] 
+f [1] [] => [1] 
+f [] [1] => [1] 
+
+Handle order
+f [1] [2] => [1 2] 
+f [2] [1] => [1 2] 
+f [1 2] [1] => [1 1 2] 
+```
