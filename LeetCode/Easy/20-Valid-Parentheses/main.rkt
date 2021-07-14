@@ -1,3 +1,6 @@
+#lang racket
+(require rackunit)
+
 (define (str->list s)
   (map string (string->list s)))
 
@@ -21,3 +24,19 @@
                                #f)]
             [else #f]))]))
   (foo '() (str->list s)))
+
+
+(check-equal?
+ (is-valid "()") #t)
+
+(check-equal?
+ (is-valid "()[]{}") #t)
+
+(check-equal?
+ (is-valid "(]") #f)
+
+(check-equal?
+ (is-valid "([)]") #f)
+
+(check-equal?
+ (is-valid "{[]}") #t)
