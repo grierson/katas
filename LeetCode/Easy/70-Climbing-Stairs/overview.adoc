@@ -28,6 +28,49 @@ Output: 3
 
 == Solutions
 
-=== Recursive tree
-
+=== Solution 1 - Recursive tree
 image::recursive-tree.png[Recursive tree]
+
+==== Failed (Time Limit Exceeded) 
+Timing the failing test case from Leetcode (input: 44) takes 24 seconds. What can we do to improve. 
+
+.Time recursive tree
+[source, racket]
+----
+recursive-tree.rkt> (climb-stairs 44) 
+cpu time: 23773 real time: 24090 gc time: 38
+1134903170
+----
+
+The first thing that stands out is duplication. On a larger input such as `44` the `1` and `2` use case will be generated many times. Let's remove it.
+
+image::recursive-tree-duplication.png[Recursive tree duplication]
+
+=== Solution 2 - Recursive tree without duplication
+
+So we know the 1 use case returns 1 and the 2 use case returns 2. Lets add those as cases.
+
+[source, racket]
+----
+(cond
+  [(= n 2) 2]
+  [(= n 1@ 1]
+  ...)
+----
+
+.Time recursive tree handling base cases
+[source, racket]
+----
+recursive-tree.rkt> 
+cpu time: 10555 real time: 10687 gc time: 0
+1134903170
+recursive-tree.rkt
+----
+
+Optimised version now only takes 13 seconds lets try that.
+
+=== Failed (Time Limit Exceeded)
+
+Time limit exceed again! We got some really good performance gains from avoiding duplication at the very base of the tree so I think we should continue with this line of thinking for now. If we avoid duplication even further up the tree we should get similar performance gains. Let's record even more values except this time the function will build up the records instead adding extra cases to our `cond`
+
+=== Solution 3 - Recursive tree without actual duplication
