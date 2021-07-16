@@ -48,15 +48,43 @@ image::recursive-tree-duplication.png[Recursive tree duplication]
 
 === Solution 2 - Recursive tree without duplication
 
-So we know the 1 use case returns 1 and the 2 use case returns 2. Lets add those as cases.
+So we know the 1 use case returns 1 and the 2 use case returns 2. Lets add those use cases.
 
 [source, racket]
 ----
 (cond
   [(= n 2) 2]
-  [(= n 1@ 1]
+  [(= n 1) 1]
   ...)
 ----
+
+=== Refactor - Remove cases
+As we are now handling the `1` and `2` use cases we don't need to check for `0` or `less than 0` so lets also remove them. 
+
+[source, racket]
+----
+(cond
++  [(= n 2) 2]
++  [(= n 1) 1]
+-  [(zero? n) 1]
+-  [(< n 0) 0]
+  ...)
+----
+
+And now we are only checking for specific cases we can use pattern matching.
+
+[source, racket]
+----
+(define/match (climb-stairs n)
+    [(1) 1]
+    [(2) 2]
+    [(n) (+
+           (climb-stairs (- n 2))
+           (climb-stairs (- n 1)))])
+----
+
+
+
 
 .Time recursive tree handling base cases
 [source, racket]
