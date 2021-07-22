@@ -4,7 +4,7 @@ You are climbing a staircase. It takes n steps to reach the top.
 Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top
 
 == Constraints
-* List length (n) 1 to 45
+* N = 1 to 45
 
 == Examples
 [source]
@@ -29,10 +29,11 @@ Output: 3
 == Solutions
 
 === Solution 1 - Recursive tree
+
 image::recursive-tree.png[Recursive tree]
 
 ==== Failed (Time Limit Exceeded) 
-Timing the failing test case from Leetcode (input: 44) takes 24 seconds. What can we do to improve. 
+Timing the failing test case from Leetcode (input: `44`) takes `24 seconds`. What can we do to improve. 
 
 .Time recursive tree
 [source, racket]
@@ -46,9 +47,9 @@ The first thing that stands out is duplication. On a larger input such as `44` t
 
 image::recursive-tree-duplication.png[Recursive tree duplication]
 
-=== Solution 2 - Recursive tree without duplication
+=== Solution 2 - Recursive tree without base case duplication
 
-So we know the 1 use case returns 1 and the 2 use case returns 2. Lets add those use cases.
+So we know the `1` use case returns `1` and the `2` use case returns `2`. Lets add those use cases.
 
 [source, racket]
 ----
@@ -58,7 +59,7 @@ So we know the 1 use case returns 1 and the 2 use case returns 2. Lets add those
   ...)
 ----
 
-=== Refactor - Remove cases
+=== Refactor - Cond -> Pattern match
 As we are now handling the `1` and `2` use cases we don't need to check for `0` or `less than 0` so lets also remove them. 
 
 [source, racket]
@@ -83,9 +84,6 @@ And now we are only checking for specific cases we can use pattern matching.
            (climb-stairs (- n 1)))])
 ----
 
-
-
-
 .Time recursive tree handling base cases
 [source, racket]
 ----
@@ -99,6 +97,53 @@ Optimised version now only takes 13 seconds lets try that.
 
 === Failed (Time Limit Exceeded)
 
-Time limit exceed again! We got some really good performance gains from avoiding duplication at the very base of the tree so I think we should continue with this line of thinking for now. If we avoid duplication even further up the tree we should get similar performance gains. Let's record even more values except this time the function will build up the records instead adding extra cases to our `cond`
+Time limit exceed again! We got some really good performance gains from avoiding duplication at the very base of the tree so I think we should continue with this line of thinking for now. If we avoid duplication even further up the tree we should get similar performance gains. Let's record even more values except this time lets write a function that will build up the each case instead of adding to our `cond`
 
-=== Solution 3 - Recursive tree without actual duplication
+=== Solution 3 - Recursive tree with Hash map
+
+Lets build a hash map that stores the result of just running downing the `n-1` path then we can say `tree[5] = tree[4] + tree[3]`. 
+
+image::hash-recursive-tree.png[Hash map Recursive tree]
+
+However we don't know `tree[4]` or `tree[3]` so instead of working `n-1` let work forwards `n+1` as we know `1 = 1` and `2 = 2`.
+`tree[3]` is just `tree[2] + tree[1]` then `tree[4]` is just `tree[2]` + `tree[3]` which was just added from the previous pass through. 
+
+.Pseudo code
+[source, racket]
+----
+tree = {1 1
+        2 2}
+
+i = 3
+
+function n i
+  if n in tree
+    tree[n]
+    recur(tree[i] = tree[i - 1] + tree[i - 2], i + 1)
+----
+
+.Solution
+[source, racket]
+----
+(define (climb-stairs n)
+  (define (foo tree i)
+    (if (hash-has-key? tree n)
+        tree
+        (foo
+         (hash-set
+          tree
+          i
+          (+ (hash-ref tree (- i 1))
+             (hash-ref tree (- i 2))))
+         (+ i 1))))
+  (hash-ref (foo (hash 1 1 2 2) 3) n))
+
+----
+
+==== Solution 3 - Passed!
+
+|===
+| | Runtime | Memory
+| Mine | 192ms | 92MB 
+| Others | 100% faster | 100% less
+|===
