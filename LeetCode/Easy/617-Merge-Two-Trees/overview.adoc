@@ -26,3 +26,11 @@ Output: [2,2]
 == Solutions
 
 image::drawing.png[Handle cases]
+
+=== Solution - Passed!
+
+|===
+| | Runtime | Memory
+| Mine | 280ms | 126MB 
+| Others | 100% faster | 100% less
+|===
