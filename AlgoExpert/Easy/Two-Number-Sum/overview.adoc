@@ -52,3 +52,27 @@ def twoNumberSum(array, targetSum):
 | Time | O(n^2) | For loop within for loop
 |===
 
+=== Solution 2
+Step through each number, get the difference from the target then check if we have seen the difference before, if not then record it otherwise return difference and current number.
+
+[source, python]
+----
+def twoNumberSum(array, targetSum):
+    state = set()
+
+    for val in array:
+        difference = targetSum - val
+        if difference in state:
+            return [difference, val]
+        else:
+            state.add(val)
+
+    return []
+----
+
+=== Solution 2 - Passed
+
+|===
+| Space | O(n) | Running through same loop
+| Time | O(n) | Run through the list once
+|===
