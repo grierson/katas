@@ -7,19 +7,10 @@ class BST:
 
 def foo(tree, target, best):
     if not tree:
-        if not best:
-            return best
-        else:
-            return best[0]
+        return best
 
-    difference = abs(target - tree.value)
-
-    if not best:
-        best = [tree.value, difference]
-
-    _, b_diff = best
-    if difference <= b_diff:
-        best = [tree.value, difference]
+    if abs(target - tree.value) < abs(target - best):
+        best = tree.value
 
     if tree.value == target:
         return tree.value
@@ -32,7 +23,7 @@ def foo(tree, target, best):
 
 
 def findClosestValueInBst(tree, target):
-    return foo(tree, target, None)
+    return foo(tree, target, tree.value)
 
 
 def test_sample():
