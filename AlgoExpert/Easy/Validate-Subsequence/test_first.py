@@ -26,6 +26,3 @@ def isValidSubsequence(array, sequence):
 ])
 def test_sample(array, sequence, expected):
     assert isValidSubsequence(array, sequence) == expected
-
-
-test_sample([5, 1, 22, 25, 6, -1, 8, 10, 8], [1, 6, -1, 10], True)
