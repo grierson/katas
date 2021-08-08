@@ -18,12 +18,21 @@ Output: []
 ```
 
 == Solutions
-
-=== Solution 1
+=== Solution 1 - Linked List -> List -> Linked List
 image::linkedlist-to-list.png[Linked list -> List -> Linked list]
 
-==== Solution 1 - Passed!
+=== Solution - Complexity analysis
 
+==== Time
+
+
+==== Space
+O(n) for the original + 
+O(n) for the intermediate list +
+O(n) for the new linked list
+
+
+==== Solution 1 - Passed!
 |===
 | | Runtime | Memory
 | Mine | 200ms | 100.8mb 
