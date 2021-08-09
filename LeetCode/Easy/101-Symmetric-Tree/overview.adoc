@@ -10,3 +10,22 @@ Output: true
 Input: root = [1,2,2,null,3,null,3]
 Output: false
 ```
+
+== Solution
+=== Solution 1 - Recursive
+
+
+=== Solution 1 - Passed!
+|===
+| Runtime | Memory
+| 208ms | 99.8mb 
+|===
+https://leetcode.com/submissions/detail/535902056/[Leetcode submission]
+
+=== Solution 2 - Iterative
+=== Solution 2 - Passed!
+|===
+| Runtime | Memory
+| 196ms | 99.5mb 
+|===
+https://leetcode.com/submissions/detail/535901782/[Leetcode submission]
