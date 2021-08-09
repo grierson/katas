@@ -5,13 +5,13 @@
   (val left right) #:mutable #:transparent)
 
 (define (is-symmetric root)
-  (define (foo n1 n2)
+  (define (foo left right)
     (cond
-      [(and (false? n1) (false? n2)) true]
-      [(or (false? n1) (false? n2)) false]
-      [else (and (= (tree-node-val n1) (tree-node-val n2))
-                 (foo (tree-node-right n1) (tree-node-left n2))
-                 (foo (tree-node-left n1) (tree-node-right n2)))]))
+      [(and (false? left) (false? right)) true]
+      [(or (false? left) (false? right)) false]
+      [else (and (= (tree-node-val left) (tree-node-val right))
+                 (foo (tree-node-left left) (tree-node-right right))
+                 (foo (tree-node-right left) (tree-node-left right)))]))
   (foo root root))
 
 (check-equal?
