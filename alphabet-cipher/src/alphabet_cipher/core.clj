@@ -6,7 +6,7 @@
 (defn lookup [c r]
   (let [ci (get alpha-index c)
         ri (get alpha-index r)
-        new-alphabet (concat (drop ci alphabet) (take ri alphabet))]
+        new-alphabet (concat (drop ci alphabet) (take ci alphabet))]
     (nth new-alphabet ri)))
 
 (defn repeat-keyword [kword message]
