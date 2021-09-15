@@ -9,8 +9,5 @@
         new-alphabet (concat (drop ci alphabet) (take ci alphabet))]
     (nth new-alphabet ri)))
 
-(defn repeat-keyword [kword message]
-  (apply str (take (count message) (cycle kword))))
-
 (defn encode [kw msg]
-  (apply str (map lookup (repeat-keyword kw msg) msg)))
+  (apply str (map lookup (cycle kw) msg)))

@@ -1,7 +1,7 @@
 (ns alphabet-cipher.core-test
   (:require
    [clojure.test :refer [deftest testing is are]]
-   [alphabet-cipher.core :refer [repeat-keyword lookup encode]]))
+   [alphabet-cipher.core :refer [lookup encode]]))
 
 (deftest lookup-test
   (testing "basic case"
@@ -25,8 +25,3 @@
   (testing "example case"
     (is (= "egsgqwtahuiljgs"
            (encode "sconessconessconessco" "meetmebythetree")))))
-
-(deftest repeat-keyword-test
-  (testing "example case"
-    (is (= "sconessconessco"
-           (repeat-keyword "scones" "meetmebythetree")))))
