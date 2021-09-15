@@ -1,26 +1,30 @@
 (ns alphabet-cipher.core-test
-  (:require [midje.sweet :refer [future-facts fact facts =>]]
-            [alphabet-cipher.core :refer [encode]]))
+  (:require
+   [clojure.test :refer [deftest testing is]]
+   [alphabet-cipher.core :refer [encode repeat-keyword]]))
 
-(future-facts "can encode a message with a secret keyword"
-       (fact "vigilance"
-             (encode "vigilance" "meetmeontuesdayeveningatseven") => "hmkbxebpxpmyllyrxiiqtoltfgzzv"))
+(deftest encode-test
+  (testing "example case"
+    (are [kw msg expected] (= expected (encode kw msg))
+      "a" "a" "a"
+      "a" "b" "b"
+      "a" "c" "c"
+      "a" "z" "z"
+      "b" "a" "b"
+      "b" "b" "c")))
 
+(deftest example-case
+  (testing "example case"
+    (are [kw msg expected] (is (= expected (encode kw msg)))
+      "s" "m" "e"
+      "c" "e" "g"
+      "o" "e" "e"
+      "n" "t" "g"
+      "e" "m" "q"
+      "s" "e" "w"))
+  (is (= "egsgqwtahuiljgs"
+         (encode "sconessconessconessco" "meetmebythetree"))))
 
-(facts "silly"
-       (fact "nil"
-             (encode nil nil) => "")
-       (fact "empty"
-             (encode "" "") => ""))
-
-(facts "message with a keyword"
-       (fact "a a = a"
-             (encode "a" "a") => "a")
-       (fact "a b = b"
-             (encode "a" "b") => "b")
-       (fact "a c = b"
-             (encode "a" "c") => "c"))
-
-(facts "message with b keyword"
-       (fact "b" "a"
-             (encode "b" "a") => "b"))
+(deftest repeat-keyword-test
+  (is (= "sconessconessco"
+         (repeat-keyword "scones" "meetmebythetree"))))

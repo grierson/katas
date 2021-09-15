@@ -297,3 +297,5 @@ advent2019/target/
 LCDNumber/lcdnumber/target/default/stale/leiningen.core.classpath.extract-native-dependencies
 advent2020/.nrepl-port
 .vscode/settings.json
+/.cpcache/
+.gitignore.swp

@@ -10,13 +10,16 @@
         result (+ ci ri)]
     (get alpha-index result)))
 
-(find-char \b \a)
+(defn repeat-keyword [kword message]
+  (apply str (take (count message) (cycle kword))))
 
-(defn encode [keyword message]
-  (if (some? keyword)
-    (apply str (map find-char keyword message))
+(defn encode [kword message]
+  (if (some? kword)
+    (apply str (map find-char (repeat-keyword kword message) message))
     ""))
 
+
 (comment
-  (encode "b" "a") 
-  (encode "a" "c"))
+  "Keyword: sconessconessco"
+  "Message: meetmebythetree"
+  (encode "s" "m"))
