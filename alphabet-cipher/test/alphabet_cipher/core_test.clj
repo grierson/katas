@@ -1,30 +1,32 @@
 (ns alphabet-cipher.core-test
   (:require
-   [clojure.test :refer [deftest testing is]]
-   [alphabet-cipher.core :refer [encode repeat-keyword]]))
+   [clojure.test :refer [deftest testing is are]]
+   [alphabet-cipher.core :refer [repeat-keyword lookup encode]]))
+
+(deftest lookup-test
+  (testing "basic case"
+    (are [kw msg expected] (is (= expected (lookup kw msg)))
+      \a \a \a
+      \a \b \b
+      \a \c \c
+      \a \z \z
+      \b \a \b
+      \b \b \c))
+  (testing "example case"
+    (are [kw msg expected] (is (= expected (lookup kw msg)))
+      \s \m \e
+      \c \e \g
+      \o \e \s
+      \n \t \g
+      \e \m \q
+      \s \e \w)))
 
 (deftest encode-test
   (testing "example case"
-    (are [kw msg expected] (= expected (encode kw msg))
-      "a" "a" "a"
-      "a" "b" "b"
-      "a" "c" "c"
-      "a" "z" "z"
-      "b" "a" "b"
-      "b" "b" "c")))
-
-(deftest example-case
-  (testing "example case"
-    (are [kw msg expected] (is (= expected (encode kw msg)))
-      "s" "m" "e"
-      "c" "e" "g"
-      "o" "e" "e"
-      "n" "t" "g"
-      "e" "m" "q"
-      "s" "e" "w"))
-  (is (= "egsgqwtahuiljgs"
-         (encode "sconessconessconessco" "meetmebythetree"))))
+    (is (= "egsgqwtahuiljgs"
+           (encode "sconessconessconessco" "meetmebythetree")))))
 
 (deftest repeat-keyword-test
-  (is (= "sconessconessco"
-         (repeat-keyword "scones" "meetmebythetree"))))
+  (testing "example case"
+    (is (= "sconessconessco"
+           (repeat-keyword "scones" "meetmebythetree")))))

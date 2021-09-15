@@ -1,25 +1,16 @@
 (ns alphabet-cipher.core)
 
 (def alphabet "abcdefghijklmnopqrstuvwxyz")
-(def index-alpha (into {} (map-indexed (fn [i l] [l i]) alphabet)))
-(def alpha-index (into {} (map-indexed vector alphabet)))
+(def alpha-index (into {} (map-indexed (fn [i v] [v i]) alphabet)))
 
-(defn find-char [c m]
-  (let [ci (get index-alpha c)
-        ri (get index-alpha m)
-        result (+ ci ri)]
-    (get alpha-index result)))
+(defn lookup [c r]
+  (let [ci (get alpha-index c)
+        ri (get alpha-index r)
+        new-alphabet (concat (drop ci alphabet) (take ri alphabet))]
+    (nth new-alphabet ri)))
 
 (defn repeat-keyword [kword message]
   (apply str (take (count message) (cycle kword))))
 
-(defn encode [kword message]
-  (if (some? kword)
-    (apply str (map find-char (repeat-keyword kword message) message))
-    ""))
-
-
-(comment
-  "Keyword: sconessconessco"
-  "Message: meetmebythetree"
-  (encode "s" "m"))
+(defn encode [kw msg]
+  (apply str (map lookup (repeat-keyword kw msg) msg)))
