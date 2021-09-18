@@ -21,8 +21,12 @@ image::https://www.codewars.com/users/grierson/badges/large[codewars]
 
 == Completed
 
-* Alphabet Cipher
+* Wonderland Clojure Katas
+** Alphabet Cipher
 - https://github.com/gigasquid/wonderland-clojure-katas/tree/master/alphabet-cipher
+** Card Game War
+- https://github.com/gigasquid/wonderland-clojure-katas/tree/master/card-game-war
+
 * Bowling
 - https://codingdojo.org/kata/Bowling/
 * Mars rover
@@ -33,6 +37,7 @@ image::https://www.codewars.com/users/grierson/badges/large[codewars]
 - https://codingdojo.org/kata/RomanNumerals/
 * Word wrap
 - https://codingdojo.org/kata/WordWrap/
+
 
 
 
