@@ -4,7 +4,7 @@
    [card-game-war.core :refer [suits play-round ->Card play-game]]))
 
 (defn mc [v]
-  (->Card (first suits) v))
+  (->Card :hearts v))
 
 (deftest test-play-round
   (testing "the highest rank wins the cards in the round"
@@ -38,7 +38,12 @@
                 :player2 [low]}]
       (is (= {:player1 [high low]
               :player2 []}
-             (play-round game))))))
+             (play-round game)))))
+  (testing "hand over of cards with remaining cards"
+    (is (= {:player1 [(mc :K) (mc :Q) (mc 2)]
+            :player2 [(mc 3)]}
+           (play-round {:player1 [(mc :Q) (mc :K)]
+                        :player2 [(mc 2) (mc 3)]})))))
 
 (deftest test-play-game
   (testing "the player loses when they run out of cards"
