@@ -9,11 +9,14 @@
 (defn scan [numbers]
   (->> numbers
        (partition 2 1)
-       (map (fn [[x y]] (< x y)))
-       (count-if true?)))
+       (filter #(apply < %))
+       count))
 
 (defn scan2 [numbers]
-  (scan (map #(apply + %) (partition 3 1 numbers))))
+  (->> numbers
+       (partition 3 1)
+       (map #(apply + %))
+       scan))
 
 (comment
   (scan nums)
