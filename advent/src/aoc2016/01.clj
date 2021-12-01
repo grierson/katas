@@ -18,31 +18,42 @@
               \W {\L \S
                   \R \N}})
 
-(defn update-coords [[x y] facing steps]
-  (condp = facing
-    \N [x (- y steps)]
-    \E [(+ x steps) y]
-    \S [x (+ y steps)]
-    \W [(- x steps) y]))
+(defn move [{:keys [direction] :as state} steps]
+  (case direction
+    \N (update state :y + steps)
+    \E (update state :x + steps)
+    \S (update state :y - steps)
+    \W (update state :x - steps)))
 
-(defn update-state [[facing coords] [turning steps]]
-  (let [new-facing (get-in compass [facing turning])]
-    [new-facing (update-coords coords new-facing steps)]))
 
-(defn solve [[_ coords :as state] [h & t]]
-  (if h
-    (recur (update-state state h) t)
-    (apply + (map #(Math/abs %) coords))))
+(defn turn [direction turning]
+  (get-in compass [direction turning]))
 
-(defn solve2 [visited [_ coords :as state] [h & t]]
-  (if (contains? visited coords)
-    coords
-    (when h
-      (recur (conj visited coords) (update-state state h) t))))
+(defn update-state [state [turning steps]]
+  (-> state
+      (update :direction #(turn % turning))
+      (move steps)))
+
+(update-state {:direction \N :x 0 :y 0} [\R 3])
+
+(defn distance [{:keys [x y]}]
+  (+ (Math/abs x) (Math/abs y)))
+
+(defn solve [state guide]
+  (distance (reduce update-state state guide)))
+
+(defn move-log [{:keys [x y direction]} steps]
+  (case direction
+    \N #{[x y]
+         [x (+ 1 y)]
+         [x (+ 2 y)]}))
+
 
 (comment
   ;first
-  (solve [\N [0 0]] guide)
-  (solve2 #{} [\N [0 0]] guide))
+  (solve {:direction \N
+          :x         0
+          :y         0} guide)
+  (solve2 [\N [0 0]] guide))
 
 
