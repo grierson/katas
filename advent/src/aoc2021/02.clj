@@ -14,13 +14,26 @@
 (defn move [state [direction amount]]
   (case direction
     "forward" (update state :x + amount)
-    "up" (update state :z - amount)
+    "up" (-> state
+             (update :z - amount))
     "down" (update state :z + amount)))
 
-(defn solve [state steps]
-  (let [{:keys [x z]} (reduce move state steps)]
-    (* x z)))
+(defn apply-moves [state steps]
+  (reduce move state steps))
 
+(defn solve [{:keys [x z]}]
+  (* x z))
+
+(defn move2 [{:keys [aim] :as state} [direction amount]]
+  (case direction
+    "forward" (-> state
+                  (update :x + amount)
+                  (update :z + (* amount aim)))
+    "up" (update state :aim - amount)
+    "down" (update state :aim + amount)))
+
+(defn apply-moves2 [state steps]
+  (reduce move2 state steps))
 
 (comment
   (solve {:x 0 :z 0} (read-file sample))
