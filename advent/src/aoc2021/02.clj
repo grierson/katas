@@ -6,7 +6,7 @@
 (def sample "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2")
 (def file (slurp (io/resource "aoc2021/02.txt")))
 
-(defn read-file [data]
+(defn str->steps [data]
   (->> (str/split-lines data)
        (map #(str/split % #" "))
        (map (fn [[d s]] [d (parse-long s)]))))
@@ -40,7 +40,7 @@
    :aim aim})
 
 (comment
-  (solve (apply-moves (make-sub) (read-file sample)))
-  (solve (apply-moves (make-sub) (read-file file)))
-  (solve (apply-moves2 (make-sub) (read-file sample)))
-  (solve (apply-moves2 (make-sub) (read-file file))))
+  (solve (apply-moves (make-sub) (str->steps sample)))
+  (solve (apply-moves (make-sub) (str->steps file)))
+  (solve (apply-moves2 (make-sub) (str->steps sample)))
+  (solve (apply-moves2 (make-sub) (str->steps file))))
