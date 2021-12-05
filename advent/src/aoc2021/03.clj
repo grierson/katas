@@ -16,46 +16,38 @@
              "00010"
              "01010"])
 
-(defn read-column [column rows]
-  (map (comp parse-long str #(nth % column)) rows))
+(defn number->list [numbers]
+  (map (comp parse-long str) numbers))
 
-(defn get-gamma-bit [column]
-  (let [freq (frequencies column)
-        zeros (get freq 0)
-        ones (get freq 1)]
-    (if (< zeros ones)
-      1
-      0)))
+(defn report->data [report]
+  (map number->list report))
 
-(defn get-epsilon-bit [column]
-  (let [freq (frequencies column)
-        zeros (get freq 0)
-        ones (get freq 1)]
-    (if (> zeros ones)
-      1
-      0)))
+(defn read-column [column report]
+  (map #(nth % column) report))
 
-(defn gamma [bits]
-  (let [amt (count (first bits))]
+(defn get-rate-bit [f column]
+  (let [freq (frequencies column)]
+    (key (apply f val freq))))
+
+(def get-gamma-bit (partial get-rate-bit max-key))
+(def get-epsilon-bit (partial get-rate-bit min-key))
+
+(defn get-rate [f report]
+  (let [amt (count (first report))]
     (->> (range amt)
-         (map #(read-column % bits))
-         (map get-gamma-bit)
-         (apply str))))
+         (map #(read-column % report))
+         (map f))))
 
-(defn epsilon [bits]
-  (let [amt (count (first bits))]
-    (->> (range amt)
-         (map #(read-column % bits))
-         (map get-epsilon-bit)
-         (apply str))))
-
+(def gamma (partial get-rate get-gamma-bit))
+(def epsilon (partial get-rate get-epsilon-bit))
 
 (defn binary->decimal [binary]
   (Integer/parseInt binary 2))
 
-(defn solve [bits]
-  (let [g (gamma bits)
-        e (epsilon bits)]
+(defn solve [report]
+  (let [report (report->data report)
+        g (apply str (gamma report))
+        e (apply str (epsilon report))]
     (* (binary->decimal g) (binary->decimal e))))
 
 (comment
