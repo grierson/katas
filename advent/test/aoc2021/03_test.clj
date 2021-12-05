@@ -41,23 +41,23 @@
 (deftest get-gamma-bit-test
   (testing "gamma first column"
     (is (= 1
-           (get-gamma-bit (read-column 0 sample-report)))))
+           (get-most-recurring (read-column 0 sample-report)))))
 
   (testing "gamma second column"
     (is (= 0
-           (get-gamma-bit (read-column 1 sample-report)))))
+           (get-most-recurring (read-column 1 sample-report)))))
 
   (testing "gamma third column"
     (is (= 1
-           (get-gamma-bit (read-column 2 sample-report)))))
+           (get-most-recurring (read-column 2 sample-report)))))
 
   (testing "gamma fourth column"
     (is (= 1
-           (get-gamma-bit (read-column 3 sample-report)))))
+           (get-most-recurring (read-column 3 sample-report)))))
 
   (testing "gamma fifth column"
     (is (= 0
-           (get-gamma-bit (read-column 4 sample-report))))))
+           (get-most-recurring (read-column 4 sample-report))))))
 
 
 (deftest gamma-test
@@ -88,10 +88,9 @@
            (epsilon sample-report)))))
 
 (deftest solve-test
-  (testing "sample-report"
+  (testing "Solve problem 1 sample case"
     (is (= 198
            (solve sample)))))
-
 
 (deftest oxygen-test
   (let [o1 [[1 1 1 1 0]

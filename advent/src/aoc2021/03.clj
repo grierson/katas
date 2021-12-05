@@ -28,21 +28,21 @@
 (defn read-column [column report]
   (map #(nth % column) report))
 
-(defn get-rate-bit [f column]
+(defn get-frequencies [f column]
   (let [freq (frequencies column)]
     (key (apply f val freq))))
 
-(def get-gamma-bit (partial get-rate-bit max-key))
-(def get-epsilon-bit (partial get-rate-bit min-key))
+(def get-most-recurring (partial get-frequencies max-key))
+(def get-least-recurring (partial get-frequencies min-key))
 
-(defn get-rate [f report]
-  (let [amt (count (first report))]
-    (->> (range amt)
+(defn get-recurring [f report]
+  (let [columns (count (first report))]
+    (->> (range columns)
          (map #(read-column % report))
          (map f))))
 
-(def gamma (partial get-rate get-gamma-bit))
-(def epsilon (partial get-rate get-epsilon-bit))
+(def gamma (partial get-recurring get-most-recurring))
+(def epsilon (partial get-recurring get-least-recurring))
 
 (defn solve [report]
   (let [report (report->data report)
@@ -50,23 +50,23 @@
         e (apply str (epsilon report))]
     (* (binary->decimal g) (binary->decimal e))))
 
-(defn get-most-common [f report column]
+(defn filter-occurring [f report column]
   (let [column-data (read-column column report)
         most-common (f column-data)]
     (filter (fn [coll] (= (nth coll column) most-common)) report)))
 
-(def oxygen (partial get-most-common get-gamma-bit))
-(def co2 (partial get-most-common get-epsilon-bit))
+(def oxygen (partial filter-occurring get-most-recurring))
+(def co2 (partial filter-occurring get-least-recurring))
 
-(defn get-amount
-  ([f report] (get-amount f report 0))
+(defn get-final
+  ([f report] (get-final f report 0))
   ([f report column]
    (if (= 1 (count report))
      (first report)
      (recur f (f report column) (inc column)))))
 
-(def get-oxygen (partial get-amount oxygen))
-(def get-co2 (partial get-amount co2))
+(def get-oxygen (partial get-final oxygen))
+(def get-co2 (partial get-final co2))
 
 (defn solve2 [report]
   (let [report (report->data report)
