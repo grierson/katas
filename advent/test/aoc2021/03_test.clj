@@ -158,7 +158,16 @@
              (co2 c1 1))))
     (testing "Third column has equal amount so filter the ones"
       (is (= c3
-             (co2 c2 2))))))
+             (co2 c2 2))))
+
+    (testing "equal amount of ones and zeros"
+      (testing "order"
+        (testing "Zero before one"
+          (is (= [[0]]
+                 (co2 [[0] [1]]))))
+        (testing "Zero after one"
+          (is (= [[0]]
+                 (co2 [[1] [0]]))))))))
 
 (deftest get-oxygen-test
   (is (= [1 0 1 1 1]

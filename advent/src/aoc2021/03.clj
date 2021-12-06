@@ -28,12 +28,18 @@
 (defn read-column [column report]
   (map #(nth % column) report))
 
-(defn get-frequencies [f column]
-  (let [freq (frequencies column)]
-    (key (apply f val freq))))
+(defn get-frequencies [f keeping column]
+  (let [freq (frequencies column)
+        zeros (get freq 0 nil)
+        ones (get freq 1 nil)]
+    (cond
+      (nil? zeros) 1
+      (nil? ones) 0
+      (= zeros ones) keeping
+      :else (key (apply f val freq)))))
 
-(def get-most-recurring (partial get-frequencies max-key))
-(def get-least-recurring (partial get-frequencies min-key))
+(def get-most-recurring (partial get-frequencies max-key 1))
+(def get-least-recurring (partial get-frequencies min-key 0))
 
 (defn get-recurring [f report]
   (let [columns (count (first report))]
@@ -81,7 +87,4 @@
   (solve sample)
   (solve file)
   (solve2 sample)
-  (solve2 file)                                             ;; Should be less than 2840283
-  (def fdata (report->data file))
-  (get-oxygen fdata)
-  (get-co2 fdata))
+  (solve2 file))
