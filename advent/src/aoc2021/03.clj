@@ -50,10 +50,13 @@
         e (apply str (epsilon report))]
     (* (binary->decimal g) (binary->decimal e))))
 
-(defn filter-occurring [f report column]
-  (let [column-data (read-column column report)
-        most-common (f column-data)]
-    (filter (fn [coll] (= (nth coll column) most-common)) report)))
+(defn filter-occurring
+  ([f report]
+   (filter-occurring f report 0))
+  ([f report column]
+   (let [column-data (read-column column report)
+         most-common (f column-data)]
+     (filter (fn [coll] (= (nth coll column) most-common)) report))))
 
 (def oxygen (partial filter-occurring get-most-recurring))
 (def co2 (partial filter-occurring get-least-recurring))
@@ -78,7 +81,7 @@
   (solve sample)
   (solve file)
   (solve2 sample)
-  (solve2 file) ;; Should be less than 2840283
+  (solve2 file)                                             ;; Should be less than 2840283
   (def fdata (report->data file))
   (get-oxygen fdata)
   (get-co2 fdata))

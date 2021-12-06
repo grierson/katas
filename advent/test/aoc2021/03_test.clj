@@ -129,7 +129,16 @@
 
     (testing "Fifth column has even amount of ones and zeros so only keeps ones"
       (is (= o5
-             (oxygen o4 4))))))
+             (oxygen o4 4))))
+
+    (testing "equal amount of ones and zeros"
+      (testing "order"
+        (testing "One before zero"
+          (is (= [[1]]
+                 (oxygen [[1] [0]]))))
+        (testing "One after zero"
+          (is (= [[1]]
+                 (oxygen [[0] [1]]))))))))
 
 
 (deftest co2-test
