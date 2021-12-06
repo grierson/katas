@@ -1,4 +1,6 @@
-# advent
+# Advent of code
+
+* Mainly Clojure and TDD
 
 https://adventofcode.com/
 
