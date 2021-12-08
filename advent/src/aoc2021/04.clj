@@ -12,8 +12,6 @@
 (defn data->boards [board]
   (map data->board (map #(re-seq #"\d+" %) board)))
 
-(def data (str/split-lines sample))
-
 (defn input->data [input]
   (let [data (str/split-lines input)
         numbers (str/split (first data) #",")
@@ -50,3 +48,8 @@
        (remove :marked?)
        (map :number)
        (apply +)))
+
+(comment
+  (def boards (:boards (input->data sample)))
+  (def numbers (:numbers (input->data sample)))
+  (reduce mark-board boards numbers))
