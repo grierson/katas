@@ -60,6 +60,11 @@
 
 (deftest solve-test
   (let [game (data->game sample)]
-    (testing "calling numbers"
+    (testing "Find first winner"
       (is (= 4512
-             (solve (call-numbers game)))))))
+             (solve (call-numbers game)))))
+
+    (testing "Find last winner winner"
+      (is (= 1924
+             (solve (find-losing-board game)))))))
+

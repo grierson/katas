@@ -60,9 +60,24 @@
          :board  bingo}
         (recur xs new-state)))))
 
+(defn find-losing-board [game]
+  (loop [game-state game]
+    (let [{:keys [numbers boards]} game-state
+          [x & xs] numbers
+          new-board-state (map (fn [board] (mark-board board x)) boards)
+          bingos (remove bingo? new-board-state)
+          new-game-state {:boards  bingos
+                          :numbers xs}]
+      (if (= 1 (count bingos))
+        (call-numbers new-game-state)
+        (recur new-game-state)))))
+
 (defn solve [{:keys [board number]}]
-  (* (total board) number))
+  (let [value (total board)]
+    (* value number)))
 
 (comment
   (solve (call-numbers (data->game sample)))
-  (solve (call-numbers (data->game file))))
+  (solve (call-numbers (data->game file)))
+  (solve (find-losing-board (data->game sample)))
+  (solve (find-losing-board (data->game file))))
