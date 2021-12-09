@@ -50,7 +50,6 @@
                  {:marked? true, :number 8} {:marked? false :number 2}]]
       (is (true? (bingo? board))))))
 
-
 (deftest total-bingo-board-test
   (testing "total all the none marked numbers on a winning bingo board"
     (let [board [{:marked? true, :number 22} {:marked? false :number 13}

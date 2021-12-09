@@ -50,27 +50,27 @@
        (map :number)
        (apply +)))
 
-(defn call-numbers [{:keys [numbers boards]}]
-  (loop [[x & xs] numbers
-         state boards]
-    (let [new-state (map (fn [board] (mark-board board x)) state)
-          bingo (first (filter bingo? new-state))]
-      (if bingo
-        {:number x
-         :board  bingo}
-        (recur xs new-state)))))
+(defn update-game [{:keys [numbers boards]}]
+  (let [[x & xs] numbers]
+    {:numbers xs
+     :boards (map (fn [board] (mark-board board x)) boards)}))
+
+(defn call-numbers [{:keys [numbers] :as game}]
+  (let [[x & _] numbers
+        {:keys [boards] :as next-game} (update-game game)]
+    (if-let [bingo (first (filter bingo? boards))]
+      {:number x
+       :board  bingo}
+      (recur next-game))))
+
+(defn remove-bingos [game]
+  (update game :boards #(remove bingo? %)))
 
 (defn find-losing-board [game]
-  (loop [game-state game]
-    (let [{:keys [numbers boards]} game-state
-          [x & xs] numbers
-          new-board-state (map (fn [board] (mark-board board x)) boards)
-          bingos (remove bingo? new-board-state)
-          new-game-state {:boards  bingos
-                          :numbers xs}]
-      (if (= 1 (count bingos))
-        (call-numbers new-game-state)
-        (recur new-game-state)))))
+  (let [next-game (remove-bingos (update-game game))]
+    (if (= 1 (count (:boards next-game)))
+      (call-numbers next-game)
+      (recur next-game))))
 
 (defn solve [{:keys [board number]}]
   (let [value (total board)]
