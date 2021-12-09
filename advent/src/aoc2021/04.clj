@@ -67,8 +67,8 @@
   (update game :boards #(remove bingo? %)))
 
 (defn find-losing-board [game]
-  (let [next-game (remove-bingos (update-game game))]
-    (if (= 1 (count (:boards next-game)))
+  (let [{:keys [boards] :as next-game} (remove-bingos (update-game game))]
+    (if (= 1 (count boards))
       (call-numbers next-game)
       (recur next-game))))
 
