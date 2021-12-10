@@ -1,7 +1,8 @@
 (ns aoc2021.05
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io]))
 
-(def sample "0,9 -> 5,9\n8,0 -> 0,8\n9,4 -> 3,4\n2,2 -> 2,1\n7,0 -> 7,4\n6,4 -> 2,0\n0,9 -> 2,9\n3,4 -> 1,4\n0,0 -> 8,8\n5,5 -> 8,2")
+(def sample (str/split-lines "0,9 -> 5,9\n8,0 -> 0,8\n9,4 -> 3,4\n2,2 -> 2,1\n7,0 -> 7,4\n6,4 -> 2,0\n0,9 -> 2,9\n3,4 -> 1,4\n0,0 -> 8,8\n5,5 -> 8,2"))
 
 
 (defn data->line [data]
@@ -31,3 +32,14 @@
               (assoc state point 1)))
           log
           line))
+
+(def file (str/split-lines (slurp (io/resource "aoc2021/05.txt"))))
+(comment
+  (count (filter
+           #(> (second %) 1)
+           (reduce (fn [state x]
+                     (log-line state (draw-line x))) {} (data->lines sample))))
+  (count (filter
+           #(> (second %) 1)
+           (reduce (fn [state x]
+                     (log-line state (draw-line x))) {} (data->lines file)))))
