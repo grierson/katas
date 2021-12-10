@@ -20,8 +20,25 @@
   (testing "draw column"
     (is (= [[1 1] [1 2] [1 3]]
            (draw-line [[1 1] [1 3]]))))
+  (testing "draw column when starting point is larger"
+    (is (= [[1 3] [1 2] [1 1]]
+           (draw-line [[1 3] [1 1]]))))
   (testing "draw row"
     (is (= [[1 1] [2 1] [3 1]]
            (draw-line [[1 1] [3 1]]))))
-  (is (= [[9 7] [8 7] [7 7]]
-         (draw-line [[9 7] [7 7]]))))
+  (testing "draw row when starting point is big"
+    (is (= [[3 1] [2 1] [1 1]]
+           (draw-line [[3 1] [1 1]]))))
+  (testing "draw example"
+    (is (= [[1 1] [1 2] [1 3]]
+           (draw-line [[1 1] [1 3]])))
+    (is (= [[9 7] [8 7] [7 7]]
+           (draw-line [[9 7] [7 7]])))))
+
+(deftest log-line-test
+  (testing "add points to log"
+    (is (= {[1 1] 1}
+           (log-line {} [[1 1]]))))
+  (testing "increment point in log"
+    (is (= {[1 1] 2}
+           (log-line {[1 1] 1} [[1 1]])))))

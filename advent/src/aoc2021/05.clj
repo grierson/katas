@@ -13,9 +13,21 @@
 (defn draw-line [[[x1 y1] [x2 y2]]]
   (let [column? (= x1 x2)]
     (if column?
-      (map #(vector x1 %) (range y1 (inc y2)))
+      (let [[low big] ((juxt min max) y1 y2)
+            line (map #(vector x1 %) (range low (inc big)))]
+        (if (< y1 y2)
+          line
+          (reverse line)))
       (let [[low big] ((juxt min max) x1 x2)
             line (map #(vector % y1) (range low (inc big)))]
         (if (< x1 x2)
           line
           (reverse line))))))
+
+(defn log-line [log line]
+  (reduce (fn [state point]
+            (if (contains? state point)
+              (update state point inc)
+              (assoc state point 1)))
+          log
+          line))
