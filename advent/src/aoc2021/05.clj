@@ -9,3 +9,13 @@
 
 (defn data->lines [data]
   (map data->line data))
+
+(defn draw-line [[[x1 y1] [x2 y2]]]
+  (let [column? (= x1 x2)]
+    (if column?
+      (map #(vector x1 %) (range y1 (inc y2)))
+      (let [[low big] ((juxt min max) x1 x2)
+            line (map #(vector % y1) (range low (inc big)))]
+        (if (< x1 x2)
+          line
+          (reverse line))))))
