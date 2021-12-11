@@ -2,9 +2,6 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
-(def sample (str/split-lines "0,9 -> 5,9\n8,0 -> 0,8\n9,4 -> 3,4\n2,2 -> 2,1\n7,0 -> 7,4\n6,4 -> 2,0\n0,9 -> 2,9\n3,4 -> 1,4\n0,0 -> 8,8\n5,5 -> 8,2"))
-
-
 (defn data->line [data]
   (partition 2 (map parse-long (re-seq #"\d+" data))))
 
@@ -33,13 +30,23 @@
           log
           line))
 
-(def file (str/split-lines (slurp (io/resource "aoc2021/05.txt"))))
+(defn count-overlaps [grid]
+  (count (filter #(> (second %) 1) grid)))
+
+(defn diagonal? [[[x1 y1] [x2 y2]]]
+  (and (not= x1 x2) (not= y1 y2)))
+
+(def sample (data->lines (str/split-lines "0,9 -> 5,9\n8,0 -> 0,8\n9,4 -> 3,4\n2,2 -> 2,1\n7,0 -> 7,4\n6,4 -> 2,0\n0,9 -> 2,9\n3,4 -> 1,4\n0,0 -> 8,8\n5,5 -> 8,2")))
+(def file (data->lines (str/split-lines (slurp (io/resource "aoc2021/05.txt")))))
+
 (comment
-  (count (filter
-           #(> (second %) 1)
-           (reduce (fn [state x]
-                     (log-line state (draw-line x))) {} (data->lines sample))))
-  (count (filter
-           #(> (second %) 1)
-           (reduce (fn [state x]
-                     (log-line state (draw-line x))) {} (data->lines file)))))
+  (count-overlaps
+    (reduce (fn [state x]
+              (let [line (draw-line x)]
+                (log-line state line))) {} (remove diagonal? sample)))
+  (count-overlaps
+    (reduce (fn [state x]
+              (log-line state (draw-line x))) {} (remove diagonal? file)))
+  (count-overlaps
+    (reduce (fn [state x]
+              (log-line state (draw-line x))) {} file)))

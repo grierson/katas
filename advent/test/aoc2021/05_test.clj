@@ -42,3 +42,6 @@
   (testing "increment point in log"
     (is (= {[1 1] 2}
            (log-line {[1 1] 1} [[1 1]])))))
+
+(deftest diagonal?-test
+  (is (true? (diagonal? [[0 0] [1 1]]))))
