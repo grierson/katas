@@ -22,13 +22,15 @@
                      (if (< x1 x2)
                        line
                        (reverse line)))
-      :else (let [p1-smaller? (< (apply + p1) (apply + p2))
-                  [sx sy] (if p1-smaller? p1 p2)
-                  [bx by] (if p1-smaller? p2 p1)
-                  line (map #(vector % %) (range sy (inc by)))]
-              (if p1-smaller?
-                line
-                (reverse line))))))
+      :else
+      (if-let [p1-smaller? (< (apply + p1) (apply + p2))]
+        (let [[sx sy] (if p1-smaller? p1 p2)
+              [bx by] (if p1-smaller? p2 p1)
+              line (map #(vector % %) (range sy (inc by)))]
+          (if p1-smaller?
+            line
+            (reverse line)))
+        10))))
 
 (defn log-line [log line]
   (reduce (fn [state point]

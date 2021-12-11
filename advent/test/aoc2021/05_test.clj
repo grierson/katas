@@ -32,14 +32,14 @@
         (is (= [[3 1] [2 1] [1 1]]
                (draw-line [[3 1] [1 1]]))))))
   (testing "draw diagonal"
-    (testing "down and right diagonal"
+    (testing "down diagonal"
       (testing "simple case"
         (is (= [[0 0] [1 1]]
                (draw-line [[0 0] [1 1]]))))
       (testing "first point is larger than second"
         (is (= [[1 1] [0 0]]
                (draw-line [[1 1] [0 0]])))))
-    (testing "upwards directional"
+    (testing "upwards diagonal"
       (testing "simple case"
         (is (= [[0 1] [1 0]]
                (draw-line [[0 1] [1 0]])))))))
