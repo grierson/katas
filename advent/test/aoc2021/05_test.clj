@@ -17,23 +17,37 @@
                        "8,0 -> 0,8"]))))
 
 (deftest draw-line-test
-  (testing "draw column"
-    (is (= [[1 1] [1 2] [1 3]]
-           (draw-line [[1 1] [1 3]]))))
-  (testing "draw column when starting point is larger"
-    (is (= [[1 3] [1 2] [1 1]]
-           (draw-line [[1 3] [1 1]]))))
+  (testing "drawing columns"
+    (testing "simple case"
+      (is (= [[1 1] [1 2] [1 3]]
+             (draw-line [[1 1] [1 3]]))))
+    (testing "first point is larger than second point"
+      (is (= [[1 3] [1 2] [1 1]]
+             (draw-line [[1 3] [1 1]])))))
   (testing "draw row"
-    (is (= [[1 1] [2 1] [3 1]]
-           (draw-line [[1 1] [3 1]]))))
-  (testing "draw row when starting point is big"
-    (is (= [[3 1] [2 1] [1 1]]
-           (draw-line [[3 1] [1 1]]))))
-  (testing "draw example"
-    (is (= [[1 1] [1 2] [1 3]]
-           (draw-line [[1 1] [1 3]])))
-    (is (= [[9 7] [8 7] [7 7]]
-           (draw-line [[9 7] [7 7]])))))
+    (testing "simple case"
+      (is (= [[1 1] [2 1] [3 1]]
+             (draw-line [[1 1] [3 1]])))
+      (testing "first point is bigger than second point"
+        (is (= [[3 1] [2 1] [1 1]]
+               (draw-line [[3 1] [1 1]]))))))
+  (testing "draw diagonal"
+    (testing "down and right diagonal"
+      (testing "simple case"
+        (is (= [[0 0] [1 1]]
+               (draw-line [[0 0] [1 1]]))))
+      (testing "first point is larger than second"
+        (is (= [[1 1] [0 0]]
+               (draw-line [[1 1] [0 0]])))))
+    (testing "upwards directional"
+      (testing "simple case"
+        (is (= [[0 1] [1 0]]
+               (draw-line [[0 1] [1 0]])))))))
+(testing "example cases"
+  (is (= [[1 1] [1 2] [1 3]]
+         (draw-line [[1 1] [1 3]])))
+  (is (= [[9 7] [8 7] [7 7]]
+         (draw-line [[9 7] [7 7]]))))
 
 (deftest log-line-test
   (testing "add points to log"

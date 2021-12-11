@@ -8,19 +8,27 @@
 (defn data->lines [data]
   (map data->line data))
 
-(defn draw-line [[[x1 y1] [x2 y2]]]
-  (let [column? (= x1 x2)]
-    (if column?
-      (let [[low big] ((juxt min max) y1 y2)
-            line (map #(vector x1 %) (range low (inc big)))]
-        (if (< y1 y2)
-          line
-          (reverse line)))
-      (let [[low big] ((juxt min max) x1 x2)
-            line (map #(vector % y1) (range low (inc big)))]
-        (if (< x1 x2)
-          line
-          (reverse line))))))
+(defn draw-line [[[x1 y1 :as p1] [x2 y2 :as p2]]]
+  (let [column? (= x1 x2)
+        row? (= y1 y2)]
+    (cond
+      (true? column?) (let [[low big] ((juxt min max) y1 y2)
+                            line (map #(vector x1 %) (range low (inc big)))]
+                        (if (< y1 y2)
+                          line
+                          (reverse line)))
+      (true? row?) (let [[low big] ((juxt min max) x1 x2)
+                         line (map #(vector % y1) (range low (inc big)))]
+                     (if (< x1 x2)
+                       line
+                       (reverse line)))
+      :else (let [p1-smaller? (< (apply + p1) (apply + p2))
+                  [sx sy] (if p1-smaller? p1 p2)
+                  [bx by] (if p1-smaller? p2 p1)
+                  line (map #(vector % %) (range sy (inc by)))]
+              (if p1-smaller?
+                line
+                (reverse line))))))
 
 (defn log-line [log line]
   (reduce (fn [state point]
