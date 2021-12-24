@@ -35,19 +35,12 @@
     (testing "down diagonal"
       (testing "simple case"
         (is (= [[0 0] [1 1]]
-               (draw-line [[0 0] [1 1]]))))
-      (testing "first point is larger than second"
-        (is (= [[1 1] [0 0]]
-               (draw-line [[1 1] [0 0]])))))
-    (testing "upwards diagonal"
-      (testing "simple case"
-        (is (= [[0 1] [1 0]]
-               (draw-line [[0 1] [1 0]])))))))
-(testing "example cases"
-  (is (= [[1 1] [1 2] [1 3]]
-         (draw-line [[1 1] [1 3]])))
-  (is (= [[9 7] [8 7] [7 7]]
-         (draw-line [[9 7] [7 7]]))))
+               (draw-line [[0 0] [1 1]])))))
+    (testing "example cases"
+      (is (= [[1 1] [1 2] [1 3]]
+             (draw-line [[1 1] [1 3]])))
+      (is (= [[9 7] [8 7] [7 7]]
+             (draw-line [[9 7] [7 7]]))))))
 
 (deftest log-line-test
   (testing "add points to log"

@@ -8,20 +8,19 @@
 (defn data->lines [data]
   (map data->line data))
 
+(defn orientation-draw-line [orientation a b]
+  (let [[small big] ((juxt min max) a b)
+        line (map orientation (range small (inc big)))]
+    (if (< a b)
+      line
+      (reverse line))))
+
 (defn draw-line [[[x1 y1 :as p1] [x2 y2 :as p2]]]
   (let [column? (= x1 x2)
         row? (= y1 y2)]
     (cond
-      (true? column?) (let [[low big] ((juxt min max) y1 y2)
-                            line (map #(vector x1 %) (range low (inc big)))]
-                        (if (< y1 y2)
-                          line
-                          (reverse line)))
-      (true? row?) (let [[low big] ((juxt min max) x1 x2)
-                         line (map #(vector % y1) (range low (inc big)))]
-                     (if (< x1 x2)
-                       line
-                       (reverse line)))
+      (true? column?)  (orientation-draw-line #(vector x1 %) y1 y2)
+      (true? row?) (orientation-draw-line #(vector % y1) x1 x2)
       :else
       (if-let [p1-smaller? (< (apply + p1) (apply + p2))]
         (let [[sx sy] (if p1-smaller? p1 p2)
