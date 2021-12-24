@@ -1,4 +1,5 @@
-(ns aoc2021.06)
+(ns aoc2021.06
+  (:require [clojure.java.io :as io]))
 
 (def sample [3 4 3 1 2])
 (def day1 [2 3 2 0 1])
@@ -14,9 +15,6 @@
           (conj 8))
       (update state index dec))))
 
-(def state [1])
-(def days 1)
-
 (defn calculate [state days]
   (loop [state state
          days days]
@@ -25,3 +23,9 @@
       (recur
         (reduce update-state state (range (count state)))
         (dec days)))))
+
+
+(comment
+  (count (calculate sample 18))
+  (def file (mapv parse-long (re-seq #"\d+" (slurp (io/resource "aoc2021/06.txt")))))
+  (count (calculate file 80)))
