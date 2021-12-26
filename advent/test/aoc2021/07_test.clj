@@ -28,5 +28,31 @@
 
 
 (deftest execute-test
-  (is (= 37
-         (execute sample))))
+  (testing "sample"
+    (is (= 37
+           (execute sample)))))
+
+
+(deftest fuel2-test
+  (testing "samples"
+    (is (= 66
+           (fuel2 16 5)))
+    (is (= 10
+           (fuel2 1 5)))
+    (is (= 6
+           (fuel2 2 5)))
+    (is (= 15
+           (fuel2 0 5)))))
+
+(deftest plan2-test
+  (testing "sample"
+    (is (= 168
+           (plan2 sample 5))))
+  (testing "original sample with fuel 2"
+    (is (= 206
+           (plan2 sample 2)))))
+
+(deftest execute2-test
+  (testing "sample"
+    (is (= 168
+           (execute2 sample)))))
