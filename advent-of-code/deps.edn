@@ -1,13 +1,15 @@
-{:paths   ["src" "resources"]
- :deps    {org.clojure/clojure {:mvn/version "1.11.0-alpha4"}}
+{:paths ["src" "resources"]
+ :deps  {org.clojure/clojure {:mvn/version "1.11.0-alpha4"}}
 
- :aliases {
-           :test {
-                  :extra-paths ["test"]
-                  :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}
-                                io.github.cognitect-labs/test-runner
-                                {:git/url "https://github.com/cognitect-labs/test-runner.git"
-                                 :sha     "9e35c979860c75555adaff7600070c60004a0f44"}}
-                  :main-opts   ["-m" "cognitect.test-runner"]
-                  :exec-fn     cognitect.test-runner.api/test}}}
+ :aliases
+ {:test       {:extra-paths ["test"]
+               :extra-deps  {lambdaisland/kaocha    {:mvn/version "1.60.977"}
+                             org.clojure/test.check {:mvn/version "1.1.1"}}
+               :exec-fn     kaocha.runner/exec-fn
+               :exec-args   {}}
+  :watch-test {:extra-deps {lambdaisland/kaocha {:mvn/version "1.60.977"}}
+               :exec-fn    kaocha.runner/exec-fn
+               :exec-args  {:watch?     true
+                            :skip-meta  :slow
+                            :fail-fast? true}}}}
 
