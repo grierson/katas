@@ -1,5 +1,6 @@
 {:paths ["src" "resources"]
- :deps  {org.clojure/clojure {:mvn/version "1.11.0-alpha4"}}
+ :deps  {org.clojure/clojure    {:mvn/version "1.11.0-alpha4"}
+         org.clj-commons/digest {:mvn/version "1.4.100"}}
 
  :aliases
  {:test       {:extra-paths ["test"]
