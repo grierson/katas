@@ -24,6 +24,15 @@
 (defn solve1 [lines]
   (count (filter nice? lines)))
 
+(defn seperated-pair? [line]
+  (true? (some (fn [[a _ b]] (= a b)) (partition 3 1 line))))
+
+(defn two-pairs? [line]
+  (frequencies (partition 2 1 line)))
+
+(two-pairs? "aaabcdefgaa")
+
+
 (comment
   (def data (str/split-lines (slurp (io/resource "aoc2015/05.txt")))))
 
