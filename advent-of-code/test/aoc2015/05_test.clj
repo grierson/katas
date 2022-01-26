@@ -71,13 +71,26 @@
     (is (true? (seperated-pair? "xxyxx")))
     (is (true? (seperated-pair? "ieodomkazucvgmuy")))))
 
+(deftest matching-pair-not-duplicated-test
+  (is (false? (matching-pair-not-duplicated [[0 \a] [1 \a]] [[1 \a] [2 \a]])))
+  (is (false? (matching-pair-not-duplicated [[0 \a] [1 \a]] [[2 \b] [3 \b]])))
+  (is (true? (matching-pair-not-duplicated [[0 \a] [1 \a]] [[2 \a] [3 \a]]))))
 
 (deftest two-pairs?-test
   (testing "invalid"
     (is (false? (two-pairs? nil)))
     (is (false? (two-pairs? "")))
     (is (false? (two-pairs? "a")))
-    (is (false? (two-pairs? "ab")))
-    (is (false? (two-pairs? "aba")))
-    (is (false? (two-pairs? "aaa")) "second a duplicated across both pairs")
-    (is (true? (two-pairs? "abab")))))
+    (is (false? (two-pairs? "aa")))
+    (is (false? (two-pairs? "aaa")) "second 'a' is duplicated across both pairs"))
+  (testing "valid"
+    (is (true? (two-pairs? "aaaa")))
+    (is (true? (two-pairs? "xyxy")))
+    (is (true? (two-pairs? "abxyxy")))))
+
+
+(deftest nice2?-test
+  (is (true? (nice2? "qjhvhtzxzqqjkmpb")))
+  (is (true? (nice2? "xxyxx")))
+  (is (false? (nice2? "uurcxstgmygtbstg")))
+  (is (false? (nice2? "ieodomkazucvgmuy"))))
