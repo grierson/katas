@@ -1,0 +1,39 @@
+= Days 6
+
+== Attempt one
+
+Map every light within a 2d array like a grid system
+
+[source,clojure]
+----
+[[true false true]
+ [false false true]
+ [false false false]]
+----
+
+`get-in` to read index
+`update-in` to set index
+
+* [0 0] = true
+* [1 1] = false
+* [2 2] = false
+* [1 2] = true
+
+Then flatten and count the amount of true values
+
+== Result
+
+[source,clojure]
+----
+(time (amount-on (reduce update-state (make-grid 1000 1000) data)))
+"Elapsed time: 6052.091546 msecs"
+=> 377891
+----
+
+Takes 6 seconds, can we improve it?
+
+== Attempt two
+
+Store every index within a set then just count the set
+
+
