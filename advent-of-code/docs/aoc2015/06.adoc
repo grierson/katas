@@ -1,6 +1,10 @@
 = Days 6
 
-== Attempt one
+== Part 1
+
+Turn on lights
+
+=== Attempt one
 
 Map every light within a 2d array like a grid system
 
@@ -21,8 +25,9 @@ Map every light within a 2d array like a grid system
 
 Then flatten and count the amount of true values
 
-== Result
+==== Result
 
+.06_1.clj
 [source,clojure]
 ----
 (time (amount-on (reduce update-state (make-grid 1000 1000) data)))
@@ -32,8 +37,55 @@ Then flatten and count the amount of true values
 
 Takes 6 seconds, can we improve it?
 
-== Attempt two
+=== Attempt two - Use set
 
-Store every index within a set then just count the set
+Keep all turned on light within a set and just count the set.
 
+* Turn on = `set/union`
+* Turn off = `set/difference`
+* Toggle = `turn on` and `turn off`
 
+==== Result
+
+I've managed to make the performance much worse!
+But used less code by using `clojure.set`
+
+.06_2.clj
+[source,clojure]
+----
+(time (amount-on (reduce update-state (make-grid 1000 1000) data)))
+"Elapsed time: 24000.103346 msecs"
+=> 377891
+----
+
+== Part 2
+
+* Toggle on = + 1
+* Toggle off = - 1 (minimum of 0)
+* Toggle = + 2
+
+=== Attempt 1 - One big hashmap
+
+Store each index in hash map and add/sub from that key
+
+.Plan
+[source,clojure]
+----
+(def state {[0 0] 2
+            [0 1] 9
+            [0 2] 0})
+
+(reduce + (vals state))
+----
+
+==== Result
+
+Slow but it works
+
+.06_3.clj
+[source,clojure]
+----
+(time (total (reduce update-state {} data)))
+"Elapsed time: 25717.341518 msecs"
+=> 14110788
+----
