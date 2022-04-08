@@ -299,3 +299,6 @@ advent2020/.nrepl-port
 .vscode/settings.json
 /.cpcache/
 .gitignore.swp
+.DS_Store
+/.DS_Store
+/.cpcache/

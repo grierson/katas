@@ -1,4 +1,4 @@
-= Two Number Sum
+# Two Number Sum
 
 * Found two numbers = sum -> [x, y]
 * None -> []
@@ -11,7 +11,7 @@ target = 10
 => [-1, 11]
 ----
 
-== Solution 1
+## Solution 1
 
 Just foreach over the list twice.
 
@@ -28,7 +28,7 @@ def twoNumberSum(array, targetSum):
 # => [5, 5]
 ----
 
-=== Solution 1 - Problem - Need to skip index
+### Solution 1 - Problem - Need to skip index
 `5` getting read twice need to skip index in second loop.
 
 
@@ -45,14 +45,14 @@ def twoNumberSum(array, targetSum):
 # => [11, -1]
 ----
 
-=== Solution 1 - Passed
+### Solution 1 - Passed
 
 |===
 | Space | O(1) | Running through same loop
 | Time | O(n^2) | For loop within for loop
 |===
 
-=== Solution 2
+### Solution 2
 Step through each number, get the difference from the target then check if we have seen the difference before, if not then record it otherwise return difference and current number.
 
 [source, python]
@@ -70,7 +70,7 @@ def twoNumberSum(array, targetSum):
     return []
 ----
 
-=== Solution 2 - Passed
+### Solution 2 - Passed
 
 |===
 | Space | O(n) | Running through same loop
