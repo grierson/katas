@@ -1,78 +1,67 @@
 # Two Number Sum
 
-* Found two numbers = sum -> [x, y]
-* None -> []
+Find two numbers in `numbers` which sum equals `target`
 
-[source, python]
-----
+- arguments
+  - numbers [int]
+  - target: int
+- return
+  - Success: [n1, n2] or [n2, n1]
+  - Fail: []
+
+Example
+
+```python
 numbers = [3, 5, -4, 8, 11, 1, -1, 6]
 target = 10
 
-=> [-1, 11]
-----
+# f(numbers, target) => [-1, 11]
+# As -1 + 11 = 10 (target)
+```
 
-## Solution 1
+## Solution 1 - Brute force
 
-Just foreach over the list twice.
+Try all the permutations
 
-[source, python]
-----
-def twoNumberSum(array, targetSum):
-    for a in array:
-        for b in array[1:]:
-            if a + b == targetSum:
-                return [a, b]
-
-    return []
-
-# => [5, 5]
-----
-
-### Solution 1 - Problem - Need to skip index
-`5` getting read twice need to skip index in second loop.
-
-
-[source, python]
-----
-def twoNumberSum(array, targetSum):
-    for idx, val in enumerate(array):
-        for b in array[0:idx] + array[idx+1:]:
-            if val + b == targetSum:
-              return [val, b]
-           
-    return []
-
-# => [11, -1]
-----
+```mermaid
+flowchart TD
+numbers --> isOne{"one number?"}
+isOne --> |True|return["return []"]
+isOne --> |False|Check{"if any in rest + head = target"}
+Check --> |True| True["return [head, rest[n]]"]
+Check --> |"rest numbers"| numbers
+```
 
 ### Solution 1 - Passed
 
-|===
-| Space | O(1) | Running through same loop
-| Time | O(n^2) | For loop within for loop
-|===
+| Category | Value | Reason                    |
+| -------- | ----- | ------------------------- |
+| Space    | O(n)  | Running through same loop |
+| Time     | O(n)  | For loop                  |
 
-### Solution 2
-Step through each number, get the difference from the target then check if we have seen the difference before, if not then record it otherwise return difference and current number.
+## Solution 2 - Record every difference
 
-[source, python]
-----
-def twoNumberSum(array, targetSum):
-    state = set()
+- Step through each number
+- Get the difference from the target
+- if we have seen the difference
+  - return difference and current number
+  - otherwise record difference and continue
 
-    for val in array:
-        difference = targetSum - val
-        if difference in state:
-            return [difference, val]
-        else:
-            state.add(val)
+```mermaid
+flowchart TD
+any{"any numbers?"}
+any -->|True| difference["difference = target - head"] --> seen{"Seen difference?"}
+any -->|False| D["return []"]
 
-    return []
-----
+seen --> |True| return["return [head, difference]"]
+seen --> |False| record["record difference"]
+record -->|rest numbers| any
+```
 
 ### Solution 2 - Passed
 
-|===
-| Space | O(n) | Running through same loop
-| Time | O(n) | Run through the list once
-|===
+
+| Category | Value | Reason                    |
+| -------- | ----- | ------------------------- |
+| Space    | O(n)  | Running through same loop |
+| Time     | O(n)  | For loop                  |
