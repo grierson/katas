@@ -22,29 +22,26 @@ class BinaryTree:
         return self
 
 
-def foo(node, running, sums):
-    if not node:
-        return sums
-
-    running += node.value
-
-    if not node.left and not node.right:
-        sums.append(running)
-        return
-
-    foo(node.left, running, sums)
-    foo(node.right, running, sums)
-
-
 def branchSums(root):
     sums = []
-    foo(root, 0, sums)
+
+    def calculateSum(node, running):
+        if not node:
+            return
+
+        running += node.value
+
+        if not node.left and not node.right:
+            sums.append(running)
+            return
+
+        calculateSum(node.left, running)
+        calculateSum(node.right, running)
+
+    calculateSum(root, 0)
     return sums
 
 
 def test_foo():
     tree = BinaryTree(1).insert([2, 3, 4, 5, 6, 7, 8, 9, 10])
     assert branchSums(tree) == [15, 16, 18, 10, 11]
-
-
-test_foo()
