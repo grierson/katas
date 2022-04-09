@@ -5,25 +5,27 @@ class BST:
         self.right = None
 
 
-def foo(tree, target, best):
-    if not tree:
-        return best
-
-    if abs(target - tree.value) < abs(target - best):
-        best = tree.value
-
-    if tree.value == target:
-        return tree.value
-
-    if target < tree.value:
-        return foo(tree.left, target, best)
-
-    if target >= tree.value:
-        return foo(tree.right, target, best)
-
-
 def findClosestValueInBst(tree, target):
-    return foo(tree, target, tree.value)
+    def isCloser(value, target, best):
+        return abs(target - value) < abs(target - best)
+
+    def search(tree, target, best):
+        if not tree:
+            return best
+
+        current = tree.value
+
+        if current is target:
+            return current
+
+        if isCloser(current, target, best):
+            best = current
+
+        direction = tree.left if target < current else tree.right
+
+        return search(direction, target, best)
+
+    return search(tree, target, tree.value)
 
 
 def test_sample():
