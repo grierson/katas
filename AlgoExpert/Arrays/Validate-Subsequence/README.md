@@ -19,7 +19,7 @@ Example
 numbers = [1, 2, 3, 4, 5]
 subsequence = [1, 3]
 
-# f(coll, numbers) => true
+# f(coll, subsequence) => true
 # [1, _, 3, _, _]
 
 ```
