@@ -24,6 +24,8 @@ subsequence = [1, 3]
 
 ```
 
+## Solution 1 - State
+
 ```mermaid
 flowchart TD
 state["state = []"]  --> isEmpty

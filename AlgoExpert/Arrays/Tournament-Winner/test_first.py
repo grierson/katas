@@ -8,9 +8,8 @@ def updateTable(table, team):
 def tournamentWinner(competitions, results):
     table = {}
 
-    for competition, result in zip(competitions, results):
-        [home, away] = competition
-        winner = home if result == HOME_WON else away
+    for [home, away], result in zip(competitions, results):
+        winner = home if result is HOME_WON else away
         updateTable(table, winner)
 
     return max(table, key=table.get)
