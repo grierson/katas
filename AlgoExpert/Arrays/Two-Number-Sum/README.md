@@ -2,12 +2,17 @@
 
 Find two numbers in `numbers` which sum equals `target`
 
-- arguments
-  - numbers [int]
-  - target: int
-- return
-  - Success: [n1, n2] or [n2, n1]
-  - Fail: []
+- function
+  - arguments
+    - numbers [int]
+    - target: int
+  - return
+    - Success: [n1, n2] or [n2, n1]
+    - Fail: []
+- constraints
+  - Can't use the same numbers twice
+    - numbers [1, 5] target 2
+    - 1 can not be used twice 
 
 Example
 
@@ -50,11 +55,11 @@ Check --> |"rest numbers"| numbers
 ```mermaid
 flowchart TD
 any{"any numbers?"}
-any -->|True| difference["difference = target - head"] --> seen{"Seen difference?"}
+any -->|True| difference["difference = target - number"] --> seen{"difference in seen numbers?"}
 any -->|False| D["return []"]
 
-seen --> |True| return["return [head, difference]"]
-seen --> |False| record["record difference"]
+seen --> |True| return["return [number, difference]"]
+seen --> |False| record["add number to seen numbers"]
 record -->|rest numbers| any
 ```
 
