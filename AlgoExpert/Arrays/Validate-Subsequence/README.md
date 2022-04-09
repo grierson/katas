@@ -16,8 +16,8 @@ subsequence = set numbers that are in the same order of another. (Don't have to 
 Example
 
 ```python
-coll = [1, 2, 3, 4, 5]
-numbers = [1, 3]
+numbers = [1, 2, 3, 4, 5]
+subsequence = [1, 3]
 
 # f(coll, numbers) => true
 # [1, _, 3, _, _]
@@ -28,11 +28,13 @@ numbers = [1, 3]
 flowchart TD
 state["state = []"]  --> isEmpty
 numbers --> isEmpty{"empty numbers?"}
-isEmpty --> |True| _["return False"]
-isEmpty --> |False| Check{"number in subsequence?"}
-Check --> |True| Add["add number to state"]
-Check --> |False - rest numbers| isEmpty
-Add --> Complete{"state is subsequence"}
-Complete --> |True| Done["return True"]
-Complete --> |False - rest numbers| isEmpty
+subgraph nested
+    isEmpty --> |True| _["return False"]
+    isEmpty --> |False| Check{"number in subsequence?"}
+    Check --> |True| Add["add number to state"]
+    Check --> |False - rest numbers| isEmpty
+    Add --> Complete{"state is subsequence?"}
+    Complete --> |True| Done["return True"]
+    Complete --> |False - rest numbers| isEmpty
+end
 ```
