@@ -4,12 +4,10 @@ from Node import Node, insert, printLL, equal
 
 
 def removeDuplicates(node):
-    current = node
+    if node and node.next:
+        node.next = removeDuplicates(node.next)
 
-    while current:
-        while current.next and current.value == current.next.value:
-            current.next = current.next.next
-        current = current.next
+        return node.next if node.next.value is node.value else node
 
     return node
 
