@@ -4,7 +4,7 @@ from Node import Node, insert, printLL, equal
 
 
 def removeDuplicates(node):
-    if node and node.next:
+    if node.next:
         node.next = removeDuplicates(node.next)
 
         return node.next if node.next.value is node.value else node
