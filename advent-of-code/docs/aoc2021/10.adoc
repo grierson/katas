@@ -1,0 +1,7 @@
+= Syntax Scoring
+
+== Corrupted Lines
+
+Use a stack.
+* Add opening parens to stack
+* Check closing parens match top of stack
