@@ -1,7 +1,5 @@
 (ns aoc2021.11)
 
-(require 'hashp.core)
-
 (defn recharge [grid] (update-vals grid inc))
 
 (defn neighbours [[bx by] [x y]]
@@ -25,21 +23,27 @@
 (defn flash [boundary grid octopus]
   (reduce charge (assoc grid octopus 0) (neighbours boundary octopus)))
 
+(defn apply-flash [boundary {:keys [grid] :as round}]
+  (let [flashers (flashers grid)]
+    (if (empty? flashers)
+      round
+      (recur
+        boundary
+        (-> round
+            (update :flashes + (count flashers))
+            (update :grid #(reduce (partial flash boundary) % flashers)))))))
+
 (defn step [game boundary]
   (let [game (update game :grid recharge)]
-    (loop [round game]
-      (let [flashers (flashers (:grid round))]
-        (if (empty? flashers)
-          round
-          (recur (-> round
-                     (update :flashes + (count flashers))
-                     (update :grid #(reduce (partial flash boundary) % flashers)))))))))
+    (apply-flash boundary game)))
 
 (defn run [game boundary times]
   (reduce
     (fn [state _] (step state boundary))
     game
     (range times)))
+
+;; Helpers
 
 (def input ["4738615556"
             "6744423741"
@@ -71,5 +75,6 @@
                   y (range size)]
               [x y]))))
 
-(run {:grid    (str->grid input)
-      :flashes 0} [9 9] 100)
+(comment
+  (run {:grid    (str->grid input)
+        :flashes 0} [9 9] 100))
