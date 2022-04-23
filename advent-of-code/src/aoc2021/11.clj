@@ -25,18 +25,20 @@
 (defn flash [boundary grid octopus]
   (reduce charge (assoc grid octopus 0) (neighbours boundary octopus)))
 
-(defn step [grid boundary]
-  (let [grid (recharge grid)]
-    (loop [grid grid]
-      (let [flashers (flashers grid)]
+(defn step [game boundary]
+  (let [game (update game :grid recharge)]
+    (loop [round game]
+      (let [flashers (flashers (:grid round))]
         (if (empty? flashers)
-          grid
-          (recur (reduce (partial flash boundary) grid flashers)))))))
+          round
+          (recur (-> round
+                     (update :flashes + (count flashers))
+                     (update :grid #(reduce (partial flash boundary) % flashers)))))))))
 
-(defn run [grid boundary times]
+(defn run [game boundary times]
   (reduce
     (fn [state _] (step state boundary))
-    grid
+    game
     (range times)))
 
 (def input ["4738615556"
@@ -69,4 +71,5 @@
                   y (range size)]
               [x y]))))
 
-;(run (str->grid input) [9 9] 100)
+(run {:grid    (str->grid input)
+      :flashes 0} [9 9] 100)
