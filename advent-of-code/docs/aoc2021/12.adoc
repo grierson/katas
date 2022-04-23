@@ -1,0 +1,48 @@
+= Day 12
+
+* Find all paths
+* Can't visit the same "small" cave twice
+** Small - lowercase
+** Big - uppercase
+* How many paths through this cave system are there that visit small caves at most once?
+
+|===
+| Input | Graph | Paths | Result
+
+
+a| [source]
+----
+start-A
+start-b
+A-c
+A-b
+b-d
+A-end
+b-end
+----
+
+a| [source]
+----
+    start
+    /   \
+c--A-----b--d
+    \   /
+     end
+----
+
+a| [source]
+----
+start,A,b,A,c,A,end
+start,A,b,A,end
+start,A,b,end
+start,A,c,A,b,A,end
+start,A,c,A,b,end
+start,A,c,A,end
+start,A,end
+start,b,A,c,A,end
+start,b,A,end
+start,b,end
+----
+
+| 5
+|===
