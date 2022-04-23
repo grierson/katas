@@ -43,6 +43,15 @@
     game
     (range times)))
 
+(defn run2 [game boundary]
+  (reduce
+    (fn [state round]
+      (if (every? zero? (vals (:grid state)))
+        (reduced round)
+        (step state boundary)))
+    game
+    (range)))
+
 ;; Helpers
 
 (def input ["4738615556"
@@ -77,4 +86,6 @@
 
 (comment
   (run {:grid    (str->grid input)
-        :flashes 0} [9 9] 100))
+        :flashes 0} [9 9] 100)
+  (run2 {:grid    (str->grid input)
+         :flashes 0} [9 9]))
