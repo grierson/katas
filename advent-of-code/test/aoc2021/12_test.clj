@@ -69,9 +69,6 @@
             "DP-iu"
             "zt-start"])
 
-#_(deftest sample-test
-    (is (= 5 (run example))))
-
 (deftest caves->graph-test
   (is (= {"start" #{"A" "b"}
           "end"   #{"A" "b"}
@@ -81,27 +78,27 @@
           "d"     #{"b"}}
          (caves->graph example))))
 
-#_(deftest find-path-test
-    (let [caves (caves->graph example)]
-      (is (= [["start" "A" "b" "A" "c" "A" "end"]
-              ["start" "A" "b" "A" "end"]
-              ["start" "A" "b" "end"]
-              ["start" "A" "c" "A" "b" "A" "end"]
-              ["start" "A" "c" "A" "b" "end"]
-              ["start" "A" "c" "A" "end"]
-              ["start" "A" "end"]
-              ["start" "b" "A" "c" "A" "end"]
-              ["start" "b" "A" "end"]
-              ["start" "b" "end"]]
-             (paths caves #{} "start")))))
+(deftest ^:kaocha/pending paths-test
+  (let [caves (caves->graph example)]
+    (is (= [["start" "A" "b" "A" "c" "A" "end"]
+            ["start" "A" "b" "A" "end"]
+            ["start" "A" "b" "end"]
+            ["start" "A" "c" "A" "b" "A" "end"]
+            ["start" "A" "c" "A" "b" "end"]
+            ["start" "A" "c" "A" "end"]
+            ["start" "A" "end"]
+            ["start" "b" "A" "c" "A" "end"]
+            ["start" "b" "A" "end"]
+            ["start" "b" "end"]]
+           (paths caves #{} "start")))))
 
 (deftest valid-paths-test
   (is (= 10
-         (paths (caves->graph example) #{} "start")))
+         (valid-paths (caves->graph example) #{} "start")))
   (is (= 19
-         (paths (caves->graph larger-example) #{} "start")))
+         (valid-paths (caves->graph larger-example) #{} "start")))
   (is (= 226
-         (paths (caves->graph even-larger-example) #{} "start"))))
+         (valid-paths (caves->graph even-larger-example) #{} "start"))))
 
 (comment
-  (paths (caves->graph input) #{} "start"))
+  (valid-paths (caves->graph input) #{} "start"))

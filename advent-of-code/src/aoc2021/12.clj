@@ -28,13 +28,18 @@
 (defn paths
   [graph visited current]
   (if (= current "end")
+    current
+    (let [neighbors (get graph current)
+          not-visited (remove (partial invalid-caves? visited) neighbors)]
+      (conj
+        (map (fn [cave] (paths graph (conj visited current) cave)) not-visited)
+        current))))
+
+(defn valid-paths
+  [graph visited current]
+  (if (= current "end")
     1
     (let [neighbors (get graph current)
           not-visited (remove (partial invalid-caves? visited) neighbors)]
       (apply +
-             (map (fn [cave] (paths graph (conj visited current) cave)) not-visited)))))
-
-
-
-
-
+             (map (fn [cave] (valid-paths graph (conj visited current) cave)) not-visited)))))
