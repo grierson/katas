@@ -1,19 +1,6 @@
 (ns aoc2021.12
   (:require [clojure.string :as str]))
 
-(def simple ["start-A"
-             "start-b"
-             "A-end"
-             "b-end"])
-
-(def caves ["start-A"
-            "start-b"
-            "A-c"
-            "A-b"
-            "b-d"
-            "A-end"
-            "b-end"])
-
 (defn caves->graph [caves]
   (let [edges (map (fn [line] (str/split line #"-")) caves)]
     (reduce (fn [state [a b]]
@@ -25,26 +12,28 @@
                             (assoc state b #{a}))]
                 state)) {} edges)))
 
-(def sample (caves->graph simple))
-
 (defn visited?
   [visited node]
   (contains? visited node))
 
-(defn graph-dfs
-  [graph start]
-  (loop [[current & tail] (vector start)
-         visited #{}]
-    (if (nil? current)
-      visited
-      (let [neighbors (get graph current)
-            not-visited (remove (partial visited? visited) neighbors)
-            new-stack (into tail not-visited)]
-        (if (visited? visited current)
-          (recur new-stack visited)
-          (recur new-stack (conj visited current)))))))
+(defn small-cave?
+  [cave]
+  (every? #(Character/isLowerCase %) cave))
 
-(graph-dfs sample "start")
+(defn invalid-caves?
+  [visited cave]
+  (and (visited? visited cave)
+       (small-cave? cave)))
+
+(defn paths
+  [graph visited current]
+  (if (= current "end")
+    1
+    (let [neighbors (get graph current)
+          not-visited (remove (partial invalid-caves? visited) neighbors)]
+      (apply +
+             (map (fn [cave] (paths graph (conj visited current) cave)) not-visited)))))
+
 
 
 

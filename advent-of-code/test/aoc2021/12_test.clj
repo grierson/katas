@@ -8,8 +8,69 @@
 ;    \   /
 ;    end
 
+(def example ["start-A"
+              "start-b"
+              "A-c"
+              "A-b"
+              "b-d"
+              "A-end"
+              "b-end"])
+
+(def larger-example ["dc-end"
+                     "HN-start"
+                     "start-kj"
+                     "dc-start"
+                     "dc-HN"
+                     "LN-dc"
+                     "HN-end"
+                     "kj-sa"
+                     "kj-HN"
+                     "kj-dc"])
+
+(def even-larger-example ["fs-end"
+                          "he-DX"
+                          "fs-he"
+                          "start-DX"
+                          "pj-DX"
+                          "end-zg"
+                          "zg-sl"
+                          "zg-pj"
+                          "pj-he"
+                          "RW-he"
+                          "fs-DX"
+                          "pj-RW"
+                          "zg-RW"
+                          "start-pj"
+                          "he-WI"
+                          "zg-he"
+                          "pj-fs"
+                          "start-RW"])
+
+(def input ["zs-WO"
+            "zs-QJ"
+            "WO-zt"
+            "zs-DP"
+            "WO-end"
+            "gv-zt"
+            "iu-SK"
+            "HW-zs"
+            "iu-WO"
+            "gv-WO"
+            "gv-start"
+            "gv-DP"
+            "start-WO"
+            "HW-zt"
+            "iu-HW"
+            "gv-HW"
+            "zs-SK"
+            "HW-end"
+            "zs-end"
+            "DP-by"
+            "DP-iu"
+            "zt-start"])
+
 #_(deftest sample-test
-    (is (= 5 (run caves))))
+    (is (= 5 (run example))))
 
 (deftest caves->graph-test
   (is (= {"start" #{"A" "b"}
@@ -18,10 +79,29 @@
           "b"     #{"start" "end" "A" "d"}
           "c"     #{"A"}
           "d"     #{"b"}}
-         (caves->graph caves))))
+         (caves->graph example))))
 
-(deftest find-path
-  (let [simple (caves->graph simple)]
-    (is (= [["start" "A" "end"]
-            ["start" "b" "end"]]
-           (paths simple "start" "end" #{})))))
+#_(deftest find-path-test
+    (let [caves (caves->graph example)]
+      (is (= [["start" "A" "b" "A" "c" "A" "end"]
+              ["start" "A" "b" "A" "end"]
+              ["start" "A" "b" "end"]
+              ["start" "A" "c" "A" "b" "A" "end"]
+              ["start" "A" "c" "A" "b" "end"]
+              ["start" "A" "c" "A" "end"]
+              ["start" "A" "end"]
+              ["start" "b" "A" "c" "A" "end"]
+              ["start" "b" "A" "end"]
+              ["start" "b" "end"]]
+             (paths caves #{} "start")))))
+
+(deftest valid-paths-test
+  (is (= 10
+         (paths (caves->graph example) #{} "start")))
+  (is (= 19
+         (paths (caves->graph larger-example) #{} "start")))
+  (is (= 226
+         (paths (caves->graph even-larger-example) #{} "start"))))
+
+(comment
+  (paths (caves->graph input) #{} "start"))
