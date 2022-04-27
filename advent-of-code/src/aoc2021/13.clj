@@ -20,25 +20,34 @@
         (parse-dots))))
 
 (defn parse [paper]
-  (set/rename-keys
-    (group-by (fn [[a _]] (keyword? a)) (map parse-line paper))
-    {true :folds
-     false :dots}))
+  (update
+    (set/rename-keys
+      (group-by (fn [[a _]] (keyword? a)) (map parse-line paper))
+      {true  :folds
+       false :dots})
+    :dots
+    set))
 
-(defn get-bottom-half [dots line]
-  (filter (fn [[_ y]] (>= y line)) dots))
+(defn get-y-halfs [line dots]
+  (update-vals
+    (set/rename-keys
+      (group-by (fn [[_ y]] (>= y line)) dots)
+      {true  :bottom
+       false :top})
+    set))
 
 (defn relocate-y-dot [fold [x y]]
   (let [a (- y fold)
         b (- fold a)]
     [x b]))
 
-(defn relocate-dot [[direction amount] dots]
+(defn relocate-dots [[direction line :as fold] dots]
   (if (= direction :y)
-    (relocate-y-dot amount dots)))
+    (let [{:keys [top bottom]} (get-y-halfs line dots)]
+      (into top
+            (map (partial relocate-y-dot line) bottom)))))
 
 (defn apply-fold [{:keys [dots folds]}]
   (let [[fold & folds] folds]
-    {:dots  (map #(relocate-dot fold %) dots)
+    {:dots  (relocate-dots fold dots)
      :folds folds}))
-
