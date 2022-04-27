@@ -1,6 +1,7 @@
 (ns aoc2021.13
   (:require [clojure.string :as str]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [clojure.java.io :as io]))
 
 (defn parse-fold [[fold line]]
   [(if (= fold "x") :x :y) (parse-long line)])
@@ -20,7 +21,7 @@
         (parse-dots))))
 
 (defn parse [paper]
-  (let [lines (group-by (fn [[a _]] (keyword? a)) (map parse-line paper))]
+  (let [lines (group-by (fn [[a _]] (keyword? a)) (map parse-line (remove empty? paper)))]
     (-> lines
         (set/rename-keys {true  :folds
                           false :dots})
@@ -61,6 +62,20 @@
       (into left
             (map (partial relocate-x-dot amount) right)))))
 
-
 (defn execute [{:keys [dots folds]}]
   (reduce (fn [state fold] (apply-fold fold state)) dots folds))
+
+(defn replace-at [s idx replacement]
+  (str (subs s 0 idx) replacement (subs s (inc idx))))
+
+(defn draw [dots]
+  (let [rows (apply max (map first dots))
+        columns (apply max (map second dots))
+        board (map (fn [_] (apply str (repeat columns \.))) (range rows))]
+    (reduce (fn [state [row column]] (update state row #(replace-at % column "#"))) board dots)))
+
+(comment
+  (def data (parse (str/split-lines (slurp (io/resource "aoc2021/13.txt")))))
+  (count (execute (update data :folds #(-> % first vector))))
+  (def part2 (execute data))
+  (draw part2))

@@ -21,7 +21,7 @@
               "2,14"
               "8,10"
               "9,0"
-
+              ""
               "fold along y=7"
               "fold along x=5"])
 
@@ -147,6 +147,7 @@
 (deftest execute-test
   (testing "execute example"
     (let [dots (execute (parse example))]
+      (is (= 16 (count dots)))
       (is (= #{[0 0]
                [0 1]
                [0 2]
