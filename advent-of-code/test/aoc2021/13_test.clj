@@ -65,10 +65,40 @@
            (get-bottom-half dots 7)))))
 
 
-(deftest relocate-dot-test
-  (is (= [6 4]
-         (relocate-y-dot 7 [6 10])))
-  (is (= [0 14]
-         (relocate-y-dot 7 [0 0])))
-  (is (= [9 4]
-         (relocate-y-dot 7 [9 10]))))
+(deftest relocate-y-dot-test
+  (testing "example with a bottom fold at line 7"
+    (are [current y]
+      (= y (relocate-y-dot 7 current))
+      [6 10] [6 4]
+      [0 14] [0 0]
+      [9 10] [9 4]
+      [4 11] [4 3]
+      [6 12] [6 2]
+      [0 13] [0 1]
+      [10 12] [10 2]
+      [1 10] [1 4]
+      [2 14] [2 0]
+      [8 10] [8 4])))
+
+
+(deftest apply-fold-test
+  (is (= {:dots  [[6 4]
+                  [0 0]
+                  [9 4]
+                  [0 3]
+                  [10 4]
+                  [4 3]
+                  [6 0]
+                  [6 2]
+                  [4 1]
+                  [0 1]
+                  [10 2]
+                  [3 4]
+                  [3 0]
+                  [8 4]
+                  [1 4]
+                  [2 0]
+                  [8 4]
+                  [9 0]]
+          :folds [[:x 5]]}
+         (apply-fold (parse example)))))

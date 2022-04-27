@@ -26,9 +26,19 @@
      false :dots}))
 
 (defn get-bottom-half [dots line]
-  (filter (fn [[_ y]] (>= y line) ) dots))
+  (filter (fn [[_ y]] (>= y line)) dots))
 
 (defn relocate-y-dot [fold [x y]]
   (let [a (- y fold)
         b (- fold a)]
     [x b]))
+
+(defn relocate-dot [[direction amount] dots]
+  (if (= direction :y)
+    (relocate-y-dot amount dots)))
+
+(defn apply-fold [{:keys [dots folds]}]
+  (let [[fold & folds] folds]
+    {:dots  (map #(relocate-dot fold %) dots)
+     :folds folds}))
+
