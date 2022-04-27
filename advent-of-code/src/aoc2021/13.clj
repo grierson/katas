@@ -3,6 +3,9 @@
             [clojure.set :as set]
             [clojure.java.io :as io]))
 
+(require 'hashp.core)
+
+
 (defn parse-fold [[fold line]]
   [(if (= fold "x") :x :y) (parse-long line)])
 
@@ -65,14 +68,15 @@
 (defn execute [{:keys [dots folds]}]
   (reduce (fn [state fold] (apply-fold fold state)) dots folds))
 
-(defn replace-at [s idx replacement]
-  (str (subs s 0 idx) replacement (subs s (inc idx))))
+(defn dots-to-string [dots]
+  (let [rows (apply max (map first dots))
+        columns (apply max (map second dots))]
+    (for [column (range (inc columns))]
+      (for [row (range (inc rows))]
+        (if (contains? dots [row column]) "#" " ")))))
 
 (defn draw [dots]
-  (let [rows (apply max (map first dots))
-        columns (apply max (map second dots))
-        board (map (fn [_] (apply str (repeat columns \.))) (range rows))]
-    (reduce (fn [state [row column]] (update state row #(replace-at % column "#"))) board dots)))
+  (str/join "\n" (map (partial apply str) (dots-to-string dots))))
 
 (comment
   (def data (parse (str/split-lines (slurp (io/resource "aoc2021/13.txt")))))
