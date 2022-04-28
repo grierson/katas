@@ -2,10 +2,8 @@
   (:require [clojure.test :refer :all])
   (:require [aoc2021.14 :refer :all]))
 
-
-
 (deftest parse-test
-  (is (= {:state "NNCB"
+  (is (= {:polymer "NNCB"
           :rules {"CH" "B"
                   "HH" "N"
                   "CB" "H"
@@ -23,3 +21,15 @@
                   "CC" "N"
                   "CN" "C"}}
          (parse example))))
+
+(def example-rules (:rules (parse example)))
+
+(deftest step-test
+  (is (= "NCNBCHB"
+         (step example-rules "NNCB")))
+  (is (= "NBCCNBBBCBHCB"
+         (step example-rules (step example-rules "NNCB")))))
+
+(deftest steps-test
+  (is (= "NBCCNBBBCBHCB"
+         (steps example-rules 2 "NNCB"))))

@@ -1,5 +1,8 @@
 (ns aoc2021.14
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io]))
+
+(require 'hashp.core)
 
 (def example
   ["NNCB"
@@ -22,13 +25,33 @@
    "CN -> C"])
 
 (defn parse [input]
-  (let [state (first input)
+  (let [polymer (first input)
         rules (drop 2 input)]
-    {:state state
-     :rules (into {} (map (fn [[pair element]]
-                            [(str/trim pair) (str/trim element)])
-                          (map #(str/split % #"->") rules)))}))
+    {:polymer polymer
+     :rules   (into {} (map (fn [[pair element]]
+                              [(str/trim pair) (str/trim element)])
+                            (map #(str/split % #"->") rules)))}))
 
-(def data (parse example))
+(defn step [rules polymer]
+  (let [pairs (partition 2 1 (str polymer "?"))]
+    (reduce (fn [state [left right]] (str state left (get rules (str left right) ""))) "" pairs)))
 
-(reduce (fn [state [left right]] (str state left (get (:rules data) (str left right) ""))) "" (partition 2 1 "NNCB"))
+(defn steps [rules n polymer]
+  (loop [i 0
+         polymer polymer]
+    (if (= i n)
+      polymer
+      (recur (inc i) (step rules polymer)))))
+
+(defn get-diff [n {:keys [rules polymer]}]
+  (let [freq (frequencies (steps rules n polymer))
+        maximum (val (apply max-key val freq))
+        minimum (val (apply min-key val freq))]
+    (- maximum minimum)))
+
+(comment
+  (get-diff 10 (parse example))
+  (def data (str/split-lines (slurp (io/resource "aoc2021/14.txt"))))
+  (get-diff 10 (parse data))
+  (get-diff 40 (parse data))) ;; takes too long :(
+
