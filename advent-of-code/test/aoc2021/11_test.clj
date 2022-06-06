@@ -1,6 +1,7 @@
 (ns aoc2021.11-test
-  (:require [clojure.test :refer :all]
-            [aoc2021.11 :refer :all]))
+  (:require
+   [aoc2021.11 :refer [charge make-grid neighbours recharge str->grid step run flash flashers]]
+   [clojure.test :refer [deftest is testing]]))
 
 (deftest recharge-test
   (is (= {[0 0] 1 [0 1] 1
@@ -18,10 +19,10 @@
 (deftest charge-test
   (testing "Top left flashes"
     (let [grid (assoc
-                 (make-grid 2 2)
-                 [0 1] 1
-                 [1 0] 1
-                 [1 1] 1)]
+                (make-grid 2 2)
+                [0 1] 1
+                [1 0] 1
+                [1 1] 1)]
 
       (is (= {[0 0] 0
               [0 1] 2
@@ -44,20 +45,20 @@
     (testing "all flashers"
       (let [grid (make-grid 2 2)
             grid (assoc grid [0 0] 10
-                             [0 1] 10
-                             [1 0] 10
-                             [1 1] 10)]
+                        [0 1] 10
+                        [1 0] 10
+                        [1 1] 10)]
         (is (= (set [[0 0] [0 1] [1 0] [1 1]])
                (set (flashers grid))))))))
 
 (deftest flash-test
   (testing "top left flashes"
     (let [grid (assoc
-                 (make-grid 2 2)
-                 [0 0] 10
-                 [0 1] 1
-                 [1 0] 1
-                 [1 1] 1)]
+                (make-grid 2 2)
+                [0 0] 10
+                [0 1] 1
+                [1 0] 1
+                [1 1] 1)]
       (is (= {[0 0] 0
               [0 1] 2
               [1 0] 2
