@@ -1,33 +1,40 @@
 (ns aoc2017.01
   (:require [clojure.java.io :as io]))
 
-(defn make-next-pair [number]
+(defn- char->int [x]
+  (parse-long (str x)))
+
+(defn make-next-pair [[a :as number]]
   (partition 2 1
-             (map #(Integer/parseInt (str %))
-                  (str number (first number)))))
+             (map char->int
+                  (str number a))))
 
 (defn make-middle-pair [number]
-  (let [middle (/ (count number) 2)]
+  (let [middle (/ (count number) 2)
+        repeating-number (cycle number)]
     (map-indexed
      (fn [i v]
-       [(parse-long (str v))
-        (parse-long (str (nth (cycle number) (+ i middle))))])
+       [(char->int v)
+        (char->int (nth repeating-number (+ i middle)))])
      number)))
 
-(defn- total-matching [pairs]
+(defn update-state [state [a b]]
+  (if (= a b)
+    (+ state a)
+    state))
+
+(defn total-matching [pairs]
   (reduce
-   (fn [state [a b]]
-     (if (= a b)
-       (+ state a)
-       state))
+   update-state
    0
    pairs))
 
-(defn solve [number]
-  (total-matching (make-next-pair number)))
+(defn solve-fn [pair-fn]
+  (fn [number]
+    (total-matching (pair-fn number))))
 
-(defn solve2 [number]
-  (total-matching (make-middle-pair number)))
+(def solve (solve-fn make-next-pair))
+(def solve2 (solve-fn make-middle-pair))
 
 (comment
   (def input (slurp (io/resource "aoc2017/01.txt")))

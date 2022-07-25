@@ -1,7 +1,20 @@
 (ns aoc2017.01-test
   (:require
-   [aoc2017.01 :refer [make-next-pair make-middle-pair solve solve2]]
+   [aoc2017.01 :refer [make-next-pair
+                       make-middle-pair
+                       update-state
+                       solve
+                       solve2]]
    [clojure.test :refer [are deftest is]]))
+
+(deftest update-state-test
+  (are
+   [state pair expected]
+   (= expected (update-state state pair))
+    0 [0 1] 0
+    0 [1 1] 1
+    1 [1 1] 2
+    0 [5 5] 5))
 
 (deftest make-next-pairs-test
   (is (= [[1 1] [1 2] [2 2] [2 1]]
@@ -10,8 +23,9 @@
          (make-next-pair "1111"))))
 
 (deftest part1-test
-  (are [input expected]
-       (= expected (solve input))
+  (are
+   [input expected]
+   (= expected (solve input))
     "1122" 3
     "1111" 4
     "1234" 0
@@ -24,8 +38,9 @@
          (make-middle-pair "123425"))))
 
 (deftest part2-test
-  (are [input expected]
-       (= expected (solve2 input))
+  (are
+   [input expected]
+   (= expected (solve2 input))
     "1212" 6
     "1221" 0
     "123425" 4
