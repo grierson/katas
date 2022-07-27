@@ -2,19 +2,18 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
-(def sample "5 1 9 5\n7 5 3\n2 4 6 8")
-
 (defn parse-line [line]
-  (map #(Integer/parseInt %) (str/split line #"\t")))
+  (map parse-long (str/split line #"\t")))
 
-(defn diff [nums]
-  (let [low (apply min nums)
-        high (apply max nums)]
-    (- high low)))
+(defn make-low-high-pair [nums]
+  [(apply min nums) (apply max nums)])
 
-(defn solve [lines]
-  (reduce + (map diff lines)))
+(defn solve1 [lines]
+  (->> (str/split-lines lines)
+       (map parse-line)
+       (map make-low-high-pair)
+       (map (fn [[low high]] (- high low)))
+       (reduce +)))
 
 (comment
-  (solve
-    (map parse-line (str/split-lines (slurp (io/resource "aoc2017/02.txt"))))))
+  (solve1 (slurp (io/resource "aoc2017/02.txt"))))

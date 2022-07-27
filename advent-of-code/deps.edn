@@ -4,7 +4,12 @@
          hashp/hashp            {:mvn/version "0.2.1"}}
 
  :aliases
- {:test       {:extra-paths ["test"]
+ {:repl/conjure {:extra-deps {nrepl/nrepl       {:mvn/version "0.9.0"}
+                              cider/cider-nrepl {:mvn/version "0.28.4"}}
+                 :main-opts  ["-m" "nrepl.cmdline"
+                              "--middleware" "[cider.nrepl/cider-middleware]"
+                              "--interactive"]}
+  :test       {:extra-paths ["test"]
                :extra-deps  {lambdaisland/kaocha    {:mvn/version "1.60.977"}
                              org.clojure/test.check {:mvn/version "1.1.1"}}
                :exec-fn     kaocha.runner/exec-fn
