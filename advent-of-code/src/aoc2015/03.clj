@@ -1,6 +1,5 @@
 (ns aoc2015.03
-  (:require [advent.core :refer [count-if]]
-            [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io]))
 
 (defn move [[x y] direction]
   (case direction
@@ -14,26 +13,30 @@
     (update log location inc)
     (assoc log location 1)))
 
-(defn solve
-  ([directions] (solve [0 0] {[0 0] 1} directions))
-  ([location log directions]
+(defn track
+  [directions]
+  (:log
    (reduce
     (fn [{:keys [location log]} direction]
       (let [new-location (move location direction)]
-        (recur {:location new-location
-                :log (update-log log new-location)}
-               direction)))
-    {:location location
-     :log log}
+        {:location new-location
+         :log (update-log log new-location)}))
+    {:location [0 0]
+     :log {[0 0] 1}}
     directions)))
 
+(defn solve1 [directions]
+  (count (track directions)))
+
+(defn solve2 [directions]
+  (count (merge (track (take-nth 2 directions))
+                (track (take-nth 2 (drop 1 directions))))))
+
 (comment
-  (def data (slurp (io/resource "aoc2015/03.txt")))
+  (def directions (slurp (io/resource "aoc2015/03.txt")))
 
   ;; First
-  (count (solve data))
-  (= 2572 (count (solve data)))
+  (solve1 directions)
 
   ;; Second
-  (count (merge (solve (take-nth 2 data))
-                (solve (take-nth 2 (drop 1 data))))))
+  (solve2 directions))
