@@ -1,6 +1,6 @@
 (ns aoc2015.01-test
-  (:require [clojure.test :refer :all])
-  (:require [aoc2015.01 :refer :all]))
+  (:require [clojure.test :refer [deftest is testing]]
+            [aoc2015.01 :refer [count-floors update-state basement]]))
 
 (deftest examples-test
   (testing "zero floors"
@@ -17,15 +17,11 @@
     (is (= (count-floors ")))") -3))
     (is (= (count-floors ")())())") -3))))
 
+(deftest update-state-test
+  (testing "first instruction sends you to the basement"
+    (is (= (unreduced (update-state {:floor 0 :pc 0} \)))
+           1))))
+
 (deftest basement-test
   (is (= (basement ")") 1))
   (is (= (basement "()())") 5)))
-
-(deftest update-state-test
-  (testing "first instruction sends you to the basement"
-    (is (= (update-state {:floor 0 :pc 0} \))
-           1)))
-  (testing "instruction moves up one floor and updates pc"
-    (is (= (update-state {:floor 0 :pc 0} \()
-           {:floor 1
-            :pc    1}))))

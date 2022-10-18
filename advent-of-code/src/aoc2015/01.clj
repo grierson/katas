@@ -1,7 +1,6 @@
 (ns aoc2015.01
   (:require [clojure.java.io :as io]))
 
-
 (def count-if (comp count filter))
 
 (defn count-floors [input]
@@ -13,7 +12,7 @@
   (let [new-pc (inc pc)
         new-floor (if (= \( instruction) (inc floor) (dec floor))]
     (if (= new-floor -1)
-      new-pc
+      (reduced new-pc)
       {:floor new-floor
        :pc    new-pc})))
 
