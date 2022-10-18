@@ -2,8 +2,6 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
-(def data (slurp (io/resource "aoc2015/02.txt")))
-
 (defn paper [[l w h]]
   (let [side1 (* l w)
         side2 (* w h)
@@ -22,8 +20,15 @@
 (defn parse-measurement [measurement]
   (map #(Integer/parseInt %) (str/split measurement #"x")))
 
+(defn measure-fn [f input]
+  (reduce + (map (comp f parse-measurement) (str/split-lines input))))
+
+(def measure-paper (partial measure-fn paper))
+(def measure-ribbon (partial measure-fn ribbon))
+
 (comment
+  (def data (slurp (io/resource "aoc2015/02.txt")))
   ;; First
-  (reduce + (map (comp paper parse-measurement) data))
+  (measure-paper data)
   ;; Second
-  (reduce + (map (comp ribbon parse-measurement) data)))
+  (measure-ribbon data))
