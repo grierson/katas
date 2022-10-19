@@ -1,4 +1,4 @@
-(ns aoc2015.06-3
+(ns aoc2015.06.hashmap
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 

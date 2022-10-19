@@ -1,4 +1,4 @@
-(ns aoc2015.06
+(ns aoc2015.06.2dvector
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
@@ -28,6 +28,9 @@
         coll (draw p1 p2)]
     (reduce (fn [state x] (f state x)) grid coll)))
 
+(update-state (make-grid 10 10) {:action turn-on
+                                 :coords [[0 0] [2 2]]})
+
 (defn get-action [line]
   (cond
     (str/starts-with? line "turn on") turn-on
@@ -38,6 +41,7 @@
   (let [[[_ x y] [_ a b]] (re-seq #"(\d+),(\d+)" line)]
     [[(parse-long x) (parse-long y)]
      [(parse-long a) (parse-long b)]]))
+
 
 (defn parse-line [line]
   {:action (get-action line)

@@ -1,6 +1,7 @@
-(ns aoc2015.06-2-test
-  (:require [clojure.test :refer :all])
-  (:require [aoc2015.06-2 :refer :all]))
+(ns aoc2015.06.set-test
+  (:require
+   [clojure.test :refer [deftest is]]
+   [aoc2015.06.set :refer [draw turn-on turn-off get-on get-off toggle]]))
 
 (def test-grid
   #{[0 0] [0 1] [0 2]
@@ -30,8 +31,7 @@
            [2 0] [2 1] [2 2]}
          (turn-off test-grid #{[0 0] [0 1] [0 2]}))))
 
-
-(deftest geton-test
+(deftest get-on-test
   (is (= test-grid
          (get-on test-grid test-grid)))
   (is (= #{[0 2] [1 2] [2 2]}

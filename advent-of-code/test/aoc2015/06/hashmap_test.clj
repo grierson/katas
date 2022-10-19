@@ -1,7 +1,6 @@
-(ns aoc2015.06-3-test
-  (:require [clojure.test :refer :all]
-            [aoc2015.06-3 :refer :all]))
-
+(ns aoc2015.06.hashmap-test
+  (:require [clojure.test :refer [deftest is testing]]
+            [aoc2015.06.hashmap :refer [turn-on turn-off toggle]]))
 
 (deftest turn-on-test
   (testing "Creates key"
