@@ -17,5 +17,6 @@
         cnt
         (recur (inc cnt))))))
 
-(def solve1 (finder valid?))
-(def solve2 (finder valid2?))
+(comment
+  (finder valid?)
+  (finder valid2?))
