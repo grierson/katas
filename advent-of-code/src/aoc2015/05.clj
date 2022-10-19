@@ -2,7 +2,6 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
-
 (defn three-vowels? [line]
   (<= 3 (count (filter #{\a \e \i \o \u} line))))
 
@@ -39,9 +38,9 @@
 (defn two-pairs? [line]
   (let [pairs (partition 2 1 (map-indexed vector line))]
     (true? (some
-             (fn [p1]
-               (some (fn [p2] (matching-pair-not-duplicated p1 p2)) pairs))
-             pairs))))
+            (fn [p1]
+              (some (fn [p2] (matching-pair-not-duplicated p1 p2)) pairs))
+            pairs))))
 
 (defn nice2? [line]
   (and (two-pairs? line)

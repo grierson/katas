@@ -1,6 +1,14 @@
 (ns aoc2015.05-test
-  (:require [clojure.test :refer :all])
-  (:require [aoc2015.05 :refer :all]))
+  (:require [clojure.test :refer [deftest is testing]])
+  (:require [aoc2015.05 :refer
+             [three-vowels?
+              contains-pair?
+              contains-no-bad-pairs?
+              nice?
+              seperated-pair?
+              matching-pair-not-duplicated
+              two-pairs?
+              nice2?]]))
 
 (deftest contains-3-vowels?-test
   (testing "valid"
@@ -47,7 +55,6 @@
   (testing "no bad pairs"
     (is (true? (contains-no-bad-pairs? "aa")))))
 
-
 (deftest nice?-test
   (testing "nice"
     (is (true? (nice? "ugknbfddgicrmopn")))
@@ -87,7 +94,6 @@
     (is (true? (two-pairs? "aaaa")))
     (is (true? (two-pairs? "xyxy")))
     (is (true? (two-pairs? "abxyxy")))))
-
 
 (deftest nice2?-test
   (is (true? (nice2? "qjhvhtzxzqqjkmpb")))
