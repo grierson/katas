@@ -3,16 +3,17 @@
             [clojure.java.io :as io]))
 
 (defn get-name [line]
-  (apply str (drop-last (str/split line #"-"))))
+  (second (re-find #"(\S+)-\d+" line)))
 
 (defn order-name [name]
-  (->> (frequencies name)
-       (group-by second)
-       (mapcat (fn [[k v]] {k (sort (map first v))}))
-       (sort-by first >)
-       (mapcat second)
-       (take 5)
-       (apply str)))
+  (let [name (str/replace name #"-" "")]
+    (->> (frequencies name)
+         (group-by second)
+         (mapcat (fn [[k v]] {k (sort (map first v))}))
+         (sort-by first >)
+         (mapcat second)
+         (take 5)
+         (apply str))))
 
 (defn get-sector-id [line]
   (parse-long (re-find #"\d+" line)))

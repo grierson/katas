@@ -5,17 +5,16 @@
                        get-sector-id
                        order-name
                        parse-line
-                       valid?
                        update-state]]
    [clojure.test :refer [are deftest]]))
 
 (deftest get-name-test
   (are [actual expected]
        (= (get-name actual) expected)
-    "aaaaa-bbb-z-y-x-123[abxyz]" "aaaaabbbzyx"
-    "a-b-c-d-e-f-g-h-987[abcde]" "abcdefgh"
-    "not-a-real-room-404[oarel]" "notarealroom"
-    "totally-real-room-200[decoy]" "totallyrealroom"))
+    "aaaaa-bbb-z-y-x-123[abxyz]" "aaaaa-bbb-z-y-x"
+    "a-b-c-d-e-f-g-h-987[abcde]" "a-b-c-d-e-f-g-h"
+    "not-a-real-room-404[oarel]" "not-a-real-room"
+    "totally-real-room-200[decoy]" "totally-real-room"))
 
 (deftest order-name-test
   (are [actual expected]
