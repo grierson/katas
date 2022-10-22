@@ -1,5 +1,5 @@
 (ns aoc2016.03-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest is]]
             [aoc2016.03 :refer [valid?]]))
 
 (deftest invalid-test

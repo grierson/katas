@@ -1,12 +1,50 @@
 (ns aoc2016.04-test
-  (:require [clojure.test :refer :all]
-            [aoc2016.04 :refer [get-name
-                                order-name]]))
+  (:require
+   [aoc2016.04 :refer [get-hash
+                       get-name
+                       get-sector-id
+                       order-name
+                       parse-line
+                       valid?
+                       update-state]]
+   [clojure.test :refer [are deftest]]))
+
+(deftest get-name-test
+  (are [actual expected]
+       (= (get-name actual) expected)
+    "aaaaa-bbb-z-y-x-123[abxyz]" "aaaaabbbzyx"
+    "a-b-c-d-e-f-g-h-987[abcde]" "abcdefgh"
+    "not-a-real-room-404[oarel]" "notarealroom"
+    "totally-real-room-200[decoy]" "totallyrealroom"))
 
 (deftest order-name-test
   (are [actual expected]
-    (= actual expected)
-    (order-name (get-name "aaaaa-bbb-z-y-x-123[abxyz]")) [\a \b \x \y \z]
-    (order-name (get-name "a-b-c-d-e-f-g-h-987[abcde]")) [\a \b \c \d \e]
-    (order-name (get-name "not-a-real-room-404[oarel]")) [\o \a \r \e \l]
-    (order-name (get-name "totally-real-room-200[decoy]")) [\l \o \a \r \t]))
+       (= (order-name actual) expected)
+    "aaaaabbbzyx" "abxyz"
+    "abcdefgh" "abcde"
+    "notarealroom" "oarel"
+    "totallyrealroom" "loart"))
+
+(deftest get-sector-id-test
+  (are [actual expected]
+       (= (get-sector-id actual) expected)
+    "aaaaa-bbb-z-y-x-123[abxyz]" 123
+    "a-b-c-d-e-f-g-h-987[abcde]" 987
+    "not-a-real-room-404[oarel]" 404
+    "totally-real-room-200[decoy]" 200))
+
+(deftest get-hash-test
+  (are [actual expected]
+       (= (get-hash actual) expected)
+    "aaaaa-bbb-z-y-x-123[abxyz]" "abxyz"
+    "a-b-c-d-e-f-g-h-987[abcde]" "abcde"
+    "not-a-real-room-404[oarel]" "oarel"
+    "totally-real-room-200[decoy]" "decoy"))
+
+(deftest update-state-test
+  (are [actual expected]
+       (= (update-state 0 (parse-line actual)) expected)
+    "aaaaa-bbb-z-y-x-123[abxyz]" 123
+    "a-b-c-d-e-f-g-h-987[abcde]" 987
+    "not-a-real-room-404[oarel]" 404
+    "totally-real-room-200[decoy]" 0))
