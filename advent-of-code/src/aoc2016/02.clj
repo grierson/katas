@@ -41,28 +41,30 @@
     \L [row (- column 1)]
     \R [row (+ column 1)]))
 
-(defn valid-move? [location direction]
-  (let [coord (get-coord location direction)]
-    (when (find-number coord)
-      coord)))
+(defn valid-move? [coord direction]
+  (let [new-coord (get-coord coord direction)]
+    (when (find-number new-coord)
+      new-coord)))
 
-(defn trace-moves [state instruction]
-  (if-let [new-coord (valid-move? (last state) instruction)]
-    (conj state new-coord)
-    state))
+(defn try-move [coord direction]
+  (if-let [new-coord (valid-move? coord direction)]
+    new-coord
+    coord))
 
-(defn apply-moves [location instructions]
-  (last (reduce trace-moves (vector location) instructions)))
+(defn apply-moves [coord moves]
+  (reduce try-move coord moves))
 
 (defn solve2
-  [lines]
+  [directions]
   (apply
    str
-   (reduce
-    apply-moves
-    [(apply-moves [2 0] (first lines))]
-    (rest lines))))
-
+   (map find-number
+        (reduce
+         (fn [state moves]
+           (conj state (apply-moves (last state) moves)))
+         [(apply-moves [2 0] (first directions))]
+         (rest directions)))))
 (comment
   (def lines (str/split-lines (slurp (io/resource "aoc2016/02.txt"))))
-  (solve lines))
+  (solve lines)
+  (solve2 lines))
