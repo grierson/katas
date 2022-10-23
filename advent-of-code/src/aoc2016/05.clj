@@ -5,61 +5,52 @@
 (defn valid? [hash]
   (str/starts-with? hash "00000"))
 
-(defn append-valid-hash [state id]
-  (let [hash (digest/md5 id)]
-    (if (valid? hash)
-      (conj state hash)
-      state)))
-
-(defn found-all-hashes
-  [state id]
-  (if (= 8 (count state))
-    (reduced state)
-    (append-valid-hash state id)))
-
-(defn finder [secret]
-  (reduce
-   found-all-hashes
-   []
-   (lazy-seq (map #(str secret %) (range)))))
-
-(defn solve [secret]
-  (let [hashs (finder secret)]
-    (apply str (map #(nth % 5) hashs))))
-
-; ---
+(defn password-complete? [password]
+  (not (some? (some #{\_} password))))
 
 (defn update-password [s idx replacement]
   (if (= \_ (get s idx))
     (str (subs s 0 idx) replacement (subs s (inc idx)))
     s))
 
-(defn valid2? [hash]
-  (and
-   (str/starts-with? hash "00000")))
-
-(defn password-complete? [password]
-  (not (some? (some #{\_} password))))
-
-(defn append-valid-hash2 [password id]
+(defn append-valid-fn
+  [append-fn password id]
   (let [hash (digest/md5 id)]
-    (if (valid2? hash)
-      (let [index (parse-long (str (nth hash 5)))
-            value (nth hash 6)]
-        (update-password password index value))
+    (if (valid? hash)
+      (append-fn password hash)
       password)))
 
-(defn found-all-hashes2
-  [password id]
-  (if (password-complete? password)
-    (reduced password)
-    (append-valid-hash2 password id)))
+(def append-valid-hash
+  (partial append-valid-fn (fn [password hash]
+                             (str password (nth hash 5)))))
 
-(defn solve2 [secret]
+(def append-valid-hash2
+  (partial append-valid-fn
+           (fn [password hash]
+             (let [index (parse-long (str (nth hash 5)))
+                   value (nth hash 6)]
+               (update-password password index value)))))
+
+(defn find-hashes-fn
+  [valid-fn append-fn state id]
+  (if (valid-fn state)
+    (reduced state)
+    (append-fn state id)))
+
+(def find-all-hashes 
+  (partial find-hashes-fn #(= 8 (count %)) append-valid-hash))
+
+(def find-all-hashes2 
+  (partial find-hashes-fn password-complete? append-valid-hash2))
+
+(defn solve-fn [f state secret]
   (reduce
-   found-all-hashes2
-   "________"
+   f
+   state
    (lazy-seq (map #(str secret %) (range)))))
+
+(def solve (partial solve-fn find-all-hashes ""))
+(def solve2 (partial solve-fn find-all-hashes2 "________"))
 
 (comment
   (solve "abc")

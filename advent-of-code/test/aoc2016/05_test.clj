@@ -14,11 +14,11 @@
 
 (deftest append-valid-hash-test
   (are [actual expected]
-       (= (nth (first (append-valid-hash [] actual)) 5)
+       (= (append-valid-hash "" actual)
           expected)
-    "abc3231929" \1
-    "abc5017308" \8
-    "abc5278568" \f))
+    "abc3231929" "1"
+    "abc5017308" "8"
+    "abc5278568" "f"))
 
 (deftest update-password-test
   (testing "do not replace non \\_ values"
