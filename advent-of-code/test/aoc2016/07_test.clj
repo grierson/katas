@@ -1,42 +1,35 @@
-(ns aoc2016.06-test
+(ns aoc2016.07-test
   (:require
-   [aoc2016.06 :refer [most-common
-                       least-common
-                       get-letters
-                       solve]]
+   [aoc2016.07 :refer [tls?
+                       parse-ip
+                       abba?]]
    [clojure.test :refer [deftest is]]))
 
-(def sample ["eedadn"
-             "drvtee"
-             "eandsr"
-             "raavrd"
-             "atevrs"
-             "tsrnev"
-             "sdttsa"
-             "rasrtv"
-             "nssdts"
-             "ntnada"
-             "svetve"
-             "tesnvt"
-             "vntsnd"
-             "vrdear"
-             "dvrsen"
-             "enarar"])
+(deftest parse-ip-test
+  (is (= {:supernet ["abba" "qrst"]
+          :hypernet ["mnop"]}
+         (parse-ip "abba[mnop]qrst")))
 
-(deftest get-letters-test
-  (is (= "ederatsrnnstvvde" (get-letters sample 0)))
-  (is (= "eraatsdastvenrvn" (get-letters sample 1)))
-  (is (= "dvnaertssnestdra" (get-letters sample 2))))
+  (is (= {:supernet ["abcd" "xyyx"]
+          :hypernet ["bddb"]}
+         (parse-ip "abcd[bddb]xyyx")))
 
-(deftest most-common-test
-  (is (= \e (most-common "ederatsrnnstvvde")))
-  (is (= \a (most-common "eraatsdastvenrvn")))
-  (is (= \s (most-common "dvnaertssnestdra"))))
+  (is (= {:supernet ["aaaa" "tyui"]
+          :hypernet ["qwer"]}
+         (parse-ip "aaaa[qwer]tyui")))
 
-(deftest least-common-test
-  (is (= \a (least-common "ederatsrnnstvvde")))
-  (is (= \d (least-common "eraatsdastvenrvn")))
-  (is (= \v (least-common "dvnaertssnestdra"))))
+  (is (= {:supernet ["ioxxoj" "zxcvbn"]
+          :hypernet ["asdfgh"]}
+         (parse-ip "ioxxoj[asdfgh]zxcvbn"))))
 
-(deftest solve-test
-  (is (= "easter" (solve sample))))
+(deftest abba?-test
+  (is (false? (abba? "mnop")))
+  (is (false? (abba? "aaaa")))
+  (is (true? (abba? "abba")))
+  (is (true? (abba? "ioxxoj"))))
+
+(deftest tls?-test
+  (is (true? (tls? "abba[mnop]qrst")))
+  (is (false? (tls? "abcd[bddb]xyyx")))
+  (is (false? (tls? "aaaa[qwer]tyui")))
+  (is (true? (tls? "ioxxoj[asdfgh]zxcvbn"))))

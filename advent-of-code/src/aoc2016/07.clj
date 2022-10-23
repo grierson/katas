@@ -3,7 +3,7 @@
             [clojure.java.io :as io]))
 
 (defn parse-ip [ip]
-  {:address (map second (re-seq #"(?:^|\[|\])(.*?)(?:$|\[|\])" ip))
+  {:supernet (map second (re-seq #"(?:^|\[|\])(.*?)(?:$|\[|\])" ip))
    :hypernet (re-seq #"(?<=\[)[^\[\]]+(?=\])" ip)})
 
 (defn abba? [segment]
@@ -17,9 +17,9 @@
               (partition 4 1 segment)))))
 
 (defn tls? [ip]
-  (let [{:keys [address hypernet]} (parse-ip ip)]
+  (let [{:keys [supernet hypernet]} (parse-ip ip)]
     (and
-     (some? (some true? (map abba? address)))
+     (some? (some true? (map abba? supernet)))
      (every? false? (map abba? hypernet)))))
 
 (defn solve [ips]
