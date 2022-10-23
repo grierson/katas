@@ -14,34 +14,37 @@
     s))
 
 (defn append-valid-fn
-  [append-fn password id]
+  [append-fn state id]
   (let [hash (digest/md5 id)]
     (if (valid? hash)
-      (append-fn password hash)
-      password)))
+      (append-fn state hash)
+      state)))
 
 (def append-valid-hash
-  (partial append-valid-fn (fn [password hash]
-                             (str password (nth hash 5)))))
+  (partial
+   append-valid-fn
+   (fn [state hash]
+     (str state (nth hash 5)))))
 
 (def append-valid-hash2
-  (partial append-valid-fn
-           (fn [password hash]
-             (let [index (parse-long (str (nth hash 5)))
-                   value (nth hash 6)]
-               (update-password password index value)))))
+  (partial
+   append-valid-fn
+   (fn [state hash]
+     (let [index (parse-long (str (nth hash 5)))
+           value (nth hash 6)]
+       (update-password state index value)))))
 
-(defn find-hashes-fn
+(defn update-state-fn
   [valid-fn append-fn state id]
   (if (valid-fn state)
     (reduced state)
     (append-fn state id)))
 
-(def find-all-hashes 
-  (partial find-hashes-fn #(= 8 (count %)) append-valid-hash))
+(def update-state-sequential
+  (partial update-state-fn #(= 8 (count %)) append-valid-hash))
 
-(def find-all-hashes2 
-  (partial find-hashes-fn password-complete? append-valid-hash2))
+(def update-state-situated
+  (partial update-state-fn password-complete? append-valid-hash2))
 
 (defn solve-fn [f state secret]
   (reduce
@@ -49,8 +52,8 @@
    state
    (lazy-seq (map #(str secret %) (range)))))
 
-(def solve (partial solve-fn find-all-hashes ""))
-(def solve2 (partial solve-fn find-all-hashes2 "________"))
+(def solve (partial solve-fn update-state-sequential ""))
+(def solve2 (partial solve-fn update-state-situated "________"))
 
 (comment
   (solve "abc")
