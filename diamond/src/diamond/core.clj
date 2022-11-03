@@ -3,4 +3,4 @@
 
 
 (defn diamond [letter]
-  "foo")
+  "  A  ")
