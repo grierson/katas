@@ -15,7 +15,9 @@
     (let [half (/ (dec width) 2)
           padding (apply str (repeat half " "))]
       (str padding letter padding))
-    (apply str (repeat width letter))))
+    (let [space-width (- width 2)
+          inner-space (apply str (repeat space-width " "))]
+      (str letter inner-space letter))))
 
 (defn make [letter]
   (let [letters (range-letters letter)

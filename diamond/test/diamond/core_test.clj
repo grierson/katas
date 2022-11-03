@@ -70,3 +70,19 @@
      (every?
       true?
       (map (fn [row] (= height (count row))) rows)))))
+
+(defn only-two [line]
+  (let [contents (frequencies (string/replace line #" " ""))]
+    (and (= 1 (count contents))
+         (= 2 (second (first contents))))))
+
+(defspec all-inner-rows-have-two-identical-letters
+  (prop/for-all
+   [letter (s/gen letter?)]
+   (let [diamond (make letter)
+         rows (string/split-lines diamond)
+         rows (->> rows (rest) (drop-last 1))
+         _ (prn rows)]
+     (every?
+      true?
+      (map only-two rows)))))
