@@ -61,5 +61,12 @@
      (= expected-letters
         actual))))
 
-
-
+(defspec width-matches-height
+  (prop/for-all
+   [letter (s/gen letter?)]
+   (let [diamond (make letter)
+         rows (string/split-lines diamond)
+         height (count rows)]
+     (every?
+      true?
+      (map (fn [row] (= height (count row))) rows)))))
