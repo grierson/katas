@@ -10,18 +10,24 @@
   (let [index (.indexOf (vec letter?) letter)]
     (take (inc index) letter?)))
 
-(defn make-line [width letter]
+(defn make-line [width [letter letter-idx]]
   (if (= letter \A)
     (let [half (/ (dec width) 2)
           padding (apply str (repeat half " "))]
       (str padding letter padding))
-    (let [space-width (- width 2)
-          inner-space (apply str (repeat space-width " "))]
-      (str letter inner-space letter))))
+    (let [inner-space-width (dec (* letter-idx 2))
+          padding (apply str (repeat (/ (- width 2 inner-space-width) 2) " "))
+          inner-space (apply str (repeat inner-space-width " "))]
+      (str padding letter inner-space letter padding))))
 
 (defn make [letter]
-  (let [letters (range-letters letter)
-        reverse-letters (rest (reverse letters))
-        letters (concat letters reverse-letters)
+  (let [letters
+        (map-indexed
+         (fn [index letter] [letter index])
+         (range-letters letter))
+
+        letters (concat letters (rest (reverse letters)))
         width (count letters)]
     (string/join "\n" (map (partial make-line width) letters))))
+
+(make \D)

@@ -32,6 +32,21 @@
             (last)
             (string/trim))))))
 
+(defn find-line-letter [line]
+  (first (string/trim line)))
+
+(defn leading-space
+  ([line]
+   (leading-space line (find-line-letter line)))
+  ([line letter]
+   (subs line 0 (string/index-of line letter))))
+
+(defn trailing-space
+  ([line]
+   (leading-space line (find-line-letter line)))
+  ([line letter]
+   (subs line (inc (string/last-index-of line letter)))))
+
 (defspec each-row-has-matching-outside-space
   (prop/for-all
    [letter (s/gen letter?)]
@@ -40,11 +55,8 @@
       true?
       (map
        (fn [line]
-         (let [line-letter (first (string/trim line))
-               first-letter (string/index-of line line-letter)
-               second-letter (string/last-index-of line line-letter)
-               leading-space (subs line 0 first-letter)
-               trailing-space (subs line (inc second-letter))]
+         (let [leading-space (leading-space line)
+               trailing-space (trailing-space line)]
            (= leading-space trailing-space)))
        (string/split-lines diamond))))))
 
@@ -86,3 +98,28 @@
      (every?
       true?
       (map only-two rows)))))
+
+(defspec bottom-triangle
+  (prop/for-all
+   [letter (s/gen letter?)]
+   (let [diamond (make letter)
+         rows (string/split-lines diamond)
+         rows (drop-while #(not (string/includes? % (str letter))) rows)
+         spaces (map leading-space rows)
+         space-cnt (map count spaces)]
+     (every?
+      true?
+      (map = space-cnt (range))))))
+
+(defspec horizontal-symmetric
+  (prop/for-all
+   [letter (s/gen letter?)]
+   (let [diamond (make letter)
+         rows (string/split-lines diamond)
+         top-rows (take-while #(not (string/includes? % (str letter))) rows)
+         bottom-rows (->>
+                      rows
+                      (drop-while #(not (string/includes? % (str letter))))
+                      (drop 1)
+                      (reverse))]
+     (= top-rows bottom-rows))))
