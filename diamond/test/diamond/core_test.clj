@@ -6,32 +6,6 @@
    [clojure.string :as string]
    [diamond.core :refer [make letter? range-letters]]))
 
-(defspec string-always-returned
-  (prop/for-all
-   [letter (s/gen letter?)]
-   (let [diamond (make letter)]
-     (false? (string/blank? diamond)))))
-
-(defspec first-row-contains-A
-  (prop/for-all
-   [letter (s/gen letter?)]
-   (let [diamond (make letter)]
-     (= "A"
-        (-> diamond
-            (string/split-lines)
-            (first)
-            (string/trim))))))
-
-(defspec last-row-contains-A
-  (prop/for-all
-   [letter (s/gen letter?)]
-   (let [diamond (make letter)]
-     (= "A"
-        (-> diamond
-            (string/split-lines)
-            (last)
-            (string/trim))))))
-
 (defn find-line-letter [line]
   (first (string/trim line)))
 
@@ -47,18 +21,36 @@
   ([line letter]
    (subs line (inc (string/last-index-of line letter)))))
 
-(defspec each-row-has-matching-outside-space
+(defspec string-always-returned
   (prop/for-all
    [letter (s/gen letter?)]
    (let [diamond (make letter)]
-     (every?
-      true?
+     (false? (string/blank? diamond)))))
+
+(defspec first-and-last-row-contain-A
+  (prop/for-all
+   [letter (s/gen letter?)]
+   (let [diamond (make letter)
+         rows (string/split-lines diamond)
+         first-row (string/trim (first rows))
+         last-row (string/trim (last rows))]
+     (= "A"
+        first-row
+        last-row))))
+
+(def every-true? (partial every? true?))
+
+(defspec each-row-has-matching-outside-space
+  (prop/for-all
+   [letter (s/gen letter?)]
+   (let [diamond (make letter)
+         rows (string/split-lines diamond)]
+     (every-true?
       (map
        (fn [line]
-         (let [leading-space (leading-space line)
-               trailing-space (trailing-space line)]
-           (= leading-space trailing-space)))
-       (string/split-lines diamond))))))
+         (= (leading-space line)
+            (trailing-space line)))
+       rows)))))
 
 (defspec all-rows-in-order
   (prop/for-all
@@ -66,12 +58,12 @@
    (let [diamond (make letter)
          letters (range-letters letter)
          reverse-letters (rest (reverse letters))
-         expected-letters (concat letters reverse-letters)
-         actual (->> (string/split-lines diamond)
+         expected (concat letters reverse-letters)
+         rows (string/split-lines diamond)
+         actual (->> rows
                      (map string/trim)
                      (map first))]
-     (= expected-letters
-        actual))))
+     (= expected actual))))
 
 (defspec width-matches-height
   (prop/for-all
@@ -79,8 +71,7 @@
    (let [diamond (make letter)
          rows (string/split-lines diamond)
          height (count rows)]
-     (every?
-      true?
+     (every-true?
       (map (fn [row] (= height (count row))) rows)))))
 
 (defn only-two [line]
@@ -93,11 +84,8 @@
    [letter (s/gen letter?)]
    (let [diamond (make letter)
          rows (string/split-lines diamond)
-         rows (->> rows (rest) (drop-last 1))
-         _ (prn rows)]
-     (every?
-      true?
-      (map only-two rows)))))
+         body (->> rows (rest) (drop-last 1))]
+     (every-true? (map only-two body)))))
 
 (defspec bottom-triangle
   (prop/for-all
@@ -107,19 +95,18 @@
          rows (drop-while #(not (string/includes? % (str letter))) rows)
          spaces (map leading-space rows)
          space-cnt (map count spaces)]
-     (every?
-      true?
-      (map = space-cnt (range))))))
+     (every-true? (map = space-cnt (range))))))
 
 (defspec horizontal-symmetric
   (prop/for-all
    [letter (s/gen letter?)]
    (let [diamond (make letter)
          rows (string/split-lines diamond)
-         top-rows (take-while #(not (string/includes? % (str letter))) rows)
-         bottom-rows (->>
-                      rows
-                      (drop-while #(not (string/includes? % (str letter))))
-                      (drop 1)
-                      (reverse))]
+         letter (str letter)
+         non-letter-rows #(not (string/includes? % letter))
+         top-rows (take-while non-letter-rows rows)
+         bottom-rows (->> rows
+                          (drop-while non-letter-rows)
+                          (drop 1)
+                          (reverse))]
      (= top-rows bottom-rows))))
