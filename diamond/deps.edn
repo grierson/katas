@@ -1,0 +1,18 @@
+{:paths ["src"]
+
+ :deps
+ {}
+
+ :aliases
+ {:repl/conjure {:extra-deps {nrepl/nrepl       {:mvn/version "1.0.0"}
+                              cider/cider-nrepl {:mvn/version "0.28.7"}
+                              clojure/test.check   {:git/url "https://github.com/clojure/test.check"
+                                                    :git/sha "b6a318af92e836f1f20960f38a5944168b88d60d"}}
+                 :main-opts  ["-m" "nrepl.cmdline"
+                              "--middleware" "[cider.nrepl/cider-middleware]"
+                              "--interactive"]}
+  :test {:main-opts   ["-m" "kaocha.runner"]
+         :extra-paths ["test"]
+         :extra-deps  {lambdaisland/kaocha  {:mvn/version "1.71.1119"}
+                       clojure/test.check   {:git/url "https://github.com/clojure/test.check"
+                                             :git/sha "b6a318af92e836f1f20960f38a5944168b88d60d"}}}}}
