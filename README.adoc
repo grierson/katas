@@ -37,7 +37,6 @@ image::https://www.codewars.com/users/grierson/badges/large[codewars]
 - https://codingdojo.org/kata/RomanNumerals/
 * Word wrap
 - https://codingdojo.org/kata/WordWrap/
-
-
-
+* Diamond
+- https://codingdojo.org/kata/Diamond/
 
