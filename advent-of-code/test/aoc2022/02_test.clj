@@ -1,6 +1,11 @@
 (ns aoc2022.02-test
   (:require [clojure.test :refer :all]
-            [aoc2022.02 :refer [parse sample score-round score]]))
+            [aoc2022.02 :refer [parse
+                                sample
+                                score-round
+                                score
+                                score2
+                                parse2]]))
 
 ;; Opponent | Me
 ;; A/X = Rock = 1
@@ -24,3 +29,6 @@
 
 (deftest score-test
   (is (= 15 (score (parse sample)))))
+
+(deftest score2-test
+  (is (= 12 (score2 (parse2 sample)))))
