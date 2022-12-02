@@ -3,7 +3,7 @@
             [clojure.string :as str]))
 
 (def sample
-"1000
+  "1000
 2000
 3000
 
@@ -18,7 +18,19 @@
 
 10000")
 
-(def data (str/split-lines (slurp (io/resource "aoc2022/01.txt"))))
-(def nums (map #(Long/parseLong %) data))
+(def data (slurp (io/resource "aoc2022/01.txt")))
 
-(str/split-lines sample)
+(defn parse [data]
+  (map (fn [elv] (map parse-long elv)) (map str/split-lines (str/split data #"\n\n"))))
+
+(defn most-calories [data]
+  (apply max (map #(reduce + %) (parse data))))
+
+(defn three-most-calories [data]
+  (reduce + (take 3 (reverse (sort (map #(reduce + %) (parse data)))))))
+
+(comment
+  (most-calories sample)
+  (most-calories data)
+  (three-most-calories sample)
+  (three-most-calories data))
