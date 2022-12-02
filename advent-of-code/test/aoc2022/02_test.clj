@@ -30,5 +30,5 @@
 (deftest score-test
   (is (= 15 (score (parse sample)))))
 
-(deftest score2-test
+(deftest score2-test2
   (is (= 12 (score2 (parse2 sample)))))

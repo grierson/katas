@@ -9,33 +9,34 @@ C Z")
 
 (def data (slurp (io/resource "aoc2022/02.txt")))
 
-(defn decypher [letter]
-  (case letter
-    \A :ROCK
-    \X :ROCK
-    \B :PAPER
+(def opponent
+  {\A :ROCK
+   \B :PAPER
+   \C :SCISSORS})
+
+(def decipher
+  (merge
+   opponent
+   {\X :ROCK
     \Y :PAPER
-    \C :SCISSORS
-    \Z :SCISSORS))
+    \Z :SCISSORS}))
 
-(defn decypher2 [letter]
-  (case letter
-    \A :ROCK
-    \X :LOSE
-    \B :PAPER
+(def decipher2
+  (merge
+   opponent
+   {\X :LOSE
     \Y :DRAW
-    \C :SCISSORS
-    \Z :WIN))
+    \Z :WIN}))
 
-(defn parse-fn [decyher-fn game]
+(defn parse-fn [decipher-fn game]
   (map
    (fn [round]
      (let [[p1 _ p2] round]
-       [(decypher-fn p1) (decypher-fn p2)]))
+       [(decipher-fn p1) (decipher-fn p2)]))
    (str/split-lines game)))
 
-(def parse (partial parse-fn decypher))
-(def parse2 (partial parse-fn decypher2))
+(def parse (partial parse-fn decipher))
+(def parse2 (partial parse-fn decipher2))
 
 (def shape
   {:ROCK 1
