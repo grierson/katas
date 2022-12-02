@@ -21,16 +21,19 @@
 (def data (slurp (io/resource "aoc2022/01.txt")))
 
 (defn parse [data]
-  (map (fn [elv] (map parse-long elv)) (map str/split-lines (str/split data #"\n\n"))))
+  (->> (str/split data #"\n\n")
+       (map str/split-lines)
+       (map (fn [elv] (map parse-long elv)))
+       (map #(reduce + %))))
 
-(defn most-calories [data]
-  (apply max (map #(reduce + %) (parse data))))
+(defn most-calories [elvs]
+  (apply max elvs))
 
-(defn three-most-calories [data]
-  (reduce + (take 3 (reverse (sort (map #(reduce + %) (parse data)))))))
+(defn three-most-calories [elvs]
+  (reduce + (take 3 (sort > elvs))))
 
 (comment
-  (most-calories sample)
-  (most-calories data)
-  (three-most-calories sample)
-  (three-most-calories data))
+  (most-calories (parse sample))
+  (most-calories (parse data))
+  (three-most-calories (parse sample))
+  (three-most-calories (parse data)))
