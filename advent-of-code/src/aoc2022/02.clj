@@ -27,19 +27,15 @@ C Z")
     \C :SCISSORS
     \Z :WIN))
 
-(defn parse [game]
+(defn parse-fn [decyher-fn game]
   (map
    (fn [round]
      (let [[p1 _ p2] round]
-       [(decypher p1) (decypher p2)]))
+       [(decypher-fn p1) (decypher-fn p2)]))
    (str/split-lines game)))
 
-(defn parse2 [game]
-  (map
-   (fn [round]
-     (let [[p1 _ p2] round]
-       [(decypher2 p1) (decypher2 p2)]))
-   (str/split-lines game)))
+(def parse (partial parse-fn decypher))
+(def parse2 (partial parse-fn decypher2))
 
 (def shape
   {:ROCK 1
@@ -69,17 +65,22 @@ C Z")
               :DRAW :SCISSORS}})
 
 (defn score-round [[p1 p2]]
-  (+ (shape p2) (get-in outcomes [p1 p2])))
-
-(defn score [game]
-  (reduce + (map score-round game)))
+  (+ (shape p2)
+     (get-in outcomes [p1 p2])))
 
 (defn score-round2 [[p1 p2]]
-  (+ (shape p2) (get-in outcomes [p1 (get-in outcomes2 [p1 p2])])))
+  (let [expected-outcome (get-in outcomes2 [p1 p2])]
+    (+ (shape expected-outcome)
+       (get-in outcomes [p1 expected-outcome]))))
 
-(defn score2 [game]
-  (reduce + (map score-round2 game)))
+(defn score-fn [score-round-fn game]
+  (reduce + (map score-round-fn game)))
+
+(def score (partial score-fn score-round))
+(def score2 (partial score-fn score-round2))
 
 (comment
   (score (parse sample))
-  (score (parse data)))
+  (score (parse data))
+  (score2 (parse2 sample))
+  (score2 (parse2 data)))
