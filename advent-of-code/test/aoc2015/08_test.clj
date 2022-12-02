@@ -13,7 +13,4 @@
             :literal 5}))
     (is (= (size "aaa\"aaa")
            {:memory 7
-            :literal 10}))
-    (is (= (size "\x27")
-           {:memory 1
-            :literal 6}))))
+            :literal 10}))))

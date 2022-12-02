@@ -4,7 +4,6 @@
                        solve
                        get-coord
                        get-number
-                       trace-moves
                        valid-move?
                        apply-moves]]
    [clojure.test :refer [are deftest is testing]]))
@@ -40,10 +39,6 @@
 (deftest get-next-coord-test
   (is (= nil (valid-move? [2 0] \L)))
   (is (= [2 1] (valid-move? [2 0] \R))))
-
-(deftest update-state2-test
-  (is (= (trace-moves [[2 0]] \U) [[2 0]]))
-  (is (= (trace-moves [[2 0]] \R) [[2 0] [2 1]])))
 
 (deftest apply-moves-test
   (is (= (apply-moves [2 0] "ULL") [2 0]))
