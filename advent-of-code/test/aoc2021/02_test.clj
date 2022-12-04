@@ -45,9 +45,7 @@
   (testing "examples steps"
     (testing "step one"
       (is (= (make-sub {:x 5})
-             (move2 (make-sub) ["forward" 5]))))
-    (testing "step two"
-      (is (= (make-sub))))))
+             (move2 (make-sub) ["forward" 5]))))))
 
 (deftest apply-moves2-test
   (is (= (make-sub {:x 15 :z 60 :aim 10})

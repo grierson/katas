@@ -36,7 +36,7 @@
 
     (let [eighteen-days (calculate sample 18)]
       (testing "sample expected"
-        (is (= [6 0 6 4 5 6 0 1 1 2 6 0 1 1 1 2 2 3 3 4 6 7 8 8 8 8
-                eighteen-days]))
+        (is (= [6 0 6 4 5 6 0 1 1 2 6 0 1 1 1 2 2 3 3 4 6 7 8 8 8 8]
+                eighteen-days))
         (is (= 26 (count eighteen-days)))))))
 

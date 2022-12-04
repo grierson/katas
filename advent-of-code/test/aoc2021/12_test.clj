@@ -78,19 +78,19 @@
           "d"     #{"b"}}
          (caves->graph example))))
 
-(deftest ^:kaocha/pending paths-test
-  (let [caves (caves->graph example)]
-    (is (= [["start" "A" "b" "A" "c" "A" "end"]
-            ["start" "A" "b" "A" "end"]
-            ["start" "A" "b" "end"]
-            ["start" "A" "c" "A" "b" "A" "end"]
-            ["start" "A" "c" "A" "b" "end"]
-            ["start" "A" "c" "A" "end"]
-            ["start" "A" "end"]
-            ["start" "b" "A" "c" "A" "end"]
-            ["start" "b" "A" "end"]
-            ["start" "b" "end"]]
-           (paths caves #{} "start")))))
+#_(deftest paths-test
+    (let [caves (caves->graph example)]
+      (is (= [["start" "A" "b" "A" "c" "A" "end"]
+              ["start" "A" "b" "A" "end"]
+              ["start" "A" "b" "end"]
+              ["start" "A" "c" "A" "b" "A" "end"]
+              ["start" "A" "c" "A" "b" "end"]
+              ["start" "A" "c" "A" "end"]
+              ["start" "A" "end"]
+              ["start" "b" "A" "c" "A" "end"]
+              ["start" "b" "A" "end"]
+              ["start" "b" "end"]]
+             (paths caves #{} "start")))))
 
 (deftest valid-paths-test
   (is (= 10
