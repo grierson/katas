@@ -28,13 +28,19 @@
 (defn any-overlap [section1 section2]
   (not (empty? (set/intersection section1 section2))))
 
-(defn solve [assignments]
+(defn solve-fn [overlap-fn assignments]
   (->> assignments
        (str/split-lines)
        (map parse)
-       (map (fn [[s1 s2]] (fully-contains s1 s2)))
+       (map (fn [[s1 s2]] (overlap-fn s1 s2)))
        (filter true?)
        (count)))
 
+(def solve (partial solve-fn fully-contains))
+(def solve2 (partial solve-fn any-overlap))
+
 (comment
-  (solve data))
+  (solve sample)
+  (solve data)
+  (solve2 sample)
+  (solve2 data))
