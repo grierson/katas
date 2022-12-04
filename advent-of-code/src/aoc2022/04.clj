@@ -25,6 +25,9 @@
   (or (set/superset? section1 section2)
       (set/superset? section2 section1)))
 
+(defn any-overlap [section1 section2]
+  (not (empty? (set/intersection section1 section2))))
+
 (defn solve [assignments]
   (->> assignments
        (str/split-lines)
