@@ -47,12 +47,10 @@ move 1 from 1 to 2")
      [(dec amount) current destintation])))
 
 (defn procedure2 [crates [amount current destintation]]
-  (let [transfer-stack (vec (take-last amount (crates current)))
-        current-fn (vec (drop-last amount (crates current)))
-        destintation-fn (into (crates destintation) transfer-stack)]
+  (let [transfer-stack (vec (take-last amount (crates current)))]
     (-> crates
-        (assoc current current-fn)
-        (assoc destintation destintation-fn))))
+        (update current #(vec (drop-last amount %)))
+        (update destintation into transfer-stack))))
 
 (defn ends [crates]
   (apply str (map last (vals (into (sorted-map) crates)))))
