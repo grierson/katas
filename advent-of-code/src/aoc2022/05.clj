@@ -46,9 +46,19 @@ move 1 from 1 to 2")
      (transfer crates current destintation)
      [(dec amount) current destintation])))
 
+(defn procedure2 [crates [amount current destintation]]
+  (let [transfer-stack (vec (take-last amount (crates current)))
+        current-fn (vec (drop-last amount (crates current)))
+        destintation-fn (into (crates destintation) transfer-stack)]
+    (-> crates
+        (assoc current current-fn)
+        (assoc destintation destintation-fn))))
+
 (defn ends [crates]
   (apply str (map last (vals (into (sorted-map) crates)))))
 
 (comment
   (ends (reduce procedure sample-crates (parse sample)))
-  (ends (reduce procedure data-crates (parse data))))
+  (ends (reduce procedure data-crates (parse data)))
+  (ends (reduce procedure2 sample-crates (parse sample)))
+  (ends (reduce procedure2 data-crates (parse data))))
