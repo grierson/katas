@@ -69,11 +69,25 @@ $ ls
           {}
           (str/split-lines sample)))
 
-(defn folder-size [{:keys [files] :as fs}]
+(defn folder-size
+  [{:keys [files] :as fs}]
   (if (empty? files)
     0
     (reduce +
             (reduce + (map :size files))
             (map #(folder-size (get fs %)) (keys (dissoc fs :files))))))
 
-; (folder-size (reduce run {} (str/split-lines sample)))
+(comment
+  (def fs (dissoc (reduce run {} (str/split-lines sample)) :wd))
+  (folder-size fs))
+
+(comment
+  {:total 10
+   :a {:total 5
+       :b {:total 3}}})
+
+(defn total
+  [{:keys [files] :as fs}]
+  (apply merge
+         {:total (folder-size fs)}
+         (map (fn [dir] {dir (total (get fs dir))}) (keys (dissoc fs :files)))))

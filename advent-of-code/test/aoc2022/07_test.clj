@@ -1,6 +1,6 @@
 (ns aoc2022.07-test
   (:require [clojure.test :refer [deftest is testing]]
-            [aoc2022.07 :refer [run folder-size]]))
+            [aoc2022.07 :refer [run folder-size total]]))
 
 (deftest run-test
   (testing "cd /"
@@ -41,3 +41,11 @@
            (folder-size {:files [{:size 1} {:size 2}]
                          :a {:files [{:size 3}]}
                          :b {:files [{:size 4}]}})))))
+
+(deftest total-test
+  (is (= {:total 1}
+         (total {:files [{:size 1}]})))
+  (is (= {:total 3
+          :a {:total 2}}
+         (total {:files [{:size 1}]
+                 :a {:files [{:size 2}]}}))))
