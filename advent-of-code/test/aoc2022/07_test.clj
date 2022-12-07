@@ -16,7 +16,7 @@
            (:wd (run {:wd [:a]}  "$ cd b")))))
   (testing "dir"
     (is (= {:a {}}
-           (:fs (run {:fs {}} "$ dir a")))))
+           (:fs (run {:fs {}} "dir a")))))
   (testing "file"
     (is (= {:files [{:size 123
                      :name "filename.txt"}]}

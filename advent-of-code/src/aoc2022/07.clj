@@ -49,20 +49,24 @@ $ ls
   (let [name (keyword (str (last cmd)))
         path (into [:fs] wd)
         path (conj path name)]
-    (assoc-in system path {})))
+    (assoc-in system path {:files []})))
 
-(defn handle-file [{:keys [fs wd] :as system} file]
+(defn handle-file [{:keys [wd] :as system} file]
   (let [path (into [:fs] wd)
+        path (conj path :files)
         [size name] (str/split file #" ")
         filedata {:size (parse-long size)
                   :name name}]
-    (if (contains? (get-in fs path) :files)
-      (update-in system path conj filedata)
-      (assoc-in system (conj path :files) [filedata]))))
+    (update-in system path conj filedata)))
 
 (defn run [system cmd]
   (cond
     (= "$ ls" cmd)  system
     (str/starts-with? cmd "$ cd") (handle-cd system cmd)
-    (str/starts-with? cmd "$ dir") (handle-dir system cmd)
+    (str/starts-with? cmd "dir") (handle-dir system cmd)
     :else (handle-file system cmd)))
+
+(comment
+  (reduce run {:fs {:files []}
+               :wd []}
+          (str/split-lines sample)))
