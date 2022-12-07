@@ -1,6 +1,6 @@
 (ns aoc2022.07-test
   (:require [clojure.test :refer [deftest is testing]]
-            [aoc2022.07 :refer [run]]))
+            [aoc2022.07 :refer [run folder-size]]))
 
 (deftest run-test
   (testing "cd /"
@@ -15,9 +15,29 @@
     (is (= [:a :b]
            (:wd (run {:wd [:a]}  "$ cd b")))))
   (testing "dir"
-    (is (= {:a {}}
-           (:fs (run {:fs {}} "dir a")))))
+    (is (= {:a {:files []}}
+           (run {} "dir a"))))
   (testing "file"
     (is (= {:files [{:size 123
                      :name "filename.txt"}]}
-           (:fs (run {:fs {}} "123 filename.txt"))))))
+           (run {} "123 filename.txt")))))
+
+(deftest folder-size-test
+  (testing "empty files"
+    (is (= 0
+           (folder-size {:files []}))))
+  (testing "total files"
+    (is (= 3
+           (folder-size {:files [{:size 1} {:size 2}]}))))
+  (testing "include sub folder in total files"
+    (is (= 6
+           (folder-size {:files [{:size 1} {:size 2}]
+                         :a {:files [{:size 3}]}})))
+    (is (= 10
+           (folder-size {:files [{:size 1} {:size 2}]
+                         :a {:files [{:size 3}]
+                             :b {:files [{:size 4}]}}})))
+    (is (= 10
+           (folder-size {:files [{:size 1} {:size 2}]
+                         :a {:files [{:size 3}]}
+                         :b {:files [{:size 4}]}})))))

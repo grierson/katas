@@ -36,7 +36,7 @@ $ ls
 ;; ls <dir> - ls = <dir> 
 ;; <#> <name> - update-in fs (conj wd ls) conj {:file <name> :size <#>}   
 
-(defn handle-cd [{:keys [fs wd] :as system} cmd]
+(defn handle-cd [system cmd]
   (case cmd
     "$ cd /" (assoc system :wd [])
     "$ cd .." (update system :wd #(if (empty? %)
@@ -47,13 +47,11 @@ $ ls
 
 (defn handle-dir [{:keys [wd] :as system} cmd]
   (let [name (keyword (str (last cmd)))
-        path (into [:fs] wd)
-        path (conj path name)]
+        path (conj wd name)]
     (assoc-in system path {:files []})))
 
 (defn handle-file [{:keys [wd] :as system} file]
-  (let [path (into [:fs] wd)
-        path (conj path :files)
+  (let [path (conj wd :files)
         [size name] (str/split file #" ")
         filedata {:size (parse-long size)
                   :name name}]
@@ -67,6 +65,15 @@ $ ls
     :else (handle-file system cmd)))
 
 (comment
-  (reduce run {:fs {:files []}
-               :wd []}
+  (reduce run
+          {}
           (str/split-lines sample)))
+
+(defn folder-size [{:keys [files] :as fs}]
+  (if (empty? files)
+    0
+    (reduce +
+            (reduce + (map :size files))
+            (map #(folder-size (get fs %)) (keys (dissoc fs :files))))))
+
+; (folder-size (reduce run {} (str/split-lines sample)))
