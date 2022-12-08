@@ -71,8 +71,6 @@ $ ls
 (comment
   (parse (str/split-lines sample)))
 
-(require 'hashp.core)
-
 (defn total
   [fs]
   (let [dirs (keys (dissoc fs :files))
