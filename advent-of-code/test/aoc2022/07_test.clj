@@ -48,4 +48,8 @@
   (is (= {:total 3
           :a {:total 2}}
          (total {:files [{:size 1}]
+                 :a {:files [{:size 2}]}})))
+  (is (= {:total 2
+          :a {:total 2}}
+         (total {:files []
                  :a {:files [{:size 2}]}}))))

@@ -71,28 +71,21 @@ $ ls
 (comment
   (parse (str/split-lines sample)))
 
-(defn folder-size
-  [{:keys [files] :as fs}]
-  (if (empty? files)
-    0
-    (reduce +
-            (reduce + (map :size files))
-            (map #(folder-size (get fs %)) (keys (dissoc fs :files))))))
+(require 'hashp.core)
 
 (defn total
   [fs]
   (let [dirs (keys (dissoc fs :files))
-        dir-total (folder-size fs)]
-    (apply merge
-           {:total dir-total}
-           (map
-            (fn [dir]
-              {dir (total (dir fs))})
-            dirs))))
-
-(comment
-  (def sample-fs (parse (str/split-lines sample)))
-  (total sample-fs))
+        dir-total (reduce
+                   +
+                   (reduce + 0 (map :size (:files fs)))
+                   (map :total (map total (map #(% fs) dirs))))]
+    (if (nil? keys)
+      {:total dir-total}
+      (apply merge
+             {:total dir-total}
+             (map (fn [dir] {dir (total (get fs dir))})
+                  dirs)))))
 
 (defn solve1 [{:keys [total]
                :or {total 0}
@@ -100,17 +93,16 @@ $ ls
   (let [ks (keys (dissoc fs :total))]
     (reduce
      +
-     (if (< total 100000) total 0)
+     (if (<= total 100000) total 0)
      (map #(solve1 (% fs)) ks))))
 
 (comment
+  (def sample-fs (parse (str/split-lines sample)))
+  (def sample-total (total sample-fs))
   (solve1 (total sample-fs)))
 
-(def data (slurp (io/resource "aoc2022/07.txt")))
-
 (comment
-  (def fs (parse (str/split-lines data)))
-  (total fs)
-  (folder-size fs)
-  (solve1 (total fs)))
-
+  (def data (slurp (io/resource "aoc2022/07.txt")))
+  (def data-fs (parse (str/split-lines data)))
+  (def data-total (total data-fs))
+  (solve1 data-total))
