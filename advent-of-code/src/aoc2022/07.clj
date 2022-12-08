@@ -101,7 +101,7 @@ $ ls
     (reduce
      +
      (if (< total 100000) total 0)
-     (map #(solve1 (get fs %)) ks))))
+     (map #(solve1 (% fs)) ks))))
 
 (comment
   (solve1 (total sample-fs)))
