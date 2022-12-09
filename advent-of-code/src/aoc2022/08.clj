@@ -15,25 +15,25 @@
    (str/split-lines lines)))
 
 (defn surrounding [size [x y]]
-  {:left (map #(vector x %) (range y))
+  {:left (reverse (map #(vector x %) (range y)))
    :right (map #(vector x %) (range (inc y) (inc size)))
-   :top (map #(vector % y) (range x))
-   :bottom (map #(vector % y) (range (inc x) (inc size)))})
+   :up (reverse (map #(vector % y) (range x)))
+   :down (map #(vector % y) (range (inc x) (inc size)))})
 
 (defn surrounding-trees [grid location]
   (let [size (dec (count grid))
-        {:keys [left right top bottom]}
+        {:keys [left right up down]}
         (surrounding size location)]
     {:left (map #(get-in grid % 0) left)
      :right (map #(get-in grid % 0) right)
-     :top (map #(get-in grid % 0) top)
-     :bottom (map #(get-in grid % 0) bottom)}))
+     :up (map #(get-in grid % 0) up)
+     :down (map #(get-in grid % 0) down)}))
 
-(defn visible? [tree {:keys [left right top bottom]}]
+(defn visible? [tree {:keys [left right up down]}]
   (let [result {:left  (every? #(> tree %) left)
                 :right (every? #(> tree %) right)
-                :top (every? #(> tree %) top)
-                :bottom (every? #(> tree %) bottom)}]
+                :up (every? #(> tree %) up)
+                :down (every? #(> tree %) down)}]
     ((complement not-any?) true? (vals result))))
 
 (defn locations [grid]
@@ -53,7 +53,37 @@
        (filter true?)
        count))
 
+(defn step
+  ([height trees] (step 0 height trees))
+  ([cnt height trees]
+   (cond
+     (empty? trees) cnt
+     (< (first trees) height) (recur (inc cnt) height (rest trees))
+     :else (inc cnt))))
+
+(defn distance [height {:keys [left right up down]}]
+  {:left (step height left)
+   :right (step height right)
+   :up (step height up)
+   :down (step height down)})
+
+(defn solve2 [grid]
+  (->> grid
+       locations
+       (map (fn [location]
+              (distance
+               (get-in grid location)
+               (surrounding-trees grid location))))
+       (map (fn [{:keys [left right up down]}] (* up left right down)))
+       (apply max)))
+
 (comment
-  (solve (parse sample))
-  (def data (slurp (io/resource "aoc2022/08.txt")))
-  (solve (parse data)))
+  (def grid (parse sample))
+  (def data (parse (slurp (io/resource "aoc2022/08.txt"))))
+
+  (solve grid)
+  (solve data)
+
+  (solve2 grid)
+  (solve2 data))
+
