@@ -1,5 +1,6 @@
 (ns aoc2022.08
   (:require
+   [clojure.java.io :as io]
    [clojure.string :as str]))
 
 (def sample "30373
@@ -28,8 +29,6 @@
      :top (map #(get-in grid % 0) top)
      :bottom (map #(get-in grid % 0) bottom)}))
 
-(require '[hashp.core])
-
 (defn visible? [tree {:keys [left right top bottom]}]
   (let [result {:left  (every? #(> tree %) left)
                 :right (every? #(> tree %) right)
@@ -44,7 +43,17 @@
       [x y])))
 
 (defn solve [grid]
-  (map
-   (fn [location]
-     [location (visible? (get-in grid location) (surrounding-trees grid location))])
-   (locations grid)))
+  (->> grid
+       locations
+       (map
+        (fn [location]
+          (visible?
+           (get-in grid location)
+           (surrounding-trees grid location))))
+       (filter true?)
+       count))
+
+(comment
+  (solve (parse sample))
+  (def data (slurp (io/resource "aoc2022/08.txt")))
+  (solve (parse data)))
