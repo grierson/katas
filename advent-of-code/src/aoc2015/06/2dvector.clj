@@ -28,8 +28,9 @@
         coll (draw p1 p2)]
     (reduce (fn [state x] (f state x)) grid coll)))
 
-(update-state (make-grid 10 10) {:action turn-on
-                                 :coords [[0 0] [2 2]]})
+(comment
+  (update-state (make-grid 10 10) {:action turn-on
+                                   :coords [[0 0] [2 2]]}))
 
 (defn get-action [line]
   (cond
@@ -41,7 +42,6 @@
   (let [[[_ x y] [_ a b]] (re-seq #"(\d+),(\d+)" line)]
     [[(parse-long x) (parse-long y)]
      [(parse-long a) (parse-long b)]]))
-
 
 (defn parse-line [line]
   {:action (get-action line)

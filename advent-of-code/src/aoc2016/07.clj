@@ -16,16 +16,17 @@
                  (= b c)))
               (partition 4 1 segment)))))
 
-(defn tls? [ip]
-  (let [{:keys [supernet hypernet]} (parse-ip ip)]
-    (and
-     (some? (some true? (map abba? supernet)))
-     (every? false? (map abba? hypernet)))))
+(defn tls? [{:keys [supernet hypernet]}]
+  (and
+   (some? (some true? (map abba? supernet)))
+   (every? false? (map abba? hypernet))))
 
 (defn solve [ips]
-  (count
-   (filter true?
-           (map tls? ips))))
+  (->> ips
+       (map parse-ip)
+       (map tls?)
+       (filter true?)
+       (count)))
 
 (comment
   (def data (str/split-lines (slurp (io/resource "aoc2016/07.txt"))))

@@ -2,8 +2,11 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
+(def ^:private vowels
+  #{\a \e \i \o \u})
+
 (defn three-vowels? [line]
-  (<= 3 (count (filter #{\a \e \i \o \u} line))))
+  (<= 3 (count (filter vowels line))))
 
 (defn contains-pair? [line]
   (let [[a & xs] line

@@ -10,12 +10,13 @@
 (defn valid2? [hash]
   (str/starts-with? hash "000000"))
 
-(defn finder [valid-fn]
-  (loop [cnt 0]
-    (let [hash (digest/md5 (str secret cnt))]
-      (if (valid-fn hash)
-        cnt
-        (recur (inc cnt))))))
+(defn finder
+  ([valid-fn] (finder valid-fn 0))
+  ([valid-fn cnt]
+   (let [hash (digest/md5 (str secret cnt))]
+     (if (valid-fn hash)
+       cnt
+       (recur valid-fn (inc cnt))))))
 
 (comment
   (finder valid?)

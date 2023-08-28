@@ -18,7 +18,7 @@
        (* x y z))))
 
 (defn parse-measurement [measurement]
-  (map #(Integer/parseInt %) (str/split measurement #"x")))
+  (map parse-long (str/split measurement #"x")))
 
 (defn measure-fn [f input]
   (reduce + (map (comp f parse-measurement) (str/split-lines input))))
