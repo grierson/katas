@@ -8,16 +8,6 @@
 (defn three-vowels? [line]
   (<= 3 (count (filter vowels line))))
 
-; (defn contains-pair? [line]
-;   (let [[a & xs] line
-;         [_ b] line]
-;     (cond
-;       (nil? b) false
-;       (= a b) true
-;       :else (recur xs))))
-
-(require 'hashp.core)
-
 (defn contains-pair? [line]
   (let [permutations (map
                       (fn [[a b]] (= a b))

@@ -16,13 +16,18 @@
     :else
     (conj state [current 1])))
 
-(defn turn [number]
+(defn process-turn
+  [number]
   (let [prefix "X"
         number (str prefix number)
         segments (partition 2 1 number)
-        state (reduce process [] segments)
-        state (map (fn [[character count]] (str count character)) state)]
-    (apply str state)))
+        state (reduce process [] segments)]
+    state))
+
+(defn turn [number]
+  (->> (process-turn number)
+       (map (fn [[character count]] (str count character)))
+       (apply str)))
 
 (comment
   (count (last (take 41 (iterate turn "1321131112"))))
