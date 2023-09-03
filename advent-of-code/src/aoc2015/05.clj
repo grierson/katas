@@ -8,13 +8,21 @@
 (defn three-vowels? [line]
   (<= 3 (count (filter vowels line))))
 
+; (defn contains-pair? [line]
+;   (let [[a & xs] line
+;         [_ b] line]
+;     (cond
+;       (nil? b) false
+;       (= a b) true
+;       :else (recur xs))))
+
+(require 'hashp.core)
+
 (defn contains-pair? [line]
-  (let [[a & xs] line
-        [_ b] line]
-    (cond
-      (nil? b) false
-      (= a b) true
-      :else (recur xs))))
+  (let [permutations (map
+                      (fn [[a b]] (= a b))
+                      (partition 2 1 line))]
+    (some? (some true? permutations))))
 
 (defn contains-no-bad-pairs? [line]
   (nil? (re-find #"(ab|cd|pq|xy)" line)))

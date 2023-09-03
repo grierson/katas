@@ -65,5 +65,6 @@ Tristram to Arbre = 90")
         permutations (combo/permutations destinations)]
     (map (partial length routes) permutations)))
 
-(apply min (lengths real))
-(apply max (lengths real))
+(comment
+  (apply min (lengths real))
+  (apply max (lengths real)))
