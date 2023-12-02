@@ -1,0 +1,3 @@
+{:tasks
+ {dev (shell "clj -M:repl/conjure")
+  test (shell "./bin/")}}

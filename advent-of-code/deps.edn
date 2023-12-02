@@ -1,5 +1,5 @@
 {:paths ["src" "resources"]
- :deps  {org.clojure/clojure    {:mvn/version "1.11.0-alpha4"}
+ :deps  {org.clojure/clojure    {:mvn/version "1.11.1"}
          org.clj-commons/digest {:mvn/version "1.4.100"}
          philoskim/debux        {:mvn/version "0.8.2"}
          org.clojure/math.combinatorics {:mvn/version "0.2.0"}
@@ -12,7 +12,7 @@
                               "--middleware" "[cider.nrepl/cider-middleware]"
                               "--interactive"]}
   :test       {:extra-paths ["test"]
-               :extra-deps  {lambdaisland/kaocha    {:mvn/version "1.60.977"}
+               :extra-deps  {lambdaisland/kaocha    {:mvn/version "1.87.1366"}
                              org.clojure/test.check {:mvn/version "1.1.1"}}
                :exec-fn     kaocha.runner/exec-fn
                :exec-args   {}}

@@ -2,8 +2,6 @@
   (:require
    [aoc2015.10 :as pairs]))
 
-(require 'hashp.core)
-
 (def alphabet "abcdefghijklmnopqrstuvwxyz")
 
 (def alphabet-sequences (set (map set (partition 3 1 alphabet))))
@@ -52,7 +50,7 @@
       new-password
       (solve new-password))))
 
-(solve "hxbxwxba")
+; (solve "hxbxwxba")
 ; abcdefghijklmnopqrstuvwxyz
 ; hxbxxvww - Mine
 ; hxbxxyzz - Correct
