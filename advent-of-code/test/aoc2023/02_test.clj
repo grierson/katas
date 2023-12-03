@@ -1,6 +1,7 @@
 (ns aoc2023.02-test
   (:require
-   [aoc2023.02 :refer [parse-game valid? sample-rules sample-data solve]]
+   [aoc2023.02 :refer [max-colors parse-game power sample-data sample-rules
+                       solve valid? solve2]]
    [clojure.test :refer [deftest is testing]]))
 
 (deftest parse-test
@@ -25,5 +26,23 @@
                                          :blue '(6 5)
                                          :green '(8 13 5)}])))))
 
+(deftest max-colors-test
+  (testing "Game 1"
+    (is (= {:red 4 :green 2 :blue 6} (max-colors [1 {:red '(4 1)
+                                                     :blue '(3 6)
+                                                     :green '(2 2)}]))))
+  (testing "Game 3"
+    (is (= {:red 20 :green 13 :blue 6} (max-colors [3 {:red '(20 4 1)
+                                                       :blue '(6 5)
+                                                       :green '(8 13 5)}])))))
+(deftest power-test
+  (testing "Game 1"
+    (is (= 48 (power {:red 4 :green 2 :blue 6}))))
+  (testing "Game 3"
+    (is (= 1560 (power {:red 20 :green 13 :blue 6})))))
+
 (deftest solve1-sample-test
   (is (= 8 (solve sample-rules sample-data))))
+
+(deftest solve2-sample-test
+  (is (= 2286 (solve2 sample-data))))

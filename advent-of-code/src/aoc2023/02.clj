@@ -41,6 +41,15 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
      (every? #(<= % (:blue rules)) blue)
      (every? #(<= % (:green rules)) green))))
 
+(defn max-colors [[_ colors]]
+  (let [{:keys [red green blue]} colors]
+    {:red (apply max red)
+     :green (apply max green)
+     :blue (apply max blue)}))
+
+(defn power [{:keys [red green blue]}]
+  (* red green blue))
+
 (defn solve [rules data]
   (let [valid-games
         (->> data
@@ -50,5 +59,16 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
         possible-game-ids (map first valid-games)]
     (reduce + 0 possible-game-ids)))
 
+(defn solve2 [data]
+  (let [games
+        (->> data
+             str/split-lines
+             (map #(parse-game %))
+             (map #(max-colors %))
+             (map power))]
+    (reduce + 0 games)))
+
 ; (solve sample-rules sample-data)
 ; (solve sample-rules data)
+; (solve sample-data)
+; (solve2 data)
