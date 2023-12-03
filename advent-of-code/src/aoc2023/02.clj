@@ -25,25 +25,29 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
          (map parse-long))))
 
 (defn parse-game
-  [rules game]
+  [game]
   (let [game-id (parse-long (re-find #"\d+" game))
         reds (find-colors "red" game)
         blues (find-colors "blue" game)
         greens (find-colors "green" game)]
-    {game-id
-     (and
-      (every? #(<= % (:red rules)) reds)
-      (every? #(<= % (:blue rules)) blues)
-      (every? #(<= % (:green rules)) greens))}))
+    [game-id {:red reds
+              :blue blues
+              :green greens}]))
+
+(defn valid? [rules [_ colors]]
+  (let [{:keys [red green blue]} colors]
+    (and
+     (every? #(<= % (:red rules)) red)
+     (every? #(<= % (:blue rules)) blue)
+     (every? #(<= % (:green rules)) green))))
 
 (defn solve [rules data]
-  (let [games
+  (let [valid-games
         (->> data
              str/split-lines
-             (map #(parse-game rules %))
-             (reduce merge {}))
-        validated-games (filter second games)
-        possible-game-ids (keys validated-games)]
+             (map #(parse-game %))
+             (filter #(valid? rules %)))
+        possible-game-ids (map first valid-games)]
     (reduce + 0 possible-game-ids)))
 
 ; (solve sample-rules sample-data)
