@@ -18,6 +18,21 @@
 ...$.*....
 .664.598..")
 
+(defn gear-icon? [c]
+  (re-matches #"[*]" (str c)))
+
+(defn parse-line-gear-icons
+  [row line]
+  (filter identity
+          (map-indexed
+           (fn [column c]
+             (when (gear-icon? c) [row column]))
+           line)))
+
+(defn parse-gear-icons
+  [lines]
+  (reduce concat [] (map-indexed parse-line-gear-icons lines)))
+
 (defn icon? [c]
   (re-matches #"[^a-zA-Z0-9.]" (str c)))
 
@@ -83,10 +98,11 @@
 
 (defn get-surrounding-numbers
   [numbers icon]
-  (->> (surround-locations icon)
-       (map (fn [location] (get-surrounding-number numbers location)))
-       (filter not-empty)
-       (reduce conj {})))
+  {icon
+   (->> (surround-locations icon)
+        (map (fn [location] (get-surrounding-number numbers location)))
+        (filter not-empty)
+        (reduce conj {}))})
 
 (defn solve
   [data]
@@ -98,6 +114,18 @@
         surrounding-numbers (vals surrounding-numbers)]
     (reduce + 0 surrounding-numbers)))
 
+(defn solve2
+  [data]
+  (let [lines (str/split-lines data)
+        gear-icons (parse-gear-icons lines)
+        numbers (parse-numbers lines)
+        icon-with-numbers (reduce (fn [state icon] (merge state (get-surrounding-numbers numbers icon))) {} gear-icons)
+        gears (into {} (filter (fn [[_ nums]] (>= (count nums) 2)) icon-with-numbers))
+        gear-values (map (fn [gear] (apply * (vals gear))) (vals gears))]
+    (reduce + 0 gear-values)))
+
 (comment
   (solve sample-data)
-  (solve data))
+  (solve data)
+  (solve2 sample-data)
+  (solve2 data))

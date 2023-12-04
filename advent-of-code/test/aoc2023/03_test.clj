@@ -53,6 +53,15 @@
              2 {[2 3] 35 [6 8] 633}}
             [1 3])))))
 
+(defn- find-gear [arg1])
+
+(deftest find-gear-test
+  (testing "first gear in sample"
+    (is (= {[1 3] \*}
+           (find-gear "467..114..
+...*......
+..35..633.")))))
+
 (deftest solve-test
   (is (= 4361
          (solve sample-data))))
