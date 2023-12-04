@@ -6,7 +6,8 @@
                        get-surrounding-numbers
                        sample-data
                        surround-locations
-                       solve]]
+                       solve
+                       solve2]]
    [clojure.string :as str]
    [clojure.test :refer [deftest is testing]]))
 
@@ -46,22 +47,17 @@
 
 (deftest get-surrounding-numbers-test
   (testing "first * in sample"
-    (is (= {[0 [0 2]] 467 [2 [2 3]] 35}
+    (is (= {[1 3] {[0 [0 2]] 467 [2 [2 3]] 35}}
            (get-surrounding-numbers
             {0 {[0 2] 467 [5 7] 114}
              1 {}
              2 {[2 3] 35 [6 8] 633}}
             [1 3])))))
 
-(defn- find-gear [arg1])
-
-(deftest find-gear-test
-  (testing "first gear in sample"
-    (is (= {[1 3] \*}
-           (find-gear "467..114..
-...*......
-..35..633.")))))
-
 (deftest solve-test
   (is (= 4361
          (solve sample-data))))
+
+(deftest solve2-test
+  (is (= 467835
+         (solve2 sample-data))))

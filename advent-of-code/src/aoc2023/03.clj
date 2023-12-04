@@ -109,9 +109,8 @@
   (let [lines (str/split-lines data)
         icons (parse-icons lines)
         numbers (parse-numbers lines)
-        surrounding-numbers (map (fn [icon] (get-surrounding-numbers numbers icon)) icons)
-        surrounding-numbers (reduce conj {} surrounding-numbers)
-        surrounding-numbers (vals surrounding-numbers)]
+        surrounding-numbers (reduce (fn [state icon] (merge state (get-surrounding-numbers numbers icon))) {} icons)
+        surrounding-numbers (flatten (map vals (vals surrounding-numbers)))]
     (reduce + 0 surrounding-numbers)))
 
 (defn solve2
