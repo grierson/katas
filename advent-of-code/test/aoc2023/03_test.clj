@@ -17,7 +17,10 @@
            (parse-line-numbers "467..114.."))))
   (testing "get numbers row 1"
     (is (= {}
-           (parse-line-numbers "...*......")))))
+           (parse-line-numbers "...*......"))))
+  (testing "handle duplicate number (4 in 24 not read twice)"
+    (is (= {[1 2] 24 [5 5] 4}
+           (parse-line-numbers ".24..4..")))))
 
 (deftest get-icons-test
   (testing "get numbers row 1"

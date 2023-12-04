@@ -18,28 +18,6 @@
 ...$.*....
 .664.598..")
 
-(defn parse-line-numbers
-  [line]
-  (let [numbers (re-seq #"\d+" line)]
-    (reduce (fn [state number]
-              (let [start (str/index-of line number)]
-                (assoc state
-                       [start
-                        (dec (+ start (count number)))]
-                       (parse-long number))))
-            {}
-            numbers)))
-
-(defn parse-numbers
-  [lines]
-  (reduce conj {}
-          (map-indexed
-           (fn [idx line] {idx (parse-line-numbers line)})
-           lines)))
-
-(comment
-  (parse-numbers (str/split-lines sample-data)))
-
 (defn icon? [c]
   (re-matches #"[^a-zA-Z0-9.]" (str c)))
 
@@ -53,8 +31,33 @@
 
 (defn parse-icons
   [lines]
-  (reduce concat []
-          (map-indexed parse-line-icons lines)))
+  (reduce concat [] (map-indexed parse-line-icons lines)))
+
+(defn parse-line-numbers
+  [line]
+  (:numbers
+   (reduce
+    (fn [state number]
+      (let [start (str/index-of (:line state) number)
+            state (update state :numbers conj {[start (dec (+ start (count number)))]
+                                               (parse-long number)})
+            state (update state
+                          :line
+                          #(str/replace-first % number (apply str (repeat (count number) "."))))]
+        state))
+    {:line line
+     :numbers {}}
+    (re-seq #"\d+" line))))
+
+(defn parse-numbers
+  [lines]
+  (reduce conj {}
+          (map-indexed
+           (fn [idx line] {idx (parse-line-numbers line)})
+           lines)))
+
+(comment
+  (parse-numbers (str/split-lines sample-data)))
 
 (defn surround-locations
   [[x y]]
