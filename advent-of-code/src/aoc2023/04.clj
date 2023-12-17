@@ -100,6 +100,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11")
   (let [lines (str/split-lines data)
         cards (make-cards lines)
         results (make-results cards)
+        results (into (sorted-map) results)
         processed (process results)]
     (reduce + 0 (vals processed))))
 
