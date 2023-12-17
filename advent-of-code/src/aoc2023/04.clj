@@ -43,15 +43,68 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11")
 (defn score [numbers]
   (get scoring (count (apply set/intersection numbers)) 0))
 
+(defn- make-cards [lines]
+  (reduce
+   (fn [state line] (merge state (parse line)))
+   {}
+   lines))
+
 (defn solve [data]
   (let [lines (str/split-lines data)
-        cards (reduce
-               (fn [state line] (merge state (parse line)))
-               {}
-               lines)
+        cards (make-cards lines)
         scores (map (comp score second) cards)]
     (reduce + 0 scores)))
 
+(require '[hashp.core])
+
+(defn score2 [[id numbers]]
+  (let [matches (count (apply set/intersection numbers))]
+    (range (inc id) (+ (inc id) matches))))
+
+(defn make-results [cards]
+  (reduce
+   (fn [state [id _ :as card]]
+     (let [matches (score2 card)]
+       (assoc
+        state
+        id
+        matches)))
+   {}
+   cards))
+
+(comment
+  (make-results (make-cards (str/split-lines sample-data))))
+
+(defn update-vals [map vals f]
+  (reduce #(update-in % [%2] f) map vals))
+
+(defn process
+  [results]
+  (let [state (reduce (fn [state id] (assoc state id 1)) {} (keys results))]
+    (reduce
+     (fn [state [id matches]]
+       (let [instances (get state id)]
+         (update-vals state matches #(+ % instances))))
+     state
+     results)))
+
+(comment
+  (process {1 [2 3 4 5]
+            2 [3 4]
+            3 [4 5]
+            4 [5]
+            5 []
+            6 []}))
+
+(defn solve2 [data]
+  (let [lines (str/split-lines data)
+        cards (make-cards lines)
+        results (make-results cards)
+        processed (process results)]
+    (reduce + 0 (vals processed))))
+
 (comment
   (solve sample-data)
-  (solve data))
+  (solve2 sample-data)
+  (solve data)
+  (solve2 data))
