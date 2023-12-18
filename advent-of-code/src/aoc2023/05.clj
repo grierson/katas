@@ -94,8 +94,19 @@ humidity-to-location map:
         locations (pmap (partial get-location state) (:seeds state))]
     (apply min locations)))
 
+(defn solve2 [data]
+  (let [state (parse data)
+        seed-ranges (partition 2 2 (:seeds state))
+        seeds (map (fn [[start til]] (range start (+ start til))) seed-ranges)
+        seeds (flatten seeds)
+        seeds (distinct seeds)
+        locations (pmap (partial get-location state) seeds)]
+    (apply min locations)))
+
 (comment
   (parse sample)
   (solve sample)
-  (solve data))
+  (solve2 sample)
+  (solve data)
+  (solve2 data))
 
