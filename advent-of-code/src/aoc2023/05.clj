@@ -51,12 +51,7 @@ humidity-to-location map:
       keyword))
 
 (defn- values->ranges [vs]
-  (let [str->numbers (map numbers vs)
-        ranges (map (fn [[destination source length]]
-                      (take length (map vector
-                                        (range source Integer/MAX_VALUE)
-                                        (range destination Integer/MAX_VALUE)))) str->numbers)]
-    (into {} (apply concat ranges))))
+  (map numbers vs))
 
 (defn- parse-mapping [[k & vs]] [(title->keyword k) (values->ranges vs)])
 
@@ -73,14 +68,25 @@ humidity-to-location map:
         lines (parse-mappings lines)]
     (merge {:seeds seeds} lines)))
 
+(defn get-id [[destination source steps] value]
+  (when  (and (>= value source)
+              (<= value (+ source steps)))
+    (let [difference (- value source)]
+      (+ destination difference))))
+
+(defn try-get-id [mapping value]
+  (if-let [result (some #(when-let [id (get-id % value)] id) mapping)]
+    result
+    value))
+
 (defn get-location [state seed]
-  (let [soil (get-in state [:seed->soil seed] seed)
-        fertilizer (get-in state [:soil->fertilizer soil] soil)
-        water (get-in state [:fertilizer->water fertilizer] fertilizer)
-        light (get-in state [:water->light water] water)
-        temperature (get-in state [:light->temperature light] light)
-        humidity (get-in state [:temperature->humidity temperature] temperature)
-        location (get-in state [:humidity->location humidity] humidity)]
+  (let [soil  (try-get-id (:seed->soil state) seed)
+        fertilizer  (try-get-id (:soil->fertilizer state) soil)
+        water  (try-get-id (:fertilizer->water state) fertilizer)
+        light  (try-get-id (:water->light state) water)
+        temperature  (try-get-id (:light->temperature state) light)
+        humidity  (try-get-id (:temperature->humidity state) temperature)
+        location  (try-get-id (:humidity->location state) humidity)]
     location))
 
 (defn solve [data]
@@ -89,6 +95,7 @@ humidity-to-location map:
     (apply min locations)))
 
 (comment
+  (parse sample)
   (solve sample)
   (solve data))
 
