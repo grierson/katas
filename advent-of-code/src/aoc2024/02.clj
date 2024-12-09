@@ -17,26 +17,19 @@
 
 (defn parse [data] (map numbers (str/split-lines data)))
 
-(defn ordered?
-  "All aces or desc"
-  [report]
-  (let [distances (partition 2 1 report)]
-    (or (every? (fn [[left right]] (< left right)) distances)
-        (every? (fn [[left right]] (> left right)) distances))))
+(defn ordered? [report]
+  (or (apply < report)
+      (apply > report)))
 
 (defn distance [[left right]] (abs (- left right)))
-(def aany? (complement not-any?))
 
-(defn any-big-step?
-  "distance between 1 - 3"
+(defn small?
   [report]
   (let [distances (map distance (partition 2 1 report))]
-    (or (aany? (fn [x] (< x 0)) distances)
-        (aany? (fn [x] (> x 3)) distances))))
+    (every? (fn [x] (<= 1 x 3)) distances)))
 
 (defn valid-report? [report]
-  (and (ordered? report)
-       (not (any-big-step? report))))
+  (and (ordered? report) (small? report)))
 
 (defn solve1 [data]
   (count (filter true? (map valid-report? (parse data)))))
