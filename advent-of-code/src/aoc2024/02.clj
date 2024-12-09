@@ -13,7 +13,7 @@
 8 6 4 4 1
 1 3 6 7 9")
 
-(defn numbers [s] (map parse-long (re-seq #"\d+" s)))
+(defn numbers [s] (mapv parse-long (re-seq #"\d+" s)))
 
 (defn parse [data] (map numbers (str/split-lines data)))
 
@@ -28,12 +28,28 @@
   (let [distances (map distance (partition 2 1 report))]
     (every? (fn [x] (<= 1 x 3)) distances)))
 
+(defn permutations [report]
+  (map-indexed
+   (fn [idx _]
+     (concat (subvec report 0 idx)
+             (subvec report (inc idx))))
+   report))
+
 (defn valid-report? [report]
   (and (ordered? report) (small? report)))
+
+(defn valid-dampen-report? [report]
+  (or (valid-report? report)
+      (some valid-report? (permutations report))))
 
 (defn solve1 [data]
   (count (filter true? (map valid-report? (parse data)))))
 
+(defn solve2 [data]
+  (count (filter true? (map valid-dampen-report? (parse data)))))
+
 (comment
   (solve1 sample)
-  (solve1 data))
+  (solve1 data)
+  (solve2 sample)
+  (solve2 data))
