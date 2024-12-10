@@ -1,7 +1,7 @@
 (ns aoc2024.04-test
   (:require
    [aoc2024.04 :refer [parse
-                       mas-directions
+                       mas-locations
                        find-all
                        sample
                        mas-surrounding
@@ -10,7 +10,7 @@
    [clojure.test :refer [deftest is testing]]))
 
 (deftest surrounding-test
-  (is (= mas-directions (mas-surrounding [0 0]))))
+  (is (= mas-locations (mas-surrounding [0 0]))))
 
 (deftest find-all-x-test
   (testing "find x"
