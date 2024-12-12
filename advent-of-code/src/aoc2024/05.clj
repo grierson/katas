@@ -35,22 +35,28 @@
 
 (def input (slurp (io/resource "aoc2024/05.txt")))
 
-(defn parse-rules [rules]
+(defn parse-rule
+  "'23|42' -> [23 42]"
+  [rule]
+  (let [[left right] (str/split rule #"\|")]
+    [(parse-long left) (parse-long right)]))
+
+(defn parse-rules
+  [rules]
   (let [rules (str/split-lines rules)
-        rule-pairs (map
-                    (fn [rule]
-                      (let [[left right] (str/split rule #"\|")]
-                        [(parse-long left) (parse-long right)]))
-                    rules)]
-    (reduce (fn [state [left right]]
-              (if (contains? state left)
-                (update state left conj right)
-                (assoc state left #{right})))
-            {}
-            rule-pairs)))
+        rule-pairs (map parse-rule rules)]
+    (reduce
+     (fn [state [left right]]
+       (update state left (fnil conj #{}) right))
+     {}
+     rule-pairs)))
+
+(defn parse-update
+  [update-line]
+  (map parse-long (str/split update-line #",")))
 
 (defn parse-updates [updates]
-  (map (fn [u] (map parse-long (str/split u #","))) (str/split-lines updates)))
+  (map parse-update (str/split-lines updates)))
 
 (defn parse [data]
   (let [[rules updates] (str/split data #"\n\n")
@@ -59,20 +65,21 @@
     {:rules rules
      :updates updates}))
 
-(defn valid? [rules u]
-  (reduce (fn [state page]
-            (let [rule (get rules page)]
-              (if (empty? (set/intersection rule state))
-                (conj state page)
-                (reduced false))))
-          #{}
-          u))
-
 (defn middle [coll] (nth coll (quot (count coll) 2)))
+
+(defn valid?
+  "Check no rules already seen before adding to seen"
+  [rules seen update-line]
+  (if (empty? update-line)
+    true
+    (let [page (first update-line) page-dependencies (get rules page)]
+      (if (empty? (set/intersection seen page-dependencies))
+        (recur rules (conj seen page) (rest update-line))
+        false))))
 
 (defn solve [data]
   (let [{:keys [rules updates]} (parse data)
-        valid-updates (filter (partial valid? rules) updates)
+        valid-updates (filter (partial valid? rules #{}) updates)
         middles (map middle valid-updates)]
     (reduce + middles)))
 
