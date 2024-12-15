@@ -83,6 +83,21 @@
         middles (map middle valid-updates)]
     (reduce + middles)))
 
+;; TODO: inspect how sort works here
+;; used bhauman solution
+;; https://github.com/bhauman/adv2024/blob/5fd8bbe54d771e52e439ba974b1216992b905a13/src/adv2024/day05/sol.clj#L15
+(defn after? [rules b a] (boolean (get-in rules [b a])))
+(defn correct [rules pages] (sort (partial after? rules) pages))
+
+(defn solve2 [data]
+  (let [{:keys [rules updates]} (parse data)
+        invalid-updates (remove (partial valid? rules #{}) updates)
+        corrected-updates (map (partial correct rules) invalid-updates)
+        middles (map middle corrected-updates)]
+    (reduce + middles)))
+
 (comment
   (solve sample)
-  (solve input))
+  (solve input)
+  (solve2 sample)
+  (solve2 input))

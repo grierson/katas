@@ -4,14 +4,14 @@
                        parse-updates
                        parse
                        sample
-                       valid?]]
+                       valid?
+                       correct]]
    [clojure.string :as str]
    [clojure.test :refer [deftest is testing are]]))
 
 (def rules (first (str/split sample #"\n\n")))
 (def updates (second (str/split sample #"\n\n")))
 (def parsed-rules (parse-rules rules))
-(def parsed-updates (parse-updates updates))
 
 (deftest parse-rules-test
   (testing "parse rules from sample"
@@ -58,3 +58,10 @@
       false [75 97 47 61 53]
       false [61 13 29]
       false [97 13 75 29 47])))
+
+(deftest correct-test
+  (testing "correct examples"
+    (are [expected input] (= expected (correct parsed-rules input))
+      [97 75 47 61 53] [75 97 47 61 53]
+      [61 29 13] [61 13 29]
+      [97 75 47 29 13] [97 13 75 29 47])))
