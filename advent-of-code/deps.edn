@@ -1,22 +1,22 @@
 {:paths ["src" "resources"]
- :deps  {org.clojure/clojure    {:mvn/version "1.11.1"}
-         org.clj-commons/digest {:mvn/version "1.4.100"}
-         philoskim/debux        {:mvn/version "0.8.2"}
+ :deps  {org.clojure/clojure    {:mvn/version "1.12.4"}
          org.clojure/math.combinatorics {:mvn/version "0.2.0"}
-         hashp/hashp            {:mvn/version "0.2.1"}}
+         org.clj-commons/digest {:mvn/version "1.4.100"}}
 
  :aliases
- {:repl/conjure {:extra-deps {nrepl/nrepl       {:mvn/version "0.9.0"}
-                              cider/cider-nrepl {:mvn/version "0.28.4"}}
+ {:repl/conjure {:extra-deps {nrepl/nrepl       {:mvn/version "1.5.1"}
+                              cider/cider-nrepl {:mvn/version "0.58.0"}}
                  :main-opts  ["-m" "nrepl.cmdline"
                               "--middleware" "[cider.nrepl/cider-middleware]"
                               "--interactive"]}
+  :dev {:extra-deps {philoskim/debux        {:mvn/version "0.8.2"}
+                     dev.weavejester/hashp {:mvn/version "0.5.1"}}}
   :test       {:extra-paths ["test"]
-               :extra-deps  {lambdaisland/kaocha    {:mvn/version "1.87.1366"}
-                             org.clojure/test.check {:mvn/version "1.1.1"}}
+               :extra-deps  {lambdaisland/kaocha    {:mvn/version "1.91.1392"}
+                             org.clojure/test.check {:mvn/version "1.1.2"}}
                :exec-fn     kaocha.runner/exec-fn
                :exec-args   {}}
-  :watch-test {:extra-deps {lambdaisland/kaocha {:mvn/version "1.60.977"}}
+  :watch-test {:extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}}
                :exec-fn    kaocha.runner/exec-fn
                :exec-args  {:watch?     true
                             :skip-meta  :slow
