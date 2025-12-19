@@ -2,8 +2,6 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
-(require 'hashp.core)
-
 (def data (slurp (io/resource "aoc2023/01.txt")))
 
 (def ones {"one" 1

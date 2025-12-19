@@ -1,6 +1,6 @@
 (ns aoc2024.01-test
-  (:require [clojure.test :refer [deftest is testing are]]
-            [aoc2024.01 :refer []]))
+  (:require [clojure.test :refer [deftest is testing]]
+            [aoc2024.01 :refer [parse]]))
 
 (deftest parse-test
   (testing "first example"

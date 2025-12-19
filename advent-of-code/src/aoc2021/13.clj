@@ -3,9 +3,6 @@
             [clojure.set :as set]
             [clojure.java.io :as io]))
 
-(require 'hashp.core)
-
-
 (defn parse-fold [[fold line]]
   [(if (= fold "x") :x :y) (parse-long line)])
 
@@ -32,19 +29,19 @@
 
 (defn get-y-halfs [line dots]
   (update-vals
-    (set/rename-keys
-      (group-by (fn [[_ y]] (>= y line)) dots)
-      {true  :bottom
-       false :top})
-    set))
+   (set/rename-keys
+    (group-by (fn [[_ y]] (>= y line)) dots)
+    {true  :bottom
+     false :top})
+   set))
 
 (defn get-x-halfs [column dots]
   (update-vals
-    (set/rename-keys
-      (group-by (fn [[x _]] (>= x column)) dots)
-      {true  :right
-       false :left})
-    set))
+   (set/rename-keys
+    (group-by (fn [[x _]] (>= x column)) dots)
+    {true  :right
+     false :left})
+   set))
 
 (defn relocate-y-dot [line [x y]]
   (let [a (- y line)

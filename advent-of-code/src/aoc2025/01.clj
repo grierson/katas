@@ -3,7 +3,18 @@
    [clojure.java.io :as io]
    [clojure.string :as str]))
 
-((requiring-resolve 'hashp.install/install!))
+(def sample-input "L68
+L30
+R48
+L5
+R60
+L55
+L1
+L99
+R14
+L82")
+
+(def data (slurp (io/resource "aoc2025/01.txt")))
 
 (defn parse-line [[direction & amount]]
   {:direction (if (= direction \R) :right :left)
@@ -25,21 +36,29 @@
            :zeros 0}
           directions))
 
-(def sample-input "L68
-L30
-R48
-L5
-R60
-L55
-L1
-L99
-R14
-L82")
+(defn count-clicks [current {:keys [direction amount]}]
+  (let [full-rotation (quot amount 100)
+        remainder (rem amount 100)
+        over100 (if (= direction :right)
+                  (if (>= (+ current remainder) 100) 1 0)
+                  (if (> current remainder) 0 1))]
+    (if (or (zero? current) (zero? remainder))
+      full-rotation
+      (+ full-rotation over100))))
 
-(def data (slurp (io/resource "aoc2025/01.txt")))
+(defn solve2 [directions]
+  (reduce (fn [{:keys [current zeros]} input]
+            (let [new-location (rotation current input)]
+              {:current new-location
+               :zeros (+ zeros (count-clicks current input))}))
+          {:current 50
+           :zeros 0}
+          directions))
 
 (comment
   (solve1 (parse-input sample-input))
-  (solve1 (parse-input data)))
+  (solve1 (parse-input data))
+  (solve2 (parse-input sample-input))
+  (solve2 (parse-input data)))
 
 

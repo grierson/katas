@@ -39,8 +39,6 @@ humidity-to-location map:
 60 56 37
 56 93 4")
 
-(require '[hashp.core])
-
 (defn numbers [s]
   (map parse-long (re-seq #"\d+" s)))
 

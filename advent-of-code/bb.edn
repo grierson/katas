@@ -1,3 +1,5 @@
 {:tasks
- {dev (shell "clojure -M:repl/conjure:dev:test")
-  test (shell "./bin/")}}
+ {dev {:doc "Run dev repl"
+       :task (shell "clojure -M:repl/conjure:dev:test")}
+  test {:doc "Run tests"
+        :task (shell "./bin/kaocha")}}}

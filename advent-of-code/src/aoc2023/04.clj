@@ -55,8 +55,6 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11")
         scores (map (comp score second) cards)]
     (reduce + 0 scores)))
 
-(require '[hashp.core])
-
 (defn score2 [[id numbers]]
   (let [matches (count (apply set/intersection numbers))]
     (range (inc id) (+ (inc id) matches))))
@@ -75,7 +73,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11")
 (comment
   (make-results (make-cards (str/split-lines sample-data))))
 
-(defn update-vals [map vals f]
+(defn update-values [map vals f]
   (reduce #(update-in % [%2] f) map vals))
 
 (defn process
@@ -84,7 +82,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11")
     (reduce
      (fn [state [id matches]]
        (let [instances (get state id)]
-         (update-vals state matches #(+ % instances))))
+         (update-values state matches #(+ % instances))))
      state
      results)))
 

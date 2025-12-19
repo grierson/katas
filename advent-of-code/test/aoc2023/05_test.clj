@@ -1,7 +1,7 @@
 (ns aoc2023.05-test
   (:require
    [aoc2023.05 :refer [parse get-id sample]]
-   [clojure.test :refer [are deftest is]]))
+   [clojure.test :refer [deftest is]]))
 
 (deftest parse-test
   (let [result (parse sample)]

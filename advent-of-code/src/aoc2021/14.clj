@@ -2,8 +2,6 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
-(require 'hashp.core)
-
 (def example
   ["NNCB"
    ""
