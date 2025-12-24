@@ -21,8 +21,8 @@
 (defn find-joltage
   ([coll] (find-joltage coll 9))
   ([coll tens]
-   (if-let [tens-indexes (first-index-of coll tens)]
-     (when-let [units (drop (inc tens-indexes) coll)]
+   (if-let [ten-index (first-index-of coll tens)]
+     (when-let [units (drop (inc ten-index) coll)]
        (if (empty? units)
          (find-joltage coll (dec tens))
          (parse-long (str tens (apply max units)))))
