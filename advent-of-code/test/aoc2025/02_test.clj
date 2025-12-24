@@ -1,11 +1,11 @@
 (ns aoc2025.02-test
   (:require
-   [aoc2025.02 :refer [duplicate find-duplicates]]
+   [aoc2025.02 :refer [duplicate? find-duplicates repeated?]]
    [clojure.test :refer [are deftest testing]]))
 
 (deftest duplicate-test
   (testing "examples"
-    (are [y] (= true (duplicate y))
+    (are [y] (= true (duplicate? y))
       "11"
       "22"
       "99"
@@ -26,3 +26,26 @@
       [1698522 1698528] '()
       [446443 446449] '(446446)
       [38593856 38593862] '(38593859))))
+
+(deftest repeated?-test
+  (testing "repeated examples"
+    (are [x] (true? (repeated? x))
+      "11"
+      "22"
+      "99"
+      "111"
+      "999"
+      "1010"
+      "1188511885"
+      "222222"
+      "446446"
+      "38593859"
+      "565656"
+      "824824824"
+      "2121212121"))
+  (testing "examples not"
+    (are [x] (nil? (repeated? x))
+      "12"
+      "21"
+      "100"
+      "101")))

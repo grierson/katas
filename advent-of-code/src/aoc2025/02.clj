@@ -13,7 +13,7 @@
            (let [[start end] (str/split str-range #"-")]
              [(parse-long start) (parse-long end)])) csv)))
 
-(defn duplicate [number]
+(defn duplicate? [number]
   (let [str-number (str number)
         half (quot (count str-number) 2)
         left (take half str-number)
@@ -22,12 +22,36 @@
 
 (defn find-duplicates [[start end]]
   (let [spread (range start (inc end))]
-    (filter duplicate spread)))
+    (filter duplicate? spread)))
 
 (defn solve1 [input]
   (apply + (mapcat find-duplicates (parse input))))
 
 (comment
   ((requiring-resolve 'hashp.install/install!))
-  (= 1227775554 (solve1 sample-data))
   (solve1 data))
+
+(defn divisors [number]
+  (filter (fn [digit] (zero? (mod number digit))) (range 1 (inc number))))
+
+(defn repeated?
+  [number]
+  (let [divs (divisors (count number))]
+    (some
+     (fn [div]
+       (let [parts (partition div number)]
+         (and
+          (>= (count parts) 2)
+          (apply = parts))))
+     divs)))
+
+(defn find-repeated [[start end]]
+  (let [ids-range (range start (inc end))]
+    (filter (comp repeated? str) ids-range)))
+
+(defn solve2 [input]
+  (apply + (mapcat find-repeated (parse input))))
+
+(comment
+  (solve2 sample-data)
+  (solve2 data))
