@@ -1,8 +1,7 @@
 (ns aoc2025.03
   (:require
    [clojure.java.io :as io]
-   [clojure.string :as str]
-   [clojure.core :as c]))
+   [clojure.string :as s]))
 
 (def sample-data "987654321111111
 811111111111119
@@ -16,31 +15,21 @@
   [bank]
   (map (fn [v] (Character/digit v 10)) bank))
 
-(defn find-indexes
-  "[index of number]"
-  [coll number]
-  (keep-indexed (fn [idx v] (when (= v number) idx)) coll))
+(defn first-index-of [coll value]
+  (first (keep-indexed (fn [idx item] (when (= item value) idx)) coll)))
 
 (defn find-joltage
   ([coll] (find-joltage coll 9))
   ([coll tens]
-   (let [tens-indexes (find-indexes coll tens)]
-     (if (empty? tens-indexes)
-       (find-joltage coll (dec tens))
-       (when-let [units (drop (inc (first tens-indexes)) coll)]
-         (if (empty? units)
-           (find-joltage coll (dec tens))
-           (parse-long (str tens (apply max units)))))))))
-
-(comment
-  ((requiring-resolve 'hashp.install/install!))
-  (find-joltage (bank->coll "987654321111111"))
-  (find-joltage (bank->coll "811111111111119"))
-  (find-joltage (bank->coll "234234234234278"))
-  (find-joltage (bank->coll "818181911112111")))
+   (if-let [tens-indexes (first-index-of coll tens)]
+     (when-let [units (drop (inc tens-indexes) coll)]
+       (if (empty? units)
+         (find-joltage coll (dec tens))
+         (parse-long (str tens (apply max units)))))
+     (find-joltage coll (dec tens)))))
 
 (defn solve1 [banks]
-  (let [banks (map bank->coll (str/split-lines banks))]
+  (let [banks (map bank->coll (s/split-lines banks))]
     (reduce + 0 (map find-joltage banks))))
 
 (comment
