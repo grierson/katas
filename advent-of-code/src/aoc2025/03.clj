@@ -11,45 +11,53 @@
 
 (def data (slurp (io/resource "aoc2025/03.txt")))
 
-(defn bank->coll [bank]
+(defn bank->coll
+  "bank string -> [number]"
+  [bank]
   (map (fn [v] (Character/digit v 10)) bank))
 
-(comment
-  (bank->coll "987654321111111"))
-
 (defn find-indexes
-  "Find indexs of value"
+  "[index of number]"
   [coll number]
   (keep-indexed (fn [idx v] (when (= v number) idx)) coll))
 
 (comment
   (find-indexes (bank->coll "987654321111111") 1))
 
-(defn find-first [coll index value]
-  (if (or (<= value 0) (< index 0))
-    nil
-    (let [indexes (find-indexes coll value)
-          after (first (filter (fn [x] (>= x index)) indexes))]
-      (if after
-        [after value]
-        (recur coll index (dec value))))))
+(defn indexed-bank
+  "{number [indexes]}"
+  [coll]
+  (into {} (map (fn [step] {step (find-indexes coll step)}) (range 1 10))))
+
+(defn find-units
+  "Find unit that comes after tens index"
+  [indexed-bank tens-index]
+  (let [possible-units (filter (fn [[_ v]] (some (fn [idx] (> idx tens-index)) v)) indexed-bank)]
+    (if (empty? possible-units)
+      nil
+      (apply max (keys (into {} possible-units))))))
+
+(defn find-joltage
+  ([indexed-bank] (find-joltage indexed-bank 9))
+  ([indexed-bank tens]
+   (let [tens-indexes (get indexed-bank tens)]
+     (if (empty? tens-indexes)
+       (find-joltage indexed-bank (dec tens))
+       (if-let [unit (some (fn [tens-index] (when-let [unit (find-units indexed-bank tens-index)] unit)) tens-indexes)]
+         (parse-long (str tens unit))
+         (find-joltage indexed-bank (dec tens)))))))
 
 (comment
-  (find-first (bank->coll "987654321111111") 0 9))
-
-(defn find-joltage [bank]
-  (let [coll (bank->coll bank)]
-    (loop [step 9]
-      (if (< step 1)
-        nil
-        (if-let [[tens-index tens-value] (find-first coll 0 step)]
-          (if-let [[_ units-value] (some (fn [x] (find-first coll (inc tens-index) x)) (reverse (range 1 10)))]
-            (parse-long (str tens-value units-value))
-            (recur (dec step)))
-          (recur (dec step)))))))
+  ((requiring-resolve 'hashp.install/install!))
+  (find-joltage (indexed-bank (bank->coll "987654321111111")))
+  (find-joltage (indexed-bank (bank->coll "811111111111119")))
+  (find-joltage (indexed-bank (bank->coll "234234234234278")))
+  (find-joltage (indexed-bank (bank->coll "818181911112111"))))
 
 (defn solve1 [banks]
-  (reduce + 0 (map find-joltage (str/split-lines banks))))
+  (let [banks (map bank->coll (str/split-lines banks))]
+    (reduce + 0
+            (map (fn [bank] (find-joltage (indexed-bank bank))) banks))))
 
 (comment
   ((requiring-resolve 'hashp.install/install!))
