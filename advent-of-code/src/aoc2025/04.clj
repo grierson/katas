@@ -45,4 +45,5 @@
          count)))
 
 (comment
-  (solve1 sample-data))
+  (solve1 sample-data)
+  (solve1 data))
